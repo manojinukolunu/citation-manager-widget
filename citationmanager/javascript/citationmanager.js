@@ -26,13 +26,15 @@ var sakai = sakai || {};
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
  sakai.citationmanager = function(tuid,showSettings){
-	 function doinit(){
-		 $('#button1').click(function() {
+ var rootel = $("#" + tuid);
+ var asd1="#button1";
+	var doiInit= function(){
+		 $(asd1,rootel).click(function() {
   			alert('Handler for .click() called.');
 					});
 		 
 	 }
-	 doinit();
+	 doInit();
 
  }
 sakai.api.Widgets.widgetLoader.informOnLoad("citationmanager");
