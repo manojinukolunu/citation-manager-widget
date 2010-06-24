@@ -29,13 +29,13 @@ var sakai = sakai || {};
  var rootel = $("#" + tuid);
  var asd1="#button1";
 	var doInit= function(){
-		 $(asd1,rootel).click(function() {
-  			alert('Handler for .click() called.');
+			$(asd1,rootel).live("click", function() {
+  			alert("Handler for .click() called.");
 					});
 		 
-	 }
+	 };
 	 doInit();
 
- }
+ };
 sakai.api.Widgets.widgetLoader.informOnLoad("citationmanager");
 
