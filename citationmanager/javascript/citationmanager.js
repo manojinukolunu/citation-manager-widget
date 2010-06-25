@@ -31,7 +31,7 @@ var sakai = sakai || {};
 	var doInit= function(){
 			$(asd1,rootel).live("click", function() {
   			alert("Handler for .click() called.");
-					});
+				});
 		 
 	 };
 	 doInit();
