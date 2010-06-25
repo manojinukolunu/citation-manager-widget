@@ -38,7 +38,7 @@ var sakai = sakai || {};
     ":basic-password" : "zerocool"
   },
   success : function(data, status, xmlHttpRequest) {
-
+		alert("success");
   },
   error : function(xmlHttpRequest, status, error) {
     alert("Failed to do request, status was " + status);
