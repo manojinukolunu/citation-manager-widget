@@ -31,19 +31,6 @@ var sakai = sakai || {};
 	var doInit= function(){
 		 $(asd1,rootel).click(function() {
   			alert("Handler for .click() called.");
-			$.ajax({
- "url" : "/var/proxy/connotea/noop"
- "data" : {
-    ":basic-user" : "zerocool1989",
-    ":basic-password" : "zerocool"
-  },
-  success : function(data, status, xmlHttpRequest) {
-		alert("success");
-  },
-  error : function(xmlHttpRequest, status, error) {
-    alert("Failed to do request, status was " + status);
-  }
-});
 					});
 		 
 	 }
