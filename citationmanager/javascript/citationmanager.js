@@ -33,9 +33,9 @@ var sakai = sakai || {};
   			alert("Handler for .click() called.");
 					});
 		 
-	 }
+	 };
 	 doInit();
 
- }
+ };
 sakai.api.Widgets.widgetLoader.informOnLoad("citationmanager");
 
