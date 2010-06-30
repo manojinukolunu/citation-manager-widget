@@ -27,16 +27,52 @@ var sakai = sakai || {};
  */
  sakai.citationmanager = function(tuid,showSettings){
  var rootel = $("#" + tuid);
-
  var asd1="#button1";
-	var doInit= function(){
-		 $(asd1,rootel).click(function() {
-  			alert("Handler for .click() called.");
-					});
-		 
-	 };
-	 doInit();
+   sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";
+	var doInit=function(){
+	$("#button1").click(function(){
+	
+	$.ajax({
+            cache: false,
+            url: sakai.config.URL.CITATION_PROXY,
+            success: function(data){
+				
+                parseXml(data);
+				//alert("hello");
+            },
+            error: function(xhr, textStatus, thrownError) {
+               alert("asd2");
+            },
+            data : {
+    ":basic-user" : $("#uname").val(),
+    ":basic-password" : $("#pass").val()
+  }
+        });
+	
+    
 
+});
+function parseXml(xml)
+{
+  //find every Tutorial and print the author
+  $(xml).find("Response").each(function()
+  {
+      $("#cite5").append($(this).find("message").text() + "<br />");
+  });
+
+  // Output:
+  // The Reddest
+  // The Hairiest
+  // The Tallest
+  // The Fattest
+}
+		 
+	
+	 
+	 
+
+ };
+ doInit();
  };
 sakai.api.Widgets.widgetLoader.informOnLoad("citationmanager");
 

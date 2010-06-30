@@ -1,0 +1,8 @@
+{
+ "sling:resourceType" :"sakai/proxy",
+ "sakai:request-proxy-method" :"GET",
+ "sakai:request-proxy-endpoint" :"http://www.connotea.org/data/noop",
+ "sakai:description" : ["This proxy will authenticate a user against connotea database"],
+ "sakai:title" : "Connotea Authenticate"
+ 
+ }
