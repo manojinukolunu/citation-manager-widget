@@ -54,17 +54,13 @@ var sakai = sakai || {};
 });
 function parseXml(xml)
 {
-  //find every Tutorial and print the author
+
   $(xml).find("Response").each(function()
   {
       $("#cite5").append($(this).find("message").text() + "<br />");
   });
 
-  // Output:
-  // The Reddest
-  // The Hairiest
-  // The Tallest
-  // The Fattest
+
 }
 		 
 	
