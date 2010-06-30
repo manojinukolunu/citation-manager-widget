@@ -27,6 +27,7 @@ var sakai = sakai || {};
  */
  sakai.citationmanager = function(tuid,showSettings){
  var rootel = $("#" + tuid);
+
  var asd1="#button1";
 	var doInit= function(){
 		 $(asd1,rootel).click(function() {
