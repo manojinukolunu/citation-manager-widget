@@ -1,0 +1,7 @@
+I'd like to see this sorted out into "research" and "design" sections. 
+
+You've done a lot of investigating so you should have some interesting things to write up in terms of research, including existing reference managers and how to approach widget construction as a first-timer - it would be valuable to share the pointers you've received from Simon, Oszcar and Wu Di so they can help future newcomers.
+
+In terms of design you should be focussing on satisfying a few core use cases - you decide which - using the model you have decided on.  From our discussions I understand that model is all-native, with no real-time integration with external reference managers, just file import/export.  That's fine and makes sense to me, but it is a bit counter to the general trend of Sakai3, so I think it is really important that you also spend some time writing up why you wanted to integrate with reference managers and why you eventually decided not to. 
+
+Just as a technical note I think the logical choice of file format for import and export is RIS as used by Zotero and Mendeley, amongst others.  It's very straightforward. 

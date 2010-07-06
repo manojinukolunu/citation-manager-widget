@@ -3,18 +3,36 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/citationmanager/css/citationmanager.css"/>
 
 <!-- PAGE CONTENT -->
-			<label for="url_identify_cite">__MSG__USERNAME__:</label>
-			<input type="text" size="50" id="uname"/><br><br>
+			<label for="url_identify_cite">URL</label>&nbsp;&nbsp;
+			<input type="text" size="150" id="uname"/><br><br>
 
 		    <label for="search">__MSG__PASSWORD__                   
-			</label> &nbsp; <input type="password" id="pass"/ >
+			</label> &nbsp; <input type="text" id="pass" size="150"/ ><br><br>
+			<label for="Typeofref">Type Of Reference</label>
+			<select id="typeofref">
+				<option value="ELEC">ELEC</option>
+			</select>
+			
 			<button class="s3d-button s3d-button-primary" id="button1" type="submit">
             <span class="s3d-button-inner">__MSG__AUTHENTICATE__</span>
 			</button>
+			 
+			
+			<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
+            <span class="s3d-button-inner">__MSG__ADDPRIVATE__</span>
+			</button>
+			
 			<div id="cite5">
 
 			</div>
-
+			<div id="cite6"></div>
+		<div class="fl-widget-options fl-fix" id="sites_top">
+        <div class="widget-options-inner">
+            <ul>
+                <li><a href="javascript:;" id="import_connotea">__MSG__IMPORT__</a></li>
+            </ul>
+        </div>
+    </div>
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/citationmanager/javascript/citationmanager.js"></script>
 

@@ -1,5 +1,7 @@
 {
-"USERNAME": "Username",
-"PASSWORD": "Password",
-"AUTHENTICATE":"Authenticate"
+"USERNAME": "URL",
+"PASSWORD": "Title",
+"ADDPRIVATE":"AddPrivate",
+"IMPORT":"Import from Connotea",
+"AUTHENTICATE":"AddPublic"
 }

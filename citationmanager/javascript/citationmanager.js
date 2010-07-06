@@ -30,18 +30,40 @@ var sakai = sakai || {};
  var asd1="#button1";
    sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";
 	var doInit=function(){
+	$("#addprivate").click(function(){
+	var data2 =  { "UR" :$("#uname").val(), 
+                                      "T1"  : $("#pass").val(),
+                                      "TY"  : $("#typeofref").val()
+									  }
+	sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", data2, alert("data uploaded"));								  
+	});
+	 // End Employees
+	 
 	$("#button1").click(function(){
 	
-	$.ajax({
+	var data1 =  { "UR" :$("#uname").val(), 
+                                      "T1"  : $("#pass").val(),
+                                      "TY"  : $("#typeofref").val()
+									  }                                
+                  
+                
+	sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", data1, alert("data uploaded"));
+	//sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));
+	});
+	$("#import_connotea").click(function(){
+          $.ajax({
             cache: false,
+			
             url: sakai.config.URL.CITATION_PROXY,
             success: function(data){
+			
 				
                 parseXml(data);
 				//alert("hello");
+				
             },
             error: function(xhr, textStatus, thrownError) {
-               alert("asd2");
+               alert("Sorry could'nt make the required request "+sakai.data);
             },
             data : {
     ":basic-user" : $("#uname").val(),
@@ -49,26 +71,32 @@ var sakai = sakai || {};
   }
         });
 	
-    
+    });
 
-});
+
+function alert1(data1)
+{
+alert("data Successufully uploaded");
+}
+function alert2()
+{
+alert("data succssufully loaded");
+}
+
 function parseXml(xml)
 {
 
   $(xml).find("Response").each(function()
   {
-      $("#cite5").append($(this).find("message").text() + "<br />");
+      $("#cite5").append($(this).find("bibliotechVersion").text() + "<br />");
+	  $("cite6").html(sakai.data.me.profile.path);
   });
 
 
 }
-		 
-	
-	 
-	 
-
- };
+		 };
  doInit();
  };
+//sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
 sakai.api.Widgets.widgetLoader.informOnLoad("citationmanager");
 
