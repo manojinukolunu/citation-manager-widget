@@ -29,7 +29,16 @@ var sakai = sakai || {};
  var rootel = $("#" + tuid);
  var asd1="#button1";
    sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";
+   sakai.config.URL.CITATION_PROXY2="/var/proxy/citationmanager/connotea_import.json";
 	var doInit=function(){
+		$("#fetch_references").click(function(){
+		sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));	
+		});
+		$("#citation_manager_link_2").click(function(){
+			
+			$("#add_reference").removeClass('refclass');
+			
+		});
 	$("#addprivate").click(function(){
 	var data2 =  { "UR" :$("#uname").val(), 
                                       "T1"  : $("#pass").val(),
@@ -38,7 +47,7 @@ var sakai = sakai || {};
 	sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", data2, alert("data uploaded"));								  
 	});
 	 // End Employees
-	 
+	 //Add User's citation's to public or private
 	$("#button1").click(function(){
 	
 	var data1 =  { "UR" :$("#uname").val(), 
@@ -50,6 +59,8 @@ var sakai = sakai || {};
 	sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", data1, alert("data uploaded"));
 	//sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));
 	});
+	
+	//Authenticate a user against connotea database
 	$("#import_connotea").click(function(){
           $.ajax({
             cache: false,
@@ -72,6 +83,33 @@ var sakai = sakai || {};
         });
 	
     });
+	
+	$("#importbookmarks").click(function(){
+          $.ajax({
+            cache: false,
+			
+            url: sakai.config.URL.CITATION_PROXY2,
+            success: function(data){
+			
+				
+                parseimportedXml(data);
+				//alert("hello");
+				
+            },
+            error: function(xhr, textStatus, thrownError) {
+               alert("Sorry could'nt make the required request "+sakai.data);
+            },
+            data : {
+    ":basic-user" : $("#uname").val(),
+    ":basic-password" : $("#pass").val()
+  }
+        });
+	
+    });
+	$("#citation_manager_link_2").click()(function(){
+			$("#citation_share").hide();
+		
+	});
 
 
 function alert1(data1)
@@ -82,18 +120,30 @@ function alert2()
 {
 alert("data succssufully loaded");
 }
-
+//Parse XML from connotea response
 function parseXml(xml)
 {
 
   $(xml).find("Response").each(function()
   {
       $("#cite5").append($(this).find("bibliotechVersion").text() + "<br />");
-	  $("cite6").html(sakai.data.me.profile.path);
+	  $("#cite6").html(sakai.data.me.profile.path);
   });
 
 
 }
+function parseimportedXml(xml)
+{
+
+  $(xml).find("Response").each(function()
+  {
+      $("#cite5").append($(this).find("bibliotechVersion").text() + "<br />");
+	  $("#cite6").html(sakai.data.me.profile.path);
+  });
+
+
+}
+
 		 };
  doInit();
  };

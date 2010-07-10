@@ -18,6 +18,13 @@
 
 /* Twitter CSS */
 /* Main Container */
+
+
+.refclass
+{
+display:none;
+}
+
 #twitter_main_container {padding:10px;}
 #twitter_main_container label {padding:2px 0;margin-bottom:2px;}
 #twitter_main_container input[type=radio] {clear:left;float:left;margin-top:5px;}

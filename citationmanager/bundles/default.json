@@ -2,6 +2,12 @@
 "USERNAME": "URL",
 "PASSWORD": "Title",
 "ADDPRIVATE":"AddPrivate",
+"FETCH":"Fetch Citations",
+"AUTHOR":"Author",
 "IMPORT":"Import from Connotea",
-"AUTHENTICATE":"AddPublic"
+"ADDPUBLIC":"AddPublic",
+"ADD":"Add",
+"SHARE":"Share",
+"SEARCH":"Search",
+"COMMENT":"Comment"
 }
