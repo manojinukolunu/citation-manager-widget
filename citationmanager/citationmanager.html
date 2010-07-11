@@ -13,47 +13,83 @@
 <a href="javascript:;" id="citation_manager_link_3">__MSG__SEARCH__</a>
 </center>
               
-            <br><br>
+            
 			<div id="connotea_import" >
+				<br><br>
 			<label for="url_identify_cite">Username</label>&nbsp;&nbsp;
 			<input type="text" size="150" id="uname"/><br><br>
 
-		    <label for="search">Password                  
+		    <label for="search">Password   
+			            
 			</label> &nbsp; <input type="text" id="pass" size="150"/ >
 				<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
             <span class="s3d-button-inner">Authenticate</span>
 			</button>
+			</label> &nbsp; 
+				<button class="s3d-button s3d-button-primary" id="fetch_data" type="submit">
+            <span class="s3d-button-inner">Fetch data</span>
+			</button>
+		
+			
+			</div>
+			<br><br>
+			<div id="connotea_fetch_data">
+				
+				<label for="url_identify_cite">Username</label>&nbsp;&nbsp;
+			<input type="text" size="150" id="uname1"/><br><br>
+
+		    <label for="search">Password   
+			             
+			</label> &nbsp; 
+			<input type="text" id="pass1" size="150"/ >
+				<button class="s3d-button s3d-button-primary" id="importbookmarks" type="submit">
+            <span class="s3d-button-inner">Authenticate</span>
+			</button>
+				
+				
+				
 			</div>
 			
-			<br><br>
+			
 			<div id="add_reference"  class="refclass">
-		    <label for="url_identify_cite">__MSG__URL__</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				
+		    <label for="url_identify_cite">__MSG__URL__</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="text" size="150" id="uname"/><br><br>
             <label for="search">__MSG__AUTHOR__                  
 			</label> &nbsp; <input type="text" id="pass" size="150"/ >
+			<br>
+			<br>
 			<label for="Typeofref">Type Of Reference</label>
 			<select id="typeofref">
 				<option value="ELEC">ELEC</option>
-			</select>
-			<button class="s3d-button s3d-button-primary" id="button1" type="submit">
+			</select><br><br>
+			<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPUBLIC__</span>
 			</button>
 			<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPRIVATE__</span>
 			</button>
 			</div>           
+			
+				
+				
+				</div>
 
 
 			
-			<div id="cite5">
+			<div id="cite">
 
 			</div>
-			<div id="cite6"></div>
+			<div id="comments_show" class="comments_box">
+				<br><br>
+				Comments will be shownhere
+			</div>
 		<div class="fl-widget-options fl-fix" id="sites_top">
         <div class="widget-options-inner">
             <ul>
                 <li><a href="javascript:;" id="import_connotea">__MSG__IMPORT__</a></li>
 				<li><a href="javascript:;" id="fetch_references">__MSG__FETCH__</a></li>
+				<li><a href="javascript:;" id="comments">Comments</a></li>
             </ul>
         </div>
     </div>

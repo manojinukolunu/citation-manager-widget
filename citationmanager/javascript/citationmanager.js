@@ -26,11 +26,27 @@ var sakai = sakai || {};
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
  sakai.citationmanager = function(tuid,showSettings){
+ 	
+	
  var rootel = $("#" + tuid);
  var asd1="#button1";
    sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";
-   sakai.config.URL.CITATION_PROXY2="/var/proxy/citationmanager/connotea_import.json";
+   sakai.config.URL.CITATION_PROXYY="/var/proxy/citationmanager/connotea_import.json";
 	var doInit=function(){
+		$("#comments").click(function(){
+	$("#comments_show").toggle('slow');
+});
+		$("#comments_show").hide();
+		$("#fetch_data").hide();
+		$("#connotea_fetch_data").hide();
+		$("#connotea_import").hide();
+		$("#import_connotea").click(function(){
+			$("#connotea_import").toggle('slow');
+			$("#connotea_fetch_data").toggle('slow');
+			
+		});
+		
+		//load the citation's of a user
 		$("#fetch_references").click(function(){
 		sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));	
 		});
@@ -39,6 +55,7 @@ var sakai = sakai || {};
 			$("#add_reference").removeClass('refclass');
 			
 		});
+		//addprivate data 
 	$("#addprivate").click(function(){
 	var data2 =  { "UR" :$("#uname").val(), 
                                       "T1"  : $("#pass").val(),
@@ -48,7 +65,7 @@ var sakai = sakai || {};
 	});
 	 // End Employees
 	 //Add User's citation's to public or private
-	$("#button1").click(function(){
+	$("#addpublic").click(function(){
 	
 	var data1 =  { "UR" :$("#uname").val(), 
                                       "T1"  : $("#pass").val(),
@@ -61,7 +78,7 @@ var sakai = sakai || {};
 	});
 	
 	//Authenticate a user against connotea database
-	$("#import_connotea").click(function(){
+	$("#addprivate").click(function(){
           $.ajax({
             cache: false,
 			
@@ -83,12 +100,12 @@ var sakai = sakai || {};
         });
 	
     });
-	
+	//Import bookmarks of a user after authenticating
 	$("#importbookmarks").click(function(){
           $.ajax({
             cache: false,
 			
-            url: sakai.config.URL.CITATION_PROXY2,
+            url: sakai.config.URL.CITATION_PROXYY,
             success: function(data){
 			
 				
@@ -97,11 +114,10 @@ var sakai = sakai || {};
 				
             },
             error: function(xhr, textStatus, thrownError) {
-               alert("Sorry could'nt make the required request "+sakai.data);
+               alert("Sorry could'nt make the required request "+sakai.data.me.profile.path);
             },
             data : {
-    ":basic-user" : $("#uname").val(),
-    ":basic-password" : $("#pass").val()
+    "user" : $("#uname1").val()
   }
         });
 	
@@ -126,23 +142,29 @@ function parseXml(xml)
 
   $(xml).find("Response").each(function()
   {
-      $("#cite5").append($(this).find("bibliotechVersion").text() + "<br />");
-	  $("#cite6").html(sakai.data.me.profile.path);
+      $("#cite").append($(this).find("code").text() + "<br />").val()
+	 
+	  
+	  //$("#cite6").html(sakai.data.me.profile.path);
   });
 
 
 }
+//parse the imported XML
 function parseimportedXml(xml)
 {
 
-  $(xml).find("Response").each(function()
+  $(xml).find("Post").each(function()
   {
-      $("#cite5").append($(this).find("bibliotechVersion").text() + "<br />");
-	  $("#cite6").html(sakai.data.me.profile.path);
+      $("#cite").append($(this).find("title").text() + "<br />");
+	  //$("#cite6").html(sakai.data.me.profile.path);
   });
 
 
 }
+$("#comments").click(function(){
+	$("#comments_show").show('slow');
+});
 
 		 };
  doInit();
