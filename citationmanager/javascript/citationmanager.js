@@ -26,20 +26,25 @@ var sakai = sakai || {};
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
  sakai.citationmanager = function(tuid,showSettings){
- 	
+ 	var citation_info;//json object that holds the citationdata
 	
  var rootel = $("#" + tuid);
  var asd1="#button1";
    sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";
    sakai.config.URL.CITATION_PROXYY="/var/proxy/citationmanager/connotea_import.json";
 	var doInit=function(){
+		
+		
+		//Show comments for citations
 		$("#comments").click(function(){
 	$("#comments_show").toggle('slow');
 });
+		//hide the comments div initially
 		$("#comments_show").hide();
 		$("#fetch_data").hide();
 		$("#connotea_fetch_data").hide();
 		$("#connotea_import").hide();
+		//show the import connotea div on clicking
 		$("#import_connotea").click(function(){
 			$("#connotea_import").toggle('slow');
 			$("#connotea_fetch_data").toggle('slow');
@@ -48,7 +53,26 @@ var sakai = sakai || {};
 		
 		//load the citation's of a user
 		$("#fetch_references").click(function(){
-		sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));	
+		sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",function(success,data)
+		{
+			if (success)
+			{
+				
+				citation_info=data;
+				eval(citation_info);
+				$("#cite").html("UR :" +citation_info.UR+"<br> T1 :" +citation_info.T1+"<br>TY :"+citation_info.TY);
+				//alert(citation_info);
+				
+				//alert("data loaded");
+				
+				
+				
+			}
+			else
+			{
+				alert("sorry no data");
+			}
+		});	
 		});
 		$("#citation_manager_link_2").click(function(){
 			
@@ -64,7 +88,7 @@ var sakai = sakai || {};
 	sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", data2, alert("data uploaded"));								  
 	});
 	 // End Employees
-	 //Add User's citation's to public or private
+	 //Add User's citation's to public 
 	$("#addpublic").click(function(){
 	
 	var data1 =  { "UR" :$("#uname").val(), 
@@ -78,7 +102,7 @@ var sakai = sakai || {};
 	});
 	
 	//Authenticate a user against connotea database
-	$("#addprivate").click(function(){
+	$("#authenticate").click(function(){
           $.ajax({
             cache: false,
 			
