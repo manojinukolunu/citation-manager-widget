@@ -1,0 +1,138 @@
+me: hello amyas updated spec at http://confluence.sakaiproject.org/display/3AK/Citation+Manager+widget+specification+proposal
+2:45 PM i will put up a widget dev tutorial at http://confluence.sakaiproject.org/display/3AK/Widget+development+for+a+beginner
+  by evening or by tonite
+	14 minutes
+3:00 PM me: i am confused about use cases and i think we should have one more brainstorming session about use cases
+	5 minutes
+3:05 PM amyas.phillips: that's a good start Mr Inukolunu
+3:06 PM yes that is important and timely
+3:07 PM I like your pros and cons, it would be useful to have some more detailed analysis of what use cases those things support
+  maybe that table that other guy did would be enough
+3:09 PM me: ill put that now
+3:11 PM amyas.phillips: he says Zotero offers an API, I wonder what he means
+ me: thats for other addons to use zotero dara
+  data
+3:12 PM amyas.phillips: ok so the problem at this moment is to work out what integration with sakai offers that these things can't, and write down some use cases to match
+3:13 PM ok i see
+  do any of them offer embeddable widgets, like a youtube embed
+3:14 PM me: no i dont think so
+  but you can embed a user's data in a web page
+ amyas.phillips: e.g. can you view a collection of citations and get a chink of HTML to embed in your blog or somewhere
+  you mean in sakai?
+ me: delicious and connotea can do that
+3:15 PM on any webpage like in a blog
+3:18 PM amyas.phillips: so you could embed your delicious collection in a sakai page
+  people could click through and maybe post comments
+3:19 PM me: it was supported in the previous version of delicious but the current version of delicious doesnt support i think
+  yes we can add comments that could be possible
+3:20 PM amyas.phillips: ok put that aside for the moment
+  what do sakai users want to do in sakai that involvesreferences
+3:21 PM there are 3 main user groups
+  lecturers
+  researchers
+  students
+3:22 PM me: lecturers would want to add references at the end of a presentation
+3:23 PM researchers would add references for some research paper
+  and students would add references for an essay or paper
+3:25 PM amyas.phillips: researchers and students are both likely to be collecting and discussing references so from our point of view maybe they are the same
+3:26 PM they are discussers
+  lecturers are promulgators
+3:27 PM a common use model is to just collect anything that seems interesting, skim it and annotate with why it might be relevant so you can find it later, assign some tags
+3:28 PM that is library-building
+  then you look in your library when constructing your arguments for a paper or essay
+ me: like zotero's anootate
+  ?
+3:33 PM amyas.phillips: no, that is for detailed analysis. I mean just enough text to understand why you thought this was interesting. The reason you added it in your library - e.g. "copolymer-filled air-gap VCSEL, zero drift with temperature", then tag it with "athermal" "VCSEL" "copolymer"
+ me: like a header
+ amyas.phillips: when you are learning you might want to annotate a particular document, to help you absorb it fully
+3:34 PM when you are researching, you want to know what other people are doing, but you know 90% of what you read is not relevant to you right now, so you skim
+3:36 PM but you also want to be able to put your work in context when you write it up: you nee dto say what other approaches have been tried and why yours is better, or you want to say why this is a problem that needs a solution, or you just want to just use an existing result so you need to reference it
+3:37 PM You're going to sprinkle on references like decoration on a cake
+3:38 PM knwoing waht other people are doing is often a concern of a whole research group
+  they could usefully share that work by using a shared list
+3:39 PM and they could learn from eachother by annotating it with why it is significant
+3:41 PM me: so like a header we put some useful info as to why we want to read it
+ amyas.phillips: if you're a student, you want to show a) you've done your research b) you've understood what you read
+  or why someone else wants to read it
+3:43 PM student probably doesn't want to share everything - they want to stand out - but they might share with their good buddies, or they might share with everyone if they think they'll get brownie points for bringing it to the table or they really don't know what to make of it but think its probably important
+3:44 PM I'm trying to put myself in users' shoes
+  make personae
+3:46 PM if either student or researcher puts something in, they really need any comments to stay attached to the reference
+  the comments become the annotation
+3:47 PM then if they export again the annotation travels with the reference
+ me: so its basically metadata to the reference
+3:48 PM amyas.phillips: yep
+3:51 PM this is useful - they use their preferref ref manager privately, choose a set to share, export to RIS, import to Sakai, maybe apply a common tag during import, filter by that tag in the ref manager, click 'share with' and select from a list of their sites and contacts or from a list of search results. Shared refs get discussed and commented on
+  I think each ref gets a UID at import
+3:52 PM when you comment on your own ref, you comment is added to the metadata
+  chen someone else comments on your ref, their comment is added to the metadata
+  can they still edit their comment?
+ me: it is possible
+ amyas.phillips: is it yours or theirs?
+3:53 PM i don't think it is added to the metadata actually
+  instead, the ref gets copied to their own ref store and their comment is added to their own copy
+  but it has teh same UID
+3:54 PM whenever anyone views this reference's comments, sakai pulls in all the comments by searching on the UID
+3:55 PM same on export - when it is exported, all comments travel with it in their current state
+  if you commented on someone else's ref, you can edit or delete your comment at any time
+  but they might have exported it already - you just have to accept that
+3:56 PM if you want to comment privately, you can hit "copy to my references"
+  and comment on that
+3:59 PM in the widget you have two lists
+  'my references'
+  and 'references shared with me'
+  broken down by contacts, sites
+4:01 PM Probably you want a 'hide' button in case some bugger has shared 10000 irrelevant reference with you
+4:02 PM widget allows browse by tags, owners, commenters
+  on your profile you can share your ref list publically
+  what about in a course site?
+4:03 PM you share some refs into a course site
+  I think the course site has its own list, managed by the site owner
+4:04 PM that's slightly tricky
+4:05 PM me: ill ask around if that is possible
+ amyas.phillips: at least, you need to be able to search all users lists for refs shared with this site and display those
+4:06 PM taht way the refs stay with the users
+  I you keeping a copy of my excellent thoughts? my IM does not log
+  :)
+4:07 PM me: a lot of info here my inbox stores all our chats :)
+ amyas.phillips: good good
+  so far then i have these functions
+  import RIS
+4:08 PM display list of my refs
+  each ref:
+4:09 PM "HEAVY DUTY MECHANICAL CALCULATORS" (1997) Babbage, Lovelace; Journal of Cogs and Gears
+  18 comments ->
+  Shared with site1 site2 john and 3 more...
+4:10 PM List of refs shared with me
+  by site
+  by person
+4:11 PM each ref has an 'options' button, a cog or something
+4:12 PM clicking gives you options like 'delete', 'private', 'copy to my ref list'
+  each ref probably has tags too
+4:13 PM 37 tags: iron, cogs, sprockets, analytical engine and 33 more..
+4:14 PM the widget window is for navigating and managing refs
+4:15 PM I think refs need to be embeddable as site content, seperately from the widget
+4:16 PM or maybe as a different sort of widget
+  one just for charing and commenting on a ref or set of refs
+4:17 PM designed to fit into a site content - ie doesn't differentiate itself too strongly, eg with borders, colour
+  doesn't have navigation
+4:18 PM just shows comments (collapsible? owber can set default open or closed?)
+  also lets you "copy to my ref list"
+4:19 PM maybe you can star comments and refs
+  2 stars, 5 stars
+  or just star or don't star, sort of my favourites
+4:20 PM me: awesome ideas ill think about each of theese in detail and let you know about implementation details
+4:21 PM amyas.phillips: cool
+ me: and i updated the confluence page with the table
+ amyas.phillips: nice
+4:23 PM we still didn' write down the use cases - just jumped from personae to func spec
+  but i think it worked
+ me: yea it did
+4:25 PM amyas.phillips: sketch it, imagine it, write down in detail what it does and how, chose somewhere to start, write a bit
+4:26 PM I think the model for how sites own refs is the trickiest bit atm
+  you think about it
+ me: sure
+  that will me my no1 priority
+ amyas.phillips: of Manoj, hope this has helped
+  bye for now!
+ me: bye

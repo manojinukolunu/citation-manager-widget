@@ -19,7 +19,18 @@
 /* Twitter CSS */
 /* Main Container */
 
+.comments_box
+{
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
 
+}
 .refclass
 {
 display:none;

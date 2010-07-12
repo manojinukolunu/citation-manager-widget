@@ -32,34 +32,71 @@ var sakai = sakai || {};
  var asd1="#button1";
    sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";
    sakai.config.URL.CITATION_PROXYY="/var/proxy/citationmanager/connotea_import.json";
-	var doInit=function(){
-		
-		
+   
+   
 		//Show comments for citations
-		$("#comments").click(function(){
-	$("#comments_show").toggle('slow');
-});
-		//hide the comments div initially
-		$("#comments_show").hide();
-		$("#fetch_data").hide();
-		$("#connotea_fetch_data").hide();
-		$("#connotea_import").hide();
-		//show the import connotea div on clicking
-		$("#import_connotea").click(function(){
-			$("#connotea_import").toggle('slow');
-			$("#connotea_fetch_data").toggle('slow');
-			
-		});
-		
-		//load the citation's of a user
-		$("#fetch_references").click(function(){
-		sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",function(success,data)
+   function showcomments()
+   {
+   		$("#comments").click(function(){
+		sakai.api.Server.loadJSON("/_user"
+		+ sakai.data.me.profile.path + "/public/citationdata",function(success,data)
 		{
 			if (success)
 			{
 				
 				citation_info=data;
 				eval(citation_info);
+				//alert(citation_info.UR);
+				$("#comments_show").html("<br>COMMENTS :" +citation_info.COMMENT);
+				//alert(citation_info);
+				
+				//alert("data loaded");
+				
+				
+				
+			}
+			else
+			{
+				alert("sorry no data");
+			}
+		});
+	$("#comments_show").toggle('slow');
+});
+   }
+   
+   //hide the comments div initially
+   
+   function hidediv()
+   {
+   	$("#comments_show").hide();
+		$("#fetch_data").hide();
+		$("#connotea_fetch_data").hide();
+		$("#connotea_import").hide();
+   }
+   function connotea_import()
+   {
+   	$("#import_connotea").click(function(){
+			$("#connotea_import").toggle('slow');
+			$("#connotea_fetch_data").toggle('slow');
+			
+		});
+   }
+   
+   //fetch the references of a user 
+   //ref_type will be either public or private
+   function fetch_references(ref_type)
+   {
+   		
+			if (ref_type=="private")
+			{
+					sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata",function(success,data)
+		{
+			if (success)
+			{
+				
+				citation_info=data;
+				eval(citation_info);
+				//alert(citation_info.UR);
 				$("#cite").html("UR :" +citation_info.UR+"<br> T1 :" +citation_info.T1+"<br>TY :"+citation_info.TY);
 				//alert(citation_info);
 				
@@ -73,36 +110,63 @@ var sakai = sakai || {};
 				alert("sorry no data");
 			}
 		});	
-		});
-		$("#citation_manager_link_2").click(function(){
-			
-			$("#add_reference").removeClass('refclass');
-			
-		});
-		//addprivate data 
-	$("#addprivate").click(function(){
+			}
+			else if (ref_type=="public")
+			{
+					sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",function(success,data)
+		{
+			if (success)
+			{
+				
+				citation_info=data;
+				eval(citation_info);
+				//alert(citation_info.UR);
+				$("#cite").html("UR :" +citation_info.UR+"<br> T1 :" +citation_info.T1+"<br>TY :"+citation_info.TY);
+				//alert(citation_info);
+				
+				//alert("data loaded");
+				
+				
+				
+			}
+			else
+			{
+				alert("sorry no data");
+			}
+		});	
+			}
+	
+		  }
+   function add_private()
+   {
+   	$("#addprivate").click(function(){
 	var data2 =  { "UR" :$("#uname").val(), 
                                       "T1"  : $("#pass").val(),
                                       "TY"  : $("#typeofref").val()
 									  }
 	sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", data2, alert("data uploaded"));								  
 	});
-	 // End Employees
-	 //Add User's citation's to public 
-	$("#addpublic").click(function(){
+   }
+   
+   function add_public()
+	{
+		$("#addpublic").click(function(){
+	//alert($("#uname").val());
 	
 	var data1 =  { "UR" :$("#uname").val(), 
                                       "T1"  : $("#pass").val(),
-                                      "TY"  : $("#typeofref").val()
+                                      "TY"  : $("#typeofref").val(),
+									  "COMMENT":$("#comment").val()
 									  }                                
                   
                 
-	sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", data1, alert("data uploaded"));
+	sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", data1, alert(sakai.data.me.profile.path));
 	//sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));
 	});
-	
-	//Authenticate a user against connotea database
-	$("#authenticate").click(function(){
+	}
+	function authenticate_connotea()
+	{
+		$("#authenticate").click(function(){
           $.ajax({
             cache: false,
 			
@@ -124,8 +188,10 @@ var sakai = sakai || {};
         });
 	
     });
-	//Import bookmarks of a user after authenticating
-	$("#importbookmarks").click(function(){
+	}
+	function import_connotea()
+	{
+		$("#importbookmarks").click(function(){
           $.ajax({
             cache: false,
 			
@@ -146,6 +212,49 @@ var sakai = sakai || {};
         });
 	
     });
+	}
+	var doInit=function(){
+		
+		
+		showcomments();
+		hidediv();
+		
+		
+		//show the import connotea div on clicking
+		connotea_import();
+		
+		//load the public citation's of a user
+		$("#fetch_public_references").click(function(){
+			fetch_references("public");
+		});
+		
+		//load private citation's of a user
+		$("#fetch_private_references").click(function(){
+			fetch_references("private");
+		});
+		
+		
+		
+		
+
+		$("#citation_manager_link_2").click(function(){
+			
+			$("#add_reference").removeClass('refclass');
+			
+		});
+		//addprivate data 
+		add_private();
+	
+	 // End Employees
+	 //Add User's citation's to public 
+	add_public();
+	
+	//Authenticate a user against connotea database
+	
+	authenticate_connotea();
+	
+	//Import bookmarks of a user after authenticating
+	import_connotea();
 	$("#citation_manager_link_2").click()(function(){
 			$("#citation_share").hide();
 		

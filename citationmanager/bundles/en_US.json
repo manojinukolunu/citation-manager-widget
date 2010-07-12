@@ -6,11 +6,13 @@
 "TYPEOFREF":"Type of Reference",
 "AUTHOR":"Author",
 "IMPORT":"Import from Connotea",
-"FETCH":"Fetch Citations",
+"FETCHPRIVATE":"Private Citations",
+"FETCHPUBLIC":"Public citations",
 "ADDPUBLIC":"AddPublic",
 "AUTHENTICATE":"Authenticate",
 "ADD":"Add",
 "SHARE":"Share",
 "SEARCH":"Search",
+"MYREFS":"My References",
 "COMMENT":"Comment"
 }
