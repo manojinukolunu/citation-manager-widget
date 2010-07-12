@@ -26,70 +26,60 @@ var sakai = sakai || {};
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
  sakai.citationmanager = function(tuid,showSettings){
- 	var citation_info;//json object that holds the citationdata
-	
- var rootel = $("#" + tuid);
- var asd1="#button1";
-   sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";
-   sakai.config.URL.CITATION_PROXYY="/var/proxy/citationmanager/connotea_import.json";
-   
-   
-		//Show comments for citations
-   function showcomments()
-   {
-   		$("#comments").click(function(){
+var citation_info;//json object that holds the citationdata
+var rootel = $("#" + tuid);
+var asd1="#button1";
+sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";
+sakai.config.URL.CITATION_PROXYY="/var/proxy/citationmanager/connotea_import.json";
+   //Show comments for citations
+function showcomments()
+    {
+   	    $("#comments").click(function(){
 		sakai.api.Server.loadJSON("/_user"
 		+ sakai.data.me.profile.path + "/public/citationdata",function(success,data)
 		{
 			if (success)
 			{
-				
 				citation_info=data;
 				eval(citation_info);
 				//alert(citation_info.UR);
 				$("#comments_show").html("<br>COMMENTS :" +citation_info.COMMENT);
 				//alert(citation_info);
-				
 				//alert("data loaded");
-				
-				
-				
 			}
 			else
 			{
 				alert("sorry no data");
 			}
 		});
-	$("#comments_show").toggle('slow');
-});
-   }
+		$("#comments_show").toggle('slow');
+    });
+}
    
    //hide the comments div initially
    
-   function hidediv()
-   {
-   	$("#comments_show").hide();
+function hidediv()
+    {
+   	    $("#comments_show").hide();
 		$("#fetch_data").hide();
 		$("#connotea_fetch_data").hide();
 		$("#connotea_import").hide();
-   }
-   function connotea_import()
-   {
-   	$("#import_connotea").click(function(){
-			$("#connotea_import").toggle('slow');
-			$("#connotea_fetch_data").toggle('slow');
-			
+    }
+function connotea_import()
+    {
+   	    $("#import_connotea").click(function(){
+		$("#connotea_import").toggle('slow');
+		$("#connotea_fetch_data").toggle('slow');
 		});
-   }
+    }
    
-   //fetch the references of a user 
-   //ref_type will be either public or private
-   function fetch_references(ref_type)
-   {
-   		
-			if (ref_type=="private")
-			{
-					sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata",function(success,data)
+ //fetch the references of a user 
+ //ref_type will be either public or private
+function fetch_references(ref_type)
+    {
+   	    if (ref_type=="private")
+	    {
+		    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata",function(success,data)
 		{
 			if (success)
 			{
@@ -114,7 +104,7 @@ var sakai = sakai || {};
 			else if (ref_type=="public")
 			{
 					sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",function(success,data)
-		{
+		    {
 			if (success)
 			{
 				
@@ -137,8 +127,8 @@ var sakai = sakai || {};
 			}
 	
 		  }
-   function add_private()
-   {
+function add_private()
+{
    	$("#addprivate").click(function(){
 	var data2 =  { "UR" :$("#uname").val(), 
                                       "T1"  : $("#pass").val(),
@@ -146,27 +136,27 @@ var sakai = sakai || {};
 									  }
 	sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", data2, alert("data uploaded"));								  
 	});
-   }
+}
    
-   function add_public()
+function add_public()
 	{
-		$("#addpublic").click(function(){
-	//alert($("#uname").val());
+        $("#addpublic").click(function(){
+	     //alert($("#uname").val());
 	
-	var data1 =  { "UR" :$("#uname").val(), 
+	    var data1 =  { "UR" :$("#uname").val(), 
                                       "T1"  : $("#pass").val(),
                                       "TY"  : $("#typeofref").val(),
 									  "COMMENT":$("#comment").val()
 									  }                                
                   
                 
-	sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", data1, alert(sakai.data.me.profile.path));
-	//sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));
+	    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", data1, alert("data uploaded"));
+	    //sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));
 	});
 	}
-	function authenticate_connotea()
-	{
-		$("#authenticate").click(function(){
+function authenticate_connotea()
+{
+		  $("#authenticate").click(function(){
           $.ajax({
             cache: false,
 			
@@ -182,13 +172,13 @@ var sakai = sakai || {};
                alert("Sorry could'nt make the required request "+sakai.data);
             },
             data : {
-    ":basic-user" : $("#uname").val(),
-    ":basic-password" : $("#pass").val()
+                        ":basic-user" : $("#uname").val(),
+                        ":basic-password" : $("#pass").val()
   }
         });
 	
     });
-	}
+}
 	function import_connotea()
 	{
 		$("#importbookmarks").click(function(){
@@ -263,23 +253,23 @@ var sakai = sakai || {};
 
 function alert1(data1)
 {
-alert("data Successufully uploaded");
+    alert("data Successufully uploaded");
 }
 function alert2()
 {
-alert("data succssufully loaded");
+    alert("data succssufully loaded");
 }
 //Parse XML from connotea response
 function parseXml(xml)
 {
 
-  $(xml).find("Response").each(function()
-  {
-      $("#cite").append($(this).find("code").text() + "<br />").val()
+     $(xml).find("Response").each(function()
+     {
+          $("#cite").append($(this).find("code").text() + "<br />").val()
 	 
 	  
-	  //$("#cite6").html(sakai.data.me.profile.path);
-  });
+	      //$("#cite6").html(sakai.data.me.profile.path);
+     });
 
 
 }
@@ -287,11 +277,11 @@ function parseXml(xml)
 function parseimportedXml(xml)
 {
 
-  $(xml).find("Post").each(function()
-  {
-      $("#cite").append($(this).find("title").text() + "<br />");
-	  //$("#cite6").html(sakai.data.me.profile.path);
-  });
+    $(xml).find("Post").each(function()
+    {
+        $("#cite").append($(this).find("title").text() + "<br />");
+	    //$("#cite6").html(sakai.data.me.profile.path);
+    });
 
 
 }
@@ -299,9 +289,12 @@ $("#comments").click(function(){
 	$("#comments_show").show('slow');
 });
 
-		 };
+};
+
+
  doInit();
- };
+
+};
 //sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
 sakai.api.Widgets.widgetLoader.informOnLoad("citationmanager");
 
