@@ -19,7 +19,7 @@
 </center>
               
             
-		<!--	<div id="connotea_import" >
+			<div id="connotea_import" >
 				<br><br>
 			<label for="url_identify_cite">__MSG__USERNAME__</label>&nbsp;&nbsp;
 			<input type="text" size="150" id="uname2"/><br><br>
@@ -34,7 +34,7 @@
 				<button class="s3d-button s3d-button-primary" id="fetch_data" type="submit">
             <span class="s3d-button-inner">__MSG__FETCHDATA__</span>
 			</button>
-		-->
+		
 			
 			</div>
 			<br><br>
