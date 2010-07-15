@@ -8,18 +8,13 @@
 <link href="css/citationmanager.css" rel="stylesheet" type="text/css" />
 
 <center>
-<a href="javascript:;"  id="citation_manager_link_1">__MSG__SHARE__</a>
-<span class="delicious_pipe_divider">|</span>
 <a href="javascript:;"  id="citation_manager_link_2">__MSG__ADD__</a>
 <span class="delicious_pipe_divider">|</span>
 <a href="javascript:;" id="citation_manager_link_3">__MSG__SEARCH__</a>
-
-<span class="delicious_pipe_divider">|</span>
-<a href="javascript:;" id="citation_manager_link_4">__MSG__MYREFS__</a>
 </center>
               
             
-		<!--	<div id="connotea_import" >
+			<div id="connotea_import" >
 				<br><br>
 			<label for="url_identify_cite">__MSG__USERNAME__</label>&nbsp;&nbsp;
 			<input type="text" size="150" id="uname2"/><br><br>
@@ -34,7 +29,7 @@
 				<button class="s3d-button s3d-button-primary" id="fetch_data" type="submit">
             <span class="s3d-button-inner">__MSG__FETCHDATA__</span>
 			</button>
-		-->
+		
 			
 			</div>
 			<br><br>
@@ -59,22 +54,33 @@
 			<div id="add_reference"  >
 				
 		    <label for="url_identify_cite">__MSG__URL__</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="text" size="150" id="uname"/><br><br>
+			<input type="text" size="150" id="url"/><br><br>
             <label for="search">__MSG__AUTHOR__                  
-			</label> &nbsp; <input type="text" id="pass" size="150"/ >
+			</label> &nbsp; <input type="text" id="author" size="150"/ >
 			<br>
 			<br>
+			<label for="url_identify_cite">Title</label>
+			<input type="text" size="150" id="title"/><br><br>
+			<a href=javascript:; id="addnote">Add Notes</a>
+			<textarea id="addnotetextarea" rows=10 columns=10 ></textarea><br><br>
+			<label for="url_identify_cite"></label>
+			<a href=javascript:; id="tags" >AddTags</a>&nbsp;&nbsp;<span ><a href=javascript:; id="collapsetagdiv" >Showtags</a></span>
+			<div id="tagsdiv">
+			<div id="tag"></div></div><br><br>
+			
 			<label for="Typeofref">__MSG__TYPEOFREF__</label>
 			<select id="typeofref">
 				<option value="ELEC">ELEC</option>
 			</select><br><br>
-			Comment:<input type="text" id="comment">
+			<a href=javascript:; id="fetch_citations_from">fetch citaitons from </a>fetch citaitons from :<input type="text" id="fetch_citations_username">
 			<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPUBLIC__</span>
 			</button>
 			<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPRIVATE__</span>
 			</button>
+			
+			
 			</div>           
 			
 				
@@ -86,6 +92,8 @@
 			<div id="cite">
 
 			</div>
+			<div id="fetched_citations">
+				</div>
 			<div id="comments_show" class="comments_box">Comments will be shownhere
 			</div>
 		<div class="fl-widget-options fl-fix" id="sites_top">
