@@ -96,26 +96,23 @@ function fetch_references(ref_type)
 					{
   					
 					count1++;
-					$("#cite").append( "TY:"+citation_info[key].TY+ "<br />"+"TL:"+citation_info[key].TL+"<br />"+"N1:"+citation_info[key].N1+"<br />"+"AU:"+citation_info[key].AU+"<br />ER<center><a href=javascript:; class='asd1'>Comment</a></center><br /><br />");
+					$("#cite").append( "TY:"+citation_info[key].TY+ "<br />"+"TL:"+citation_info[key].TL+"<br />"+"N1:"+citation_info[key].N1+"<br />"+"AU:"+citation_info[key].AU+"<br />ER<center><a href=javascript:; class='asd1'>Comment</a>&#160;<label class=asd1> "+count1+"</label></center><br /><br />");
   					//$("#comments").hide();
 					}
   					//alert(count1);
 				}
-				$("a.asd1").click(function()
+				$("a.asd1").live("click",(function()
 				{
 					$(this).after("<textarea id='textarea' class='asd1'></textarea><center><button id='addcomment'>AddComment</button></center>");
-					$("#addcomment").click(function()
-					{
-						alert($("#textarea").val());
-					});
-				});
+					
+				}));
 				
 				//$("#cite").html("UR :" +citation_info.UR+"<br> T1 :" +citation_info.T1+"<br>TY :"+citation_info.TY);
 				//alert(citation_info);
 				
 				//alert("data loaded");
 				
-			
+		
 			}
 			else
 			{
@@ -263,22 +260,27 @@ function authenticate_connotea()
 	
 	//The main function 
 	var doInit=function(){
-		
+			$("#addcomment").click(function()
+					{
+						alert($("#textarea").val());
+						alert($("label.asd1").html());
+						
+					});
 		
 		//Fetch citation's from another user by  username
 		$("#fetch_citations_from").click(function()
 		{
 			var userStr=$("#fetch_citations_username").val();
-			alert(userStr);
+			//alert(userStr);
 			var username="/"+userStr.charAt(0)+"/"+userStr.substr(0,2)+"/"+userStr;
-			alert(username);			
+			//alert(username);			
 			sakai.api.Server.loadJSON("/_user"+username+"/public/citationdata",function(success,data)
 			{
 				//alert(success);
 				if (success)
 				{
 					citation_info=data;
-					alert("asd");
+					//alert("asd");
 				//alert($(citation_info).length);
 				for (var key in citation_info) 
 				{
@@ -293,7 +295,7 @@ function authenticate_connotea()
 				}
 				else
 				{
-					alert("sorry zerocool has no public citations");
+					alert("sorry "+ userStr+" has no public citations");
 				}
 			});
 		});
@@ -307,9 +309,9 @@ function authenticate_connotea()
 			$("#tagsdiv").toggle('slow');
 		});
 		$("#tags").click(function(){
-			$("#tag").append("Tag "+count+"<input type=\"text\" id='tag'"+count+"><br /><br> /");
+			$("#tag").append("Tag "+count+"<input type=\"text\" id='tag'><br /><br> ");
 			count++;
-			alert($("#tag0").val());
+			//alert($("#tag0").val());
 		});
 		
 		//showcomments();
