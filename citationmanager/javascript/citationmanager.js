@@ -69,25 +69,11 @@ function fetch_references(ref_type)
 				{
   				    if (citation_info.hasOwnProperty(key)) 
 					{
-    				    $("#cite").append( citation_info[key].TY+ "<br>"+citation_info[key].T1+"<br>"+citation_info[key].UR+"<br>"+citation_info[key].KW);
+    				    $("#cite").append( citation_info[key].TY+ "<br />"+citation_info[key].T1+"<br />"+citation_info[key].UR+"<br />"+citation_info[key].KW);
   					}
 				}
 
-				//data12=$.toJSON(data);
-				//alert(data12.length);
-				//alert(citation_info);
-				//eval(citation_info);
-				//alert(citation_info.UR);
-				//var i=0;
-				//alert(citation_info[3].color)
-				//for (i=0;i<citation_info.length;i++)
-				//var i;
-				//for (i=1;i<6;i++)
-				//{$("#cite").append(citation_info[i].color+"<br>");}
 				
-				//alert(citation_info);
-				
-				//alert("data loaded");
 			}
 			else
 			{
@@ -103,20 +89,33 @@ function fetch_references(ref_type)
 			{
 				citation_info=data;
 				//alert($(citation_info).length);
+				var count1=0//holds the number of elements in the returned JSON object
 				for (var key in citation_info) 
 				{
   					if (citation_info.hasOwnProperty(key)) 
 					{
-  					var count1=0//holds the number of elements in the returned JSON object
+  					
 					count1++;
-					$("#cite").append( "TY:"+citation_info[key].TY+ "<br>"+"TL:"+citation_info[key].TL+"<br>"+"N1:"+citation_info[key].N1+"<br>"+"AU:"+citation_info[key].AU+"<br>ER<br><br>");
-  					}
+					$("#cite").append( "TY:"+citation_info[key].TY+ "<br />"+"TL:"+citation_info[key].TL+"<br />"+"N1:"+citation_info[key].N1+"<br />"+"AU:"+citation_info[key].AU+"<br />ER<center><a href=javascript:; class='asd1'>Comment</a></center><br /><br />");
+  					//$("#comments").hide();
+					}
   					//alert(count1);
 				}
+				$("a.asd1").click(function()
+				{
+					$(this).after("<textarea id='textarea' class='asd1'></textarea><center><button id='addcomment'>AddComment</button></center>");
+					$("#addcomment").click(function()
+					{
+						alert($("#textarea").val());
+					});
+				});
+				
 				//$("#cite").html("UR :" +citation_info.UR+"<br> T1 :" +citation_info.T1+"<br>TY :"+citation_info.TY);
 				//alert(citation_info);
 				
 				//alert("data loaded");
+				
+			
 			}
 			else
 			{
@@ -264,6 +263,8 @@ function authenticate_connotea()
 	
 	//The main function 
 	var doInit=function(){
+		
+		
 		//Fetch citation's from another user by  username
 		$("#fetch_citations_from").click(function()
 		{
@@ -285,7 +286,7 @@ function authenticate_connotea()
 					{
   						var count1=0;
 						count1++;
-						$("#fetched_citations").append( "TY:"+citation_info[key].TY+ "<br>"+"TL:"+citation_info[key].TL+"<br>"+"N1:"+citation_info[key].N1+"<br>"+"AU:"+citation_info[key].AU+"<br>ER<br><br>");
+						$("#fetched_citations").append( "TY:"+citation_info[key].TY+ "<br />"+"TL:"+citation_info[key].TL+"<br />"+"N1:"+citation_info[key].N1+"<br />"+"AU:"+citation_info[key].AU+"<br />ER<br><br />");
   					}
   //alert(count1);
 				}
@@ -306,7 +307,7 @@ function authenticate_connotea()
 			$("#tagsdiv").toggle('slow');
 		});
 		$("#tags").click(function(){
-			$("#tag").append("Tag "+count+"<input type=\"text\" id='tag'"+count+"><br><br>");
+			$("#tag").append("Tag "+count+"<input type=\"text\" id='tag'"+count+"><br /><br> /");
 			count++;
 			alert($("#tag0").val());
 		});
