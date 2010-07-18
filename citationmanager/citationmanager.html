@@ -24,11 +24,11 @@
 
 		    <label for="search">__MSG__PASSWORD__   
 			            
-			</label>&nbsp; <input type="text" id="pass2" size="150"/ >
+			</label>&#160; <input type="text" id="pass2" size="150"/ >
 				<button class="s3d-button s3d-button-primary" id="authenticate" type="submit">
             <span class="s3d-button-inner">__MSG__AUTHENTICATE__</span>
 			</button>
-			</label> &nbsp; 
+			</label> &#160; 
 				<button class="s3d-button s3d-button-primary" id="fetch_data" type="submit">
             <span class="s3d-button-inner">__MSG__FETCHDATA__</span>
 			</button>
@@ -43,7 +43,7 @@
 
 		    <label for="search">__MSG__PASSWORD__   
 			             
-			</label> &nbsp; 
+			</label> &#160; 
 			<input type="text" id="pass1" size="150"/ >
 				<button class="s3d-button s3d-button-primary" id="importbookmarks" type="submit">
             <span class="s3d-button-inner">__MSG__AUTHENTICATE__</span>
@@ -61,29 +61,30 @@
             <label for="search">__MSG__AUTHOR__                 
 			</label>  <center><input type="text" id="author" size="150"/ ></center>
 			<br>
-			
-			<label for="url_identify_cite">Title</label>
+			<label for="Publication year (YYYY/MM/DD)">__MSG__PUBLICATIONYEAR__</label>
+			<input type=text id="publication_year" /><br /><br/>
+			<label for="url_identify_cite">__MSG__TITLE__</label>
 			<center><input type="text" size="150" id="title"/></center><br />
-			<a href=javascript:; id="addnote">Add Notes</a>
+			<a href=javascript:; id="addnote">__MSG__ADDNOTES__</a>
 			<center><textarea id="addnotetextarea" rows=10 columns=10 ></textarea></center><br />
 			<label for="url_identify_cite"></label>
-			<a href=javascript:; id="tags" >AddTags</a><center><a href=javascript:; id="collapsetagdiv" >Showtags</a></center>
+			<a href=javascript:; id="tags" >__MSG__ADDTAGS__</a><center><a href=javascript:; id="collapsetagdiv" >__MSG__SHOW__</a></center>
 			<div id="tagsdiv">
 			<div id="tag"></div></div><br />
 			
 			<label for="Typeofref">__MSG__TYPEOFREF__</label>
 			<select id="typeofref">
-				<option value="ABST">Abstract</option>
-				<option value="ELEC">Electronic Citation</option>
-				<option value="BOOK">Whole book</option>
-				<option value="CHAP">Book chapter</option>
-				<option value="JFULL">Journal (full)</option>
-				<option value="JOUR">Journal</option>
-				<option value="MGZN">Magazine article</option>
-				<option value="SLIDE">Slide</option>
-				<option value="UNPB">Unpublished work</option>
-				<option value="RPRT">Report</option>
-				<option value="THES">Thesis/Dissertation</option>
+				<option value="ABST">__MSG__ABSTRACT__</option>
+				<option value="ELEC">__MSG__ELECCITATION__</option>
+				<option value="BOOK">__MSG__WHOLEBOOK__</option>
+				<option value="CHAP">__MSG__BOOKCHAPTER__</option>
+				<option value="JFULL">__MSG__JOURNALF__</option>
+				<option value="JOUR">__MSG__JOURNAL__</option>
+				<option value="MGZN">__MSG__MAGART__</option>
+				<option value="SLIDE">__MSG__SLIDE__</option>
+				<option value="UNPB">__MSG__UNPB__</option>
+				<option value="RPRT">__MSG__REPORT__</option>
+				<option value="THES">__MSG__THES__</option>
 			</select><br/> <br/>
 			
 			<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
@@ -94,7 +95,7 @@
 			</button><br /><br />
 			<input type="text" id="fetch_citations_username">
 			<button class="s3d-button s3d-button-primary" id="fetch_citations_from" type="submit">
-            <span class="s3d-button-inner">Fetch</span>
+            <span class="s3d-button-inner">__MSG__FETCH__</span>
 			</button>
 			</div>           
 			</div>
@@ -109,7 +110,7 @@
                 <li><a href="javascript:;" id="import_connotea">__MSG__IMPORT__</a></li>
 				<li><a href="javascript:;" id="fetch_public_references">__MSG__FETCHPUBLIC__</a></li>
 								<li><a href="javascript:;" id="fetch_private_references">__MSG__FETCHPRIVATE__</a></li>
-								<li><a href="javascript:;" id="fetch_private_references">ImportRIS</a></li>				
+								<li><a href="javascript:;" id="fetch_private_references">__MSG__RIS__</a></li>				
             </ul>
         </div>
     </div>
