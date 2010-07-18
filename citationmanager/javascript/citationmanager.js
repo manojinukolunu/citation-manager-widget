@@ -25,37 +25,47 @@ var sakai = sakai || {};
  * @param {String} tuid Unique id of the widget
  * @param {Boolean} showSettings Show the settings of the widget or not
  */
-sakai.citationmanager = function(tuid,showSettings){
-var citation_info;//json object that holds the citationdata
-var rootel = $("#" + tuid);
-var count1;
-sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";//connotea Authenticate proxy
-sakai.config.URL.CITATION_PROXYY="/var/proxy/citationmanager/connotea_import.json";//connotea fetch_bookmarks proxy
+sakai.citationmanager = function(tuid,showSettings)
+{
+	var citation_info;//json object that holds the citationdata
+	var rootel = $("#" + tuid);
+	var count1;
+	sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";//connotea Authenticate proxy
+	sakai.config.URL.CITATION_PROXYY="/var/proxy/citationmanager/connotea_import.json";//connotea fetch_bookmarks proxy
 
+/**
+* hide Some html elements initally on loading
+*/   
+	function hidediv()
+    	{
+   	    	$("#comments_show").hide();
+			$("add_references").hide();
+			$("#fetch_data").hide();
+			$("#connotea_fetch_data").hide();
+			$("#connotea_import").hide();
+			$("#addnotetextarea").hide();
+			$("#search_refs").hide();
+    	}
+	
+	/**
+	 * show the connotea_import div where the user can enter username and password for authentication
+	 */
+
+	function connotea_import()
+    	{
+   	    	$("#import_connotea").click(function()
+			{
+				$("#connotea_import").toggle('slow');
+				$("#connotea_fetch_data").toggle('slow');
+			});
+    	}
    
-   //hide Some html elements initally on loading
-   
-function hidediv()
-    {
-   	    $("#comments_show").hide();
-		$("add_references").hide();
-		$("#fetch_data").hide();
-		$("#connotea_fetch_data").hide();
-		$("#connotea_import").hide();
-		$("#addnotetextarea").hide();
-    }
-	//show the connotea_import div where the user can enter username and password for authentication
-function connotea_import()
-    {
-   	    $("#import_connotea").click(function(){
-		$("#connotea_import").toggle('slow');
-		$("#connotea_fetch_data").toggle('slow');
-		});
-    }
-   
- //fetch the references of a user 
- //ref_type will be either public or private
-function fetch_references(ref_type)
+
+/**
+ * fetch the references of a user 
+ * @param {Object} ref_type will be either public or private
+ */
+	function fetch_references(ref_type)
     {
    	    if (ref_type=="private")
 	    {
@@ -107,13 +117,17 @@ function fetch_references(ref_type)
 		});	
 			}
 }
-function addPrivate()
-{
-        $("#addprivate").click(function()
+/**
+ * Add to Private Path 
+ */
+	function addPrivate()
+	{
+		$("#addprivate").click(function()
 		{
-			var count_private=0;
+			var count_private=0;//holds the number of public citations returned
 	     	//alert($("#uname").val());
 		 	sakai.api.Server.loadJSON("/_user" +sakai.data.me.profile.path+"/private/citationdata",function(success,data){
+				
 		 	if (success) 
 			{
 				citation_info = data;
@@ -121,41 +135,67 @@ function addPrivate()
 				{
 					if (citation_info.hasOwnProperty(key)) 
 					{
-						count_private++;//holds the number of arrayelements in private citations returned.
+						count_private++;//
 						//alert(count2);
 					}
 				}
 			}
 			else 
 			{
-				alert("Sorry request failed");
+				var data_private =  
+				[{
+					"UR" :$("#url").val(),
+					"AU":$("#author").val(),
+					"TL":$("#title").val(),
+					"TY":$("#typeofref").val(),
+					"N1":$("#addnotetextarea").val(),
+					"KW":$("input.tag").val()
+		
+				}]
+				var r=confirm("Are you sure you want to add data for the firsttime");
+				if (r) {
+					sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", data_private, alert("data uploaded"));
+					//alert("asd");
+				}
+				else
+				{
+					alert("please try again");
+				}
 			}
-			//data1 holds the citation data to be added.
-			var data1 =  
+			var data_private_final =  
 			{
-				"UR" :$("#uname").val(),
-				"AU":$("#author").val(),
-				"TL":$("#title").val(),
-				"TY":$("#typeofref").val(),
-				"N1":$("#addnotetextarea").val(),
-				"KW":$("#tags").val()
+			"UR" :$("#url").val(),
+			"AU":$("#author").val(),
+			"TL":$("#title").val(),
+			"TY":$("#typeofref").val(),
+			"N1":$("#addnotetextarea").val(),
+			"KW":$("input.tag").val()
 		
 			}
-             //alert(count2);
-			citation_info[count_private]=data1;//add at the end of the json array
-			sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citation_info, alert("data uploaded"));
+			
+            //alert(count2);
+		citation_info[count_private]=data_private_final;//add to the end of the json array
+		sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citation_info, alert("data uploaded"));
 		 });
-		 //sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));
+		  //sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));
 	});
+      
 	}
-   //Add citationns the public path in /_user
-function addPublic()
+	
+	
+	
+	
+  /**
+   * Add citationns the public path in /_user
+   */ 
+	function addPublic()
 	{
         $("#addpublic").click(function()
 		{
 			var count2=0;//holds the number of public citations returned
 	     	//alert($("#uname").val());
 		 	sakai.api.Server.loadJSON("/_user" +sakai.data.me.profile.path+"/public/citationdata",function(success,data){
+				
 		 	if (success) 
 			{
 				citation_info = data;
@@ -170,7 +210,25 @@ function addPublic()
 			}
 			else 
 			{
-				alert("asd");
+				var data2 =  
+				[{
+					"UR" :$("#url").val(),
+					"AU":$("#author").val(),
+					"TL":$("#title").val(),
+					"TY":$("#typeofref").val(),
+					"N1":$("#addnotetextarea").val(),
+					"KW":$("input.tag").val()
+		
+				}]
+				var r=confirm("Are you sure you want to add data for the firsttime");
+				if (r) {
+					sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", data2, alert("data uploaded"));
+					alert("asd");
+				}
+				else
+				{
+					alert("please try again");
+				}
 			}
 			var data1 =  
 			{
@@ -182,42 +240,47 @@ function addPublic()
 			"KW":$("input.tag").val()
 		
 			}
+			
             //alert(count2);
 		citation_info[count2]=data1;//add to the end of the json array
-		sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata.json", citation_info, alert("data uploaded"));
+		sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", citation_info, alert("data uploaded"));
 		 });
 		  //sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));
 	});
 	}
+/**
+ * Authenticate against Connotea database.Function is not complete.
+ */	
 	
-	//Authenticate against Connotea database.Function is not complete.
-function authenticate_connotea()
-{
+	function authenticate_connotea()
+	{
 		  $("#authenticate").click(function(){
-          $.ajax({
-            cache: false,
+          	$.ajax({
+            	cache: false,
 			
-            url: sakai.config.URL.CITATION_PROXY,
-            success: function(data){
-			
-				
-                parseXml(data);
+           	 	url: sakai.config.URL.CITATION_PROXY,
+            	success: function(data)
+				{
+					parseXml(data);
 				//alert("hello");
 				
-            },
-            error: function(xhr, textStatus, thrownError) {
+            	},
+            	error: function(xhr, textStatus, thrownError) {
                alert("Sorry could'nt make the required request "+sakai.data);
-            },
-            data : {
-                        ":basic-user" : $("#uname2").val(),
-                        ":basic-password" : $("#pass2").val()
-  }
+            	},
+            	data : 
+				{
+                	":basic-user" : $("#uname2").val(),
+                    ":basic-password" : $("#pass2").val()
+  				}
         });
 	
     });
-}
+	}
 
-	//Import data from connotea after authentication.This is not complete too.
+	/**Import data from connotea after authentication.This is not complete too.
+	 * 
+	 */
 	function import_connotea()
 	{
 		$("#importbookmarks").click(function(){
@@ -247,7 +310,12 @@ function authenticate_connotea()
 	
 	
 	
-	
+	/** Render the references of a user
+	 * 
+	 * @param {Object} data The data from loadJSON
+	 * @param {Object} key_value Current reference being fetched
+	 * @param {Object} count1 Total number of references the user has
+	 */
 	
 	function renderReferences(data,key_value,count1)
 	{
@@ -304,37 +372,40 @@ function authenticate_connotea()
 		
 		
 	}
+	/**Save the comment to the Repository Need to discuss with Amyas as to how I should go about implementing this.
+	 * 
+	 * @param {Object} data The comment from the user
+	 */
 	function addComment(data)
 	{
 		sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/citation_comments",data,alert("data loaded"));
 	}
 	
-	//The main function 
-
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	var doInit=function(){
+	/**
+	 * Init function is called when user clicks Add
+	 */
+	function init()
+	{
 		$("#citation_manager_link_2").click(function()
 		{
 			$("#add_references").toggle('slow');
+			$("#search_refs").hide();
 		});
-		$("#username").html(sakai.data.me.profile.path);
-		
-		
-		//Fetch citation's from another user by  username
+		$("#citation_manager_link_3").click(function()
+		{
+			showSettings = true;
+            $("#add_references").hide();
+            //$deliciousContainerSettings.show();
+			$("#search_refs").show();
+		});
+	}
+	
+	/**
+	 * Fetch citations from another user
+	 */
+	function fetch()
+	{
 		$("#fetch_citations_from").click(function()
 		{
 			var userStr=$("#fetch_citations_username").val();
@@ -366,6 +437,32 @@ function authenticate_connotea()
 				}
 			});
 		});
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * The main function
+	 */
+	
+	
+	var doInit=function()
+	{
+		
+		init();
+		$("#username").html(sakai.data.me.profile.path);//used for testing purposes
+		
+		
+		//Fetch citation's from another user by  username
+		fetch();
 		
 		
 		
@@ -376,14 +473,14 @@ function authenticate_connotea()
 			$("#addnotetextarea").toggle();
 		});
 		
-		
+		//Add tags
 		$("#collapsetagdiv").click(function(){
 		
 			$("#tagsdiv").toggle('slow');
 		});
 		
 		
-		
+		//Add tags
 		$("#tags").click(function(){
 			$("#tag").append("Tag "+count+"<input type=\"text\" class='tag'><br /><br> ");
 			count++;
@@ -429,16 +526,25 @@ function authenticate_connotea()
 		
 		});
 
-
-function alert1(data1)
+/**
+ * Callback after saveJSON
+ */
+function alert1()
 {
     alert("data Successufully uploaded");
 }
+/**
+ * Callback after loadJSON
+ */
 function alert2()
 {
     alert("data succssufully loaded");
 }
-//Parse XML from connotea response
+
+/**Parse XML from connotea response During Authentication
+ * 
+ * @param {Object} xml The response is contained in this
+ *///
 function parseXml(xml)
 {
 
@@ -452,7 +558,11 @@ function parseXml(xml)
 
 
 }
-//parse the imported XML
+/**Parse the imported XML after authentication from connotea
+ * 
+ * @param {Object} xml The response is contained in this 
+ */
+//
 function parseimportedXml(xml)
 {
 

@@ -43,19 +43,6 @@
 display:none;
 }
 
-#twitter_main_container {padding:10px;}
-#twitter_main_container label {padding:2px 0;margin-bottom:2px;}
-#twitter_main_container input[type=radio] {clear:left;float:left;margin-top:5px;}
-.twitter_radiocheck_label {float:left;margin:4px 0 0 5px;padding:1px !important;}
 
-/* Sub Container */
-#twitter_sub_container {clear:both;margin-top:30px;}
-.twitter_input_label {display:block;clear:both;}
 
-/* Message Container */
-.twitter_error {color:#ff0000 !important;}
-.twitter_info {color:#4aa02c !important;}
-.twitter_input_text {border:1px solid #dddddd;padding:3px}
 
-/* Icon */
-.twitter .widget_title {background:url("../images/twitter.png") no-repeat scroll 17px 17px transparent;}
