@@ -6,11 +6,14 @@
 
 
 <link href="css/citationmanager.css" rel="stylesheet" type="text/css" />
-
+<label id="username"></label>
 <center>
 <a href="javascript:;"  id="citation_manager_link_2">__MSG__ADD__</a>
 <span class="delicious_pipe_divider">|</span>
 <a href="javascript:;" id="citation_manager_link_3">__MSG__SEARCH__</a>
+
+<span class="delicious_pipe_divider">|</span>
+<a href="javascript:;" id="citation_manager_link_3">__MSG__SHARE__</a>
 </center>
               
             
@@ -51,7 +54,7 @@
 			</div>
 			
 			
-			<div id="add_reference"  >
+			<div id="add_references"  >
 				
 		    <label for="url_identify_cite">__MSG__URL__</label>
 			<center><input type="text" size="150" id="url"/></center><br>
@@ -70,24 +73,31 @@
 			
 			<label for="Typeofref">__MSG__TYPEOFREF__</label>
 			<select id="typeofref">
-				<option value="ELEC">ELEC</option>
-			</select><br /><br />
-			<a href=javascript:; id="fetch_citations_from">fetch citaitons from </a>fetch citaitons from :<input type="text" id="fetch_citations_username">
+				<option value="ABST">Abstract</option>
+				<option value="ELEC">Electronic Citation</option>
+				<option value="BOOK">Whole book</option>
+				<option value="CHAP">Book chapter</option>
+				<option value="JFULL">Journal (full)</option>
+				<option value="JOUR">Journal</option>
+				<option value="MGZN">Magazine article</option>
+				<option value="SLIDE">Slide</option>
+				<option value="UNPB">Unpublished work</option>
+				<option value="RPRT">Report</option>
+				<option value="THES">Thesis/Dissertation</option>
+			</select><br/> <br/>
+			
 			<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPUBLIC__</span>
 			</button>
 			<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPRIVATE__</span>
+			</button><br /><br />
+			<input type="text" id="fetch_citations_username">
+			<button class="s3d-button s3d-button-primary" id="fetch_citations_from" type="submit">
+            <span class="s3d-button-inner">Fetch</span>
 			</button>
-			
-			
 			</div>           
-			
-				
-				
-				</div>
-
-
+			</div>
 			
 			<div id="cite">
 
@@ -99,7 +109,7 @@
                 <li><a href="javascript:;" id="import_connotea">__MSG__IMPORT__</a></li>
 				<li><a href="javascript:;" id="fetch_public_references">__MSG__FETCHPUBLIC__</a></li>
 								<li><a href="javascript:;" id="fetch_private_references">__MSG__FETCHPRIVATE__</a></li>
-				
+								<li><a href="javascript:;" id="fetch_private_references">ImportRIS</a></li>				
             </ul>
         </div>
     </div>

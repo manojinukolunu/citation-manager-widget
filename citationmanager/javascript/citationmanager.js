@@ -28,6 +28,7 @@ var sakai = sakai || {};
 sakai.citationmanager = function(tuid,showSettings){
 var citation_info;//json object that holds the citationdata
 var rootel = $("#" + tuid);
+var count1;
 sakai.config.URL.CITATION_PROXY = "/var/proxy/citationmanager/connotea.json";//connotea Authenticate proxy
 sakai.config.URL.CITATION_PROXYY="/var/proxy/citationmanager/connotea_import.json";//connotea fetch_bookmarks proxy
 
@@ -37,6 +38,7 @@ sakai.config.URL.CITATION_PROXYY="/var/proxy/citationmanager/connotea_import.jso
 function hidediv()
     {
    	    $("#comments_show").hide();
+		$("add_references").hide();
 		$("#fetch_data").hide();
 		$("#connotea_fetch_data").hide();
 		$("#connotea_import").hide();
@@ -85,37 +87,21 @@ function fetch_references(ref_type)
 			{
 					sakai.api.Server.loadJSON("/_user" + "/a/ad/admin" + "/public/citationdata",function(success,data)
 		    {
-			if (success)
+			if (success) 
 			{
-				citation_info=data;
-				//alert($(citation_info).length);
-				var count1=0//holds the number of elements in the returned JSON object
-				for (var key in citation_info) 
+				citation_info = data;
+				var key1=0;
+				count1=0;
+				for (key in citation_info)
 				{
-  					if (citation_info.hasOwnProperty(key)) 
+					if (citation_info.hasOwnProperty(key))
 					{
-  					
-					count1++;
-					$("#cite").append( "TY:"+citation_info[key].TY+ "<br />"+"TL:"+citation_info[key].TL+"<br />"+"N1:"+citation_info[key].N1+"<br />"+"AU:"+citation_info[key].AU+"<br />ER<center><a href=javascript:; class='asd1'>Comment</a>&#160;<label class=asd1> "+count1+"</label></center><br /><br />");
-  					//$("#comments").hide();
+						count1++;
 					}
-  					//alert(count1);
 				}
-				$("a.asd1").live("click",(function()
-				{
-					$(this).after("<textarea id='textarea' class='asd1'></textarea><center><button id='addcomment'>AddComment</button></center>");
-					
-				}));
-				
-				//$("#cite").html("UR :" +citation_info.UR+"<br> T1 :" +citation_info.T1+"<br>TY :"+citation_info.TY);
-				//alert(citation_info);
-				
-				//alert("data loaded");
-				
-		
+				renderReferences(citation_info,key1,count1);
 			}
-			else
-			{
+			else {
 				alert("sorry request failed please try again later");
 			}
 		});	
@@ -188,17 +174,17 @@ function addPublic()
 			}
 			var data1 =  
 			{
-			"UR" :$("#uname").val(),
+			"UR" :$("#url").val(),
 			"AU":$("#author").val(),
 			"TL":$("#title").val(),
 			"TY":$("#typeofref").val(),
 			"N1":$("#addnotetextarea").val(),
-			"KW":$("#tags").val()
+			"KW":$("input.tag").val()
 		
 			}
             //alert(count2);
 		citation_info[count2]=data1;//add to the end of the json array
-		sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", citation_info, alert("data uploaded"));
+		sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata.json", citation_info, alert("data uploaded"));
 		 });
 		  //sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata",alert("data loaded"));
 	});
@@ -258,14 +244,95 @@ function authenticate_connotea()
     });
 	}
 	
-	//The main function 
-	var doInit=function(){
-			$("#addcomment").click(function()
+	
+	
+	
+	
+	
+	function renderReferences(data,key_value,count1)
+	{
+		
+		$("#cite").html("TY "+citation_info[key_value].TY+"<br/>TL "+citation_info[key_value].TL+"<br/>"+"N1 "+citation_info[key_value].N1+"<br/>AU"+citation_info[key_value].AU+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>");
+		key_value++;
+		if(key_value < count1)
+		$("#next").click(function()
+		{
+			renderReferences(citation_info,key_value,count1);
+			
+		});
+		
+		$("#add_comment").click(function()
+		{
+			sakai.api.Server.loadJSON("/_user" +sakai.data.me.profile.path+"/public/citation_comments",function(success, data){
+				if (success) {
+					var count5=0;
+					citation_info = data;
+					//alert("asd");
+					for (var key in citation_info) {
+						if (citation_info.hasOwnProperty(key)) {
+							count5++;//
+						//alert(count2);
+						}
+					}alert(count5);
+					alert(key_value);
+				}
+				
+				else {
+					alert("asd");
+				}
+				var comments_data =
+				[
+				{
+					asd:
 					{
-						alert($("#textarea").val());
-						alert($("label.asd1").html());
-						
-					});
+						"user":"as",
+						"comment":$("#comments").val()
+					}
+				}
+				]
+				
+
+			citation_info[key_value]=comments_data;
+			addComment(citation_info[key_value]);
+			}
+			)
+			
+            //alert(count2);
+		//add to the end of the json array
+			
+			});
+		
+		
+	}
+	function addComment(data)
+	{
+		sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/citation_comments",data,alert("data loaded"));
+	}
+	
+	//The main function 
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	var doInit=function(){
+		$("#citation_manager_link_2").click(function()
+		{
+			$("#add_references").toggle('slow');
+		});
+		$("#username").html(sakai.data.me.profile.path);
+		
 		
 		//Fetch citation's from another user by  username
 		$("#fetch_citations_from").click(function()
@@ -273,7 +340,7 @@ function authenticate_connotea()
 			var userStr=$("#fetch_citations_username").val();
 			//alert(userStr);
 			var username="/"+userStr.charAt(0)+"/"+userStr.substr(0,2)+"/"+userStr;
-			//alert(username);			
+			alert(username);			
 			sakai.api.Server.loadJSON("/_user"+username+"/public/citationdata",function(success,data)
 			{
 				//alert(success);
@@ -299,17 +366,26 @@ function authenticate_connotea()
 				}
 			});
 		});
+		
+		
+		
+		
 		var count=0;
 		//Add notes collapsible element
 		$("#addnote").click(function(){
 			$("#addnotetextarea").toggle();
 		});
+		
+		
 		$("#collapsetagdiv").click(function(){
 		
 			$("#tagsdiv").toggle('slow');
 		});
+		
+		
+		
 		$("#tags").click(function(){
-			$("#tag").append("Tag "+count+"<input type=\"text\" id='tag'><br /><br> ");
+			$("#tag").append("Tag "+count+"<input type=\"text\" class='tag'><br /><br> ");
 			count++;
 			//alert($("#tag0").val());
 		});

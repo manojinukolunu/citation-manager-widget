@@ -1,0 +1,32 @@
+	{
+				citation_info=data;
+				//alert($(citation_info).length);
+				var count1=0//holds the number of elements in the returned JSON object
+				
+				for (var key in citation_info) 
+				{
+					alert(citation_info[key].TY);
+					
+  					if (citation_info.hasOwnProperty(key)) 
+					{
+  					
+					count1++;
+					$("#cite").append( "TY:"+citation_info[key].TY+ "<br />"+"TL:"+citation_info[key].TL+"<br />"+"N1:"+citation_info[key].N1+"<br />"+"AU:"+citation_info[key].AU+"<br />ER<center><a href=javascript:; class='asd1'>Comment</a>&#160;<label class=asd1> "+count1+"</label></center><br /><br />");
+  					//$("#comments").hide();
+					
+					}
+  					//alert(count1);
+				}
+				$("a.asd1").live("click",(function()
+				{
+					$(this).after("<textarea id='textarea' class='asd1'></textarea><center><button id='addcomment'>AddComment</button></center>");
+					
+				}));
+				
+				//$("#cite").html("UR :" +citation_info.UR+"<br> T1 :" +citation_info.T1+"<br>TY :"+citation_info.TY);
+				//alert(citation_info);
+				
+				//alert("data loaded");
+				
+		
+			}
