@@ -69,33 +69,33 @@ sakai.citationmanager = function(tuid,showSettings)
     {
    	    if (ref_type=="private")
 	    {
-		    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata",function(success,data)
-		{
-			if (success)
+			$("#cite").show();
+		   	sakai.api.Server.loadJSON("/_user" + "/a/ad/admin" + "/private/citationdata",function(success,data)
+		    {
+			if (success) 
 			{
-				//alert(success);
-				citation_info=data;
-				alert($(citation_info).length);
-				//eval(citation_info);
-				for (var key in citation_info) 
+				citation_info = data;
+				var key1=0;
+				count1=0;
+				for (key in citation_info)
 				{
-  				    if (citation_info.hasOwnProperty(key)) 
+					if (citation_info.hasOwnProperty(key))
 					{
-    				    $("#cite").append( citation_info[key].TY+ "<br />"+citation_info[key].T1+"<br />"+citation_info[key].UR+"<br />"+citation_info[key].KW);
-  					}
+						count1++;
+					}
 				}
-
-				
+				renderReferences(citation_info,key1,count1);
 			}
-			else
-			{
-				alert("sorry request failed please try again");
+			else {
+				alert("sorry request failed please try again later");
 			}
 		});	
+			
 			}
 			else if (ref_type=="public")
 			{
-					sakai.api.Server.loadJSON("/_user" + "/a/ad/admin" + "/public/citationdata",function(success,data)
+				$("#cite").show();
+				sakai.api.Server.loadJSON("/_user" + "/a/ad/admin" + "/public/citationdata",function(success,data)
 		    {
 			if (success) 
 			{
@@ -324,15 +324,19 @@ sakai.citationmanager = function(tuid,showSettings)
 		//var key_value1=key_value;
 		//alert(key_value);
 		if (key_value == 0) {
-			$("#cite").html("TY " + citation_info[key_value].TY + "<br/>TL " + citation_info[key_value].TL + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>");
+			$("#cite").html("TY " + citation_info[key_value].TY + "<br/>TL " + citation_info[key_value].TL + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>&#160;&#160;<a href=javascript:; id='delete'>Delete Citation</a>");
 		}
 		else 
 		{
 			//alert(key_value)
-			$("#cite").html("TY " + citation_info[key_value].TY + "<br/>TL " + citation_info[key_value].TL + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='previous'>Previous</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>");
+			$("#cite").html("TY " + citation_info[key_value].TY + "<br/>TL " + citation_info[key_value].TL + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='previous'>Previous</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>&#160;&#160;<a href=javascript:; id='delete'>Delete Citation</a>");
 		}
 		key_value++;
 		if (key_value <= count1) {
+			$("#delete").click(function()
+			{
+				sakai.api.Server.removeJSON("/_user/"+sakai.data.me.profile.path+"/public/citationdata["+key_value+"]" ,alert("success"));
+			});
 			$("#previous").click(function(){
 				//alert("hello");
 				//alert(key_value1);
@@ -407,6 +411,11 @@ sakai.citationmanager = function(tuid,showSettings)
 	 */
 	function init()
 	{
+		$("#citation_manager_link_4").click(function()
+		{
+			$("#cite").hide();
+		}
+		);
 		$("#citation_manager_link_2").click(function()
 		{
 			$("#add_references").toggle('slow');
@@ -517,6 +526,7 @@ sakai.citationmanager = function(tuid,showSettings)
 		//load the public citation's of a user
 		$("#fetch_public_references").click(function(){
 			fetch_references("public");
+			
 		});
 		
 		//load private citation's of a user

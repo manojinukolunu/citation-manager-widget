@@ -31,5 +31,6 @@
 "RIS":"ImportRIS",
 "COMMENT":"Comment",
 "SHOW":"Show Tags",
+"HIDE":"Hide Citations",
 "FETCH":"Fetch"
 }
