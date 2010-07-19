@@ -324,12 +324,12 @@ sakai.citationmanager = function(tuid,showSettings)
 		//var key_value1=key_value;
 		//alert(key_value);
 		if (key_value == 0) {
-			$("#cite").html("TY " + citation_info[key_value].TY + "<br/>TL " + citation_info[key_value].TL + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>&#160;&#160;<a href=javascript:; id='delete'>Delete Citation</a>");
+			$("#cite").html("UR " + citation_info[key_value].UR + "<br/>TY " + citation_info[key_value].TY + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>TL " + citation_info[key_value].TL +"<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>&#160;&#160;<a href=javascript:; id='delete'>Delete Citation</a>");
 		}
 		else 
 		{
 			//alert(key_value)
-			$("#cite").html("TY " + citation_info[key_value].TY + "<br/>TL " + citation_info[key_value].TL + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='previous'>Previous</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>&#160;&#160;<a href=javascript:; id='delete'>Delete Citation</a>");
+			$("#cite").html("UR " + citation_info[key_value].UR + "<br/>TY " + citation_info[key_value].TY + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>TL " + citation_info[key_value].TL +"<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='previous'>Previous</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>&#160;&#160;<a href=javascript:; id='delete'>Delete Citation</a>");
 		}
 		key_value++;
 		if (key_value <= count1) {
