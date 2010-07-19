@@ -319,15 +319,35 @@ sakai.citationmanager = function(tuid,showSettings)
 	
 	function renderReferences(data,key_value,count1)
 	{
-		
-		$("#cite").html("TY "+citation_info[key_value].TY+"<br/>TL "+citation_info[key_value].TL+"<br/>"+"N1 "+citation_info[key_value].N1+"<br/>AU"+citation_info[key_value].AU+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>");
-		key_value++;
-		if(key_value < count1)
-		$("#next").click(function()
+		//alert(count1);
+		citation_info=data;
+		//var key_value1=key_value;
+		//alert(key_value);
+		if (key_value == 0) {
+			$("#cite").html("TY " + citation_info[key_value].TY + "<br/>TL " + citation_info[key_value].TL + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>");
+		}
+		else 
 		{
-			renderReferences(citation_info,key_value,count1);
+			//alert(key_value)
+			$("#cite").html("TY " + citation_info[key_value].TY + "<br/>TL " + citation_info[key_value].TL + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='previous'>Previous</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>");
+		}
+		key_value++;
+		if (key_value <= count1) {
+			$("#previous").click(function(){
+				//alert("hello");
+				//alert(key_value1);
+				//var key_value1=key_value--;
+				//alert(key_value);
+				renderReferences(citation_info,key_value-2,count1);
+				//alert(key_value1);
+				
+			});
+			$("#next").click(function(){
+				renderReferences(citation_info, key_value, count1);
+				
+			});
 			
-		});
+		}
 		
 		$("#add_comment").click(function()
 		{
