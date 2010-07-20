@@ -45,6 +45,7 @@ sakai.citationmanager = function(tuid,showSettings)
 			$("#connotea_import").hide();
 			$("#addnotetextarea").hide();
 			$("#search_refs").hide();
+			
     	}
 	
 	/**
@@ -107,9 +108,11 @@ sakai.citationmanager = function(tuid,showSettings)
 					if (citation_info.hasOwnProperty(key))
 					{
 						count1++;
+						//$("#cite").append("UR " + citation_info[key].UR + "<br/>TY " + citation_info[key].TY + "<br/>" + "N1 " + citation_info[key].N1 + "<br/>TL " + citation_info[key].TL +"<br/>AU " + citation_info[key].AU + "<br/>ER"+"<br/><br/>");
 					}
 				}
 				renderReferences(citation_info,key1,count1);
+				//$("#cite").append("UR " + citation_info[key_value].UR + "<br/>TY " + citation_info[key_value].TY + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>TL " + citation_info[key_value].TL +"<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/>");
 			}
 			else {
 				alert("sorry request failed please try again later");
@@ -324,7 +327,7 @@ sakai.citationmanager = function(tuid,showSettings)
 		//var key_value1=key_value;
 		//alert(key_value);
 		if (key_value == 0) {
-			$("#cite").html("UR " + citation_info[key_value].UR + "<br/>TY " + citation_info[key_value].TY + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>TL " + citation_info[key_value].TL +"<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><a href=javascript:; id='next'>Next</a>&#160;&#160;<a href=javascript:; id='comment'>Comment</a>&#160;<textarea size=100% id='comments'></textarea><button class='s3d-button s3d-button-primary' id='add_comment'><span class='s3d-button-inner'>Add Comment</span></button>&#160;&#160;<a href=javascript:; id='delete'>Delete Citation</a>");
+			$("#cite").html("UR " + citation_info[key_value].UR + "<br/>TY " + citation_info[key_value].TY + "<br/>" + "N1 " + citation_info[key_value].N1 + "<br/>TL " + citation_info[key_value].TL +"<br/>AU " + citation_info[key_value].AU + "<br/>ER"+"<br/><div aligh='right'><select id='options'><option>ELEC</option></select></div>");
 		}
 		else 
 		{
@@ -411,7 +414,8 @@ sakai.citationmanager = function(tuid,showSettings)
 	 */
 	function init()
 	{
-		$("#citation_manager_link_4").click(function()
+		$("#fetch_data_from_anotheruser").hide();
+		$("#citation_manager_link_5").click(function()
 		{
 			$("#cite").hide();
 		}
@@ -427,6 +431,10 @@ sakai.citationmanager = function(tuid,showSettings)
             $("#add_references").hide();
             //$deliciousContainerSettings.show();
 			$("#search_refs").show();
+		});
+		$("#citation_manager_link_4").click(function()
+		{
+			$("#fetch_data_from_anotheruser").toggle();
 		});
 	}
 	

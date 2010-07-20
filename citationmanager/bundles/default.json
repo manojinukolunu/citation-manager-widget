@@ -28,9 +28,10 @@
 "UNPB":"Unpublished work",
 "REPORT":"Report",
 "THES":"Thesis",
-"RIS":"ImportRIS",
+"RIS":"ExportRIS",
 "COMMENT":"Comment",
 "SHOW":"Show Tags",
 "HIDE":"Hide Citations",
+"FETCHFROM":"Fetch from",
 "FETCH":"Fetch"
 }
