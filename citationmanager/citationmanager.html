@@ -2,13 +2,11 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/citationmanager/css/citationmanager.css"/>
 
 <!-- MAIN CONTENT -->
-<div id="main_content" class=fl-widget-content>
+<div id="citationmanager" class="fl-widget-content">
 	<a href=javascript:; id="public_citations" class=main-view>Public</a>
 	<a href=javascript:; id="private_citations" class=main-view>Private</a>
 	<div id="citations_view">
-		<div id="public_citations_view">
 		
-		</div>
 		<div id="private_citations_view">
 		
 		</div>
@@ -51,22 +49,26 @@
 			<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPRIVATE__</span>
 			</button><br /><br /></div>
-	<div id="citationmanager_main_citations_template"><!--
-		{for bookmark in all}
-		<a href="${bookmark.UR}" target="_blank">${bookmark.TY}</a>
+			<div id="public_citations_view">
+				<!-- -->
+			</div>
+	<div id="citationmanager_main_citations_template">
+	<!--{for bookmark in all}
+		<a href="${bookmark.TY}" target="_blank">${bookmark.UR}</a>
 		{/for}
+	-->
+	</div>
+	<div id="citation_pager" class="jq_pager1" >
 		
-	--></div>
+	</div>
 	
 </div>
 <div class="fl-widget-options fl-fix">
         <div class="widget-options-inner">
-            <ul>
-                <li><a href="javascript:;" id="add_citations">__MSG__ADD__</a></li>
-			</ul>
-			<div id="delicious_paging" class="jq_pager" />
+            
         </div>
-</div>
+    </div>
+
 
 <!-- JAVASCRIPT -->
 <script type=text/javascript src="/devwidgets/citationmanager/javascript/citationmanager.js"></script>

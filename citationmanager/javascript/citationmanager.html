@@ -1,0 +1,115 @@
+
+<!--CSS-->
+<link rel="stylesheet" type="text/css" href="/devwidgets/citationmanager/css/citationmanager.css"/>
+
+<!-- PAGE CONTENT -->
+
+
+<link href="css/citationmanager.css" rel="stylesheet" type="text/css" />
+<label id="username"></label>
+<center>
+<a href="javascript:;"  id="citation_manager_link_2">__MSG__ADD__</a>
+<span class="delicious_pipe_divider">|</span>
+<a href="javascript:;" id="citation_manager_link_3">__MSG__SEARCH__</a>
+<span class="delicious_pipe_divider">|</span>
+<a href="javascript:;" id="citation_manager_link_4">__MSG__FETCHFROM__</a>
+<span class="delicious_pipe_divider">|</span>
+<a href="javascript:;" id="citation_manager_link_5">__MSG__HIDE__</a>
+</center>
+              
+            
+			<div id="connotea_import" >
+				<br><br>
+			<label for="url_identify_cite">__MSG__USERNAME__</label>&#160;&#160;
+			<input type="text" size="150" id="uname2"/><br><br>
+
+		    <label for="search">__MSG__PASSWORD__   
+			            
+			</label>&#160; <input type="text" id="pass2" size="150"/ >
+				<button class="s3d-button s3d-button-primary" id="authenticate" type="submit">
+            <span class="s3d-button-inner">__MSG__AUTHENTICATE__</span>
+			</button>
+		
+			
+			</label> &#160; 
+				<button class="s3d-button s3d-button-primary" id="fetch_data" type="submit">
+            <span class="s3d-button-inner">__MSG__FETCHDATA__</span>
+			</button>
+			</div>
+		
+			
+			
+			
+			
+			
+			<div id="add_references"  >
+				
+		    <label for="url_identify_cite">__MSG__URL__</label>
+			<center><input type="text" size="150" id="url"/></center><br>
+            <label for="search">__MSG__AUTHOR__                 
+			</label>  <center><input type="text" id="author" size="150"/ ></center>
+			<br>
+			<label for="Publication year (YYYY/MM/DD)">__MSG__PUBLICATIONYEAR__</label>
+			<input type=text id="publication_year" /><br /><br/>
+			<label for="url_identify_cite">__MSG__TITLE__</label>
+			<center><input type="text" size="150" id="title"/></center><br />
+			<a href=javascript:; id="addnote">__MSG__ADDNOTES__</a>
+			<center><textarea id="addnotetextarea" rows=10 columns=10 ></textarea></center><br />
+			<label for="url_identify_cite"></label>
+			<a href=javascript:; id="tags" >__MSG__ADDTAGS__</a><center><a href=javascript:; id="collapsetagdiv" >__MSG__SHOW__</a></center>
+			<div id="tagsdiv">
+			<div id="tag"></div></div><br />
+			
+			<label for="Typeofref">__MSG__TYPEOFREF__</label>
+			<select id="typeofref">
+				<option value="ABST">__MSG__ABSTRACT__</option>
+				<option value="ELEC">__MSG__ELECCITATION__</option>
+				<option value="BOOK">__MSG__WHOLEBOOK__</option>
+				<option value="CHAP">__MSG__BOOKCHAPTER__</option>
+				<option value="JFULL">__MSG__JOURNALF__</option>
+				<option value="JOUR">__MSG__JOURNAL__</option>
+				<option value="MGZN">__MSG__MAGART__</option>
+				<option value="SLIDE">__MSG__SLIDE__</option>
+				<option value="UNPB">__MSG__UNPB__</option>
+				<option value="RPRT">__MSG__REPORT__</option>
+				<option value="THES">__MSG__THES__</option>
+			</select><br/> <br/>
+			
+			<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
+            <span class="s3d-button-inner">__MSG__ADDPUBLIC__</span>
+			</button>
+			<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
+            <span class="s3d-button-inner">__MSG__ADDPRIVATE__</span>
+			</button><br /><br /></div>
+			<div id="fetch_data_from_anotheruser">
+			<input type="text" id="fetch_citations_username">
+			<button class="s3d-button s3d-button-primary" id="fetch_citations_from" type="submit">
+            <span class="s3d-button-inner">__MSG__FETCH__</span>
+			</button>
+			</div>
+			           
+			</div>
+			<div id="search_refs">
+				<label for=search>Search:</label>Functionality to be implemented on discussion with Amyas
+				
+			</div>
+			
+			<div id="cite">
+
+			</div>
+			
+		<div class="fl-widget-options fl-fix" id="sites_top">
+        <div class="widget-options-inner">
+            <ul>
+                <li><a href="javascript:;" id="import_connotea">__MSG__IMPORT__</a></li>
+				<li><a href="javascript:;" id="fetch_public_references">__MSG__FETCHPUBLIC__</a></li>
+								<li><a href="javascript:;" id="fetch_private_references">__MSG__FETCHPRIVATE__</a></li>
+								<li><a href="javascript:;" id="fetch_private_references">__MSG__RIS__</a></li>				
+            </ul>
+        </div>
+    </div>
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/citationmanager/javascript/citationmanager.js"></script>
+
+
+

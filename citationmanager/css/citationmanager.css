@@ -1,18 +1,66 @@
-.main-view{
+#citationmanager .main-view{
 	display : inline;
 	padding:5px;
-	margin-left: 20%;
+	margin-right: 20%;
+}
 
 
-	
+#citationmanager .f1-fix {
+    overflow:hidden;
 }
-#citaitonmanager_widget .citationmanager_main_citation_info_link {
-    background:url('/devwidgets/delicious/images/arrow.jpg');
-    float:right;
-    height:10px;
-    margin-top:4px;
-    width:13px;
+
+#citationmanager .f1-widget .f1-widget-options .widget-options-inner {
+    padding-left:0;
+    padding-right:0;
+    margin-left:0;
+    margin-right:0;
 }
-.citation_view{
+
+#citationmanager .f1-widget .f1-widget-options ul li {
+    float:left;
+    margin:0;
+    padding:16px 3px 0;
+}
+
+#citationmanager .f1-widget-options #citations_pager .page-number {
+    padding-left:0;
+    padding-right:0;
+}
+
+#citationmanager .f1-widget-options .jq_pager1 {
+	margin-left:20%;
+	margin-right:20%;
+    padding-left:7px;
+}
+
+#citationmanager .f1-widget-options #citations_pager {
+    color:#666666;
+    font-size:0.85em;
+    font-weight:bold;
+}
+
+#citationmanager .sakai_pager li {
+    background:transparent !important;
+}
+
+#citationmanager .sakai_pager li > span {
+    background:none !important;
+    margin-left:0;
+    margin-right:0;
+    padding-left:3px;
+    padding-right:3px;
+}
+
+#citationmanager .sakai_pager li.dots {
+    clear:none;
+}
+
+
+#citationmanager .delicious_main_bookmark a {
+    display:block;
+    padding:2px 0;
+}
+
+#citationmanager .citation_view{
 	padding:10px;
 }

@@ -33,6 +33,7 @@ sakai.citationmanager=function(tuid,showSettings){
 	var $citationManagerMainTemplate = "citationmanager_main_citations_template";
 	var pageCurrent=0;
 	var pageSize=1;
+	var citationsArray=["public","private"];
 	sakai.config.URL.CONNOTEA_AUTHENTICATE_PROXY = "/var/proxy/citationmanager/connotea.json";//connotea Authenticate proxy
 	sakai.config.URL.CONNOTEA_FETCH_PROXY="/var/proxy/citationmanager/connotea_import.json";//connotea fetch_bookmarks proxy
 	/**
@@ -77,16 +78,25 @@ sakai.citationmanager=function(tuid,showSettings){
 	
     });
 	}
+	var doPaging = function(clickedPage) {
+
+        // Adjust pageCurrent (pageCurrent is zero-based)
+        pageCurrent = clickedPage - 1;
+
+        renderCitations();
+    };
 	/**
 	 * Paging function
 	 * @param {Object} arraylength the number of objects in tha array
 	 */
 	 var renderPaging = function(arraylength) {
-        $(jqPagerClass).pager({
+	 	//alert("asd12");
+        $(".jq_pager1").pager({
             pagenumber: pageCurrent + 1,
             pagecount: Math.ceil(arraylength / pageSize),
             buttonClickCallback: doPaging
         });
+		//alert("asd");
     };
 	function renderCitations(){
 		var parseCitationsArray=[];
@@ -98,24 +108,22 @@ sakai.citationmanager=function(tuid,showSettings){
 			
 		}
 		var pagingArray = {
-            all: parseCitationsArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize)
+            all: parseCitationsArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize)+ pageSize )
         };
-		alert(parseCitationsArray.length);
-		//alert(pagingArray.all.UL);
-		$("#public_citaions_view").html($.TemplateRenderer("citationmanager_main_citations_template",pagingArray));
-		 // Show or hide paging
-        if (parseCitationsArray.length > pageSize) {
-			$("#citations_pager").show();
-			renderPaging(parseCitationsArray.length);
-		}
-		else {
-			$("#citations_pager").hide();
-		}
+		//$("<div>asd</div>");
+		//alert("asd");
+		$("#public_citations_view").html($.TemplateRenderer("citationmanager_main_citations_template",pagingArray));
+		//alert("asd");
+		if (parseCitationsArray.length > pageSize) {
+			//alert("hello");
 		
+            $("#citation_pager").show();
+            renderPaging(parseCitationsArray.length);
+        }
 		//alert(parseCitationsArray[1].UR);
-		for (var i=0;i<parseCitationsArray.length;i++){
-			$("#public_citations_view").append("<div class=citation_view>UR "+parseCitationsArray[i].UR+"<br/>TY "+parseCitationsArray[i].TY+"<br/>TL "+parseCitationsArray[i].TL+"<br/>N1 "+ parseCitationsArray[i].N1+"<br/>AU "+parseCitationsArray[i].AU+"<br/>KW "+parseCitationsArray[i].KW+"<br/>ER</div>");
-		}
+		//for (var i=0;i<parseCitationsArray.length;i++){
+			//$("#public_citations_view").append("<div class=citation_view>UR "+parseCitationsArray[i].UR+"<br/>TY "+parseCitationsArray[i].TY+"<br/>TL "+parseCitationsArray[i].TL+"<br/>N1 "+ parseCitationsArray[i].N1+"<br/>AU "+parseCitationsArray[i].AU+"<br/>KW "+parseCitationsArray[i].KW+"<br/>ER</div>");
+		//}
 	}
 	
 	
@@ -123,7 +131,7 @@ sakai.citationmanager=function(tuid,showSettings){
 	 * Add the users citations to either public or private paths
 	 */
 	function addCitations(){
-		
+		$("#addnotetextarea").hide();
 		$("#add").toggle();
 		$("addpublic").live("click",function(){
 			sakai.api.Server.loadJSON("/_user" +sakai.data.me.profile.path+"/public/citationdata",function(success,data){
@@ -189,17 +197,7 @@ sakai.citationmanager=function(tuid,showSettings){
 			}
 		
 		});
-		$("#private_citaions").live("click",function(){
-			sakai.api.Server.loadJSON("/_user"+sakai.data.me.profile.path+"/private/citationdata",function(success,data){
-			if(success)
-			{
-				//alert("success");
-				parseCitations={all:data};
-				renderCitations();
-			}
 		
-		});
-		});
 		
 		
 	}
