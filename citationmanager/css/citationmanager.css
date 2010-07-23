@@ -1,9 +1,49 @@
+
+
 #citationmanager .main-view{
-	display : inline;
-	padding:5px;
-	margin-right: 20%;
+display : inline;
+padding:5px;
+margin-right: 20%;
+}
+.citations_view{
+	margin:4%;
+	
+}
+.user-icon{
+	
 }
 
+#citationmanager .citationmanager_activeMenuItem {
+    font-weight:bold;
+}
+
+#citationmanager .citationmanager_main_bookmark_info_link {
+    background:url('/devwidgets/citationmanager/images/arrow.jpg');
+    float:right;
+    height:10px;
+    margin-top:4px;
+    width:13px;
+}
+
+
+
+#citationmanager .citationmanager_showArrowLeft {
+    background-position:0 -15px;
+}
+
+#citationmanager #public_citations_view .citationmanager_main_bookmark ul a {
+    display:inline;
+}
+
+#citationmanager #public_citations_view .citationmanager_main_bookmark .citationmanager_main_bookmark_info {
+    margin:0 15px;
+    padding:0 5px;
+    border-left:2px solid #ddd;
+}
+
+#citationmanager #public_citations_view .citationmanager_main_bookmark .citationmanager_main_bookmark_info li {
+    list-style:none;
+}
 
 #citationmanager .f1-fix {
     overflow:hidden;
@@ -28,8 +68,8 @@
 }
 
 #citationmanager .f1-widget-options .jq_pager1 {
-	margin-left:20%;
-	margin-right:20%;
+margin-left:20%;
+margin-right:20%;
     padding-left:7px;
 }
 
@@ -62,5 +102,6 @@
 }
 
 #citationmanager .citation_view{
-	padding:10px;
+padding:10px;
 }
+

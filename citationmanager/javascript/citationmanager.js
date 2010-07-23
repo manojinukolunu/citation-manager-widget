@@ -34,8 +34,13 @@ sakai.citationmanager=function(tuid,showSettings){
 	var pageCurrent=0;
 	var pageSize=1;
 	var citationsArray=["public","private"];
+	var citaitons=[];//array that contains a users citaions this is basically a copy of paging array intended for deleting and adding comments
 	sakai.config.URL.CONNOTEA_AUTHENTICATE_PROXY = "/var/proxy/citationmanager/connotea.json";//connotea Authenticate proxy
 	sakai.config.URL.CONNOTEA_FETCH_PROXY="/var/proxy/citationmanager/connotea_import.json";//connotea fetch_bookmarks proxy
+	//var asd=0;
+	
+	
+
 	/**
 	 * Parse the imported data from Connotea database to determine if the user's credentials are valid
 	 * @param {Object} xml
@@ -78,6 +83,10 @@ sakai.citationmanager=function(tuid,showSettings){
 	
     });
 	}
+	/**
+	 * Initializes the changed page
+	 * @param {Object} clickedPage
+	 */
 	var doPaging = function(clickedPage) {
 
         // Adjust pageCurrent (pageCurrent is zero-based)
@@ -98,6 +107,9 @@ sakai.citationmanager=function(tuid,showSettings){
         });
 		//alert("asd");
     };
+	/**
+	 * Render the citations of a  user
+	 */
 	function renderCitations(){
 		var parseCitationsArray=[];
 		for (var b in parseCitations.all){
@@ -107,6 +119,8 @@ sakai.citationmanager=function(tuid,showSettings){
 			}
 			
 		}
+		citationsArray=parseCitationsArray;
+		
 		var pagingArray = {
             all: parseCitationsArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize)+ pageSize )
         };
@@ -120,13 +134,53 @@ sakai.citationmanager=function(tuid,showSettings){
             $("#citation_pager").show();
             renderPaging(parseCitationsArray.length);
         }
+		
 		//alert(parseCitationsArray[1].UR);
 		//for (var i=0;i<parseCitationsArray.length;i++){
 			//$("#public_citations_view").append("<div class=citation_view>UR "+parseCitationsArray[i].UR+"<br/>TY "+parseCitationsArray[i].TY+"<br/>TL "+parseCitationsArray[i].TL+"<br/>N1 "+ parseCitationsArray[i].N1+"<br/>AU "+parseCitationsArray[i].AU+"<br/>KW "+parseCitationsArray[i].KW+"<br/>ER</div>");
 		//}
 	}
 	
-	
+	/**
+	 * Show or hide the other properties of a citions
+	 */
+	var showHideCitationManagerBookmarkInfo = function() {
+
+        // Re-initialization
+        //$citationmanager_main_bookmark_info_link = $(".citationmanager_main_bookmark_info_link");
+
+        // Kill previous live events to prevent adding dupes
+       //$citationmanager_main_bookmark_info_link.die();
+
+        $(".citationmanager_main_bookmark_info_link").live("click", function() {
+
+            // Define unique info ID, based on link ID
+            var elementID = '#' + $(this).attr("id") + '_info';
+			
+
+            // If visible: hide information and swap image
+            if ($(this).hasClass("citationmanager_showArrowLeft"))
+            {
+                $(elementID).slideUp(150);
+                $(this).removeClass("citationmanager_showArrowLeft");
+				//alert("asd1");
+				asd=0;
+            }
+
+            // Else: show information and swap image
+            else
+            {
+                $(elementID).slideDown(150);
+                $(this).addClass("citationmanager_showArrowLeft");
+				asd=1;
+            }
+			$(".user-icon").live("click",function(){
+				$(this).hide();
+			});
+				
+			
+        });
+    };
 	/**
 	 * Add the users citations to either public or private paths
 	 */
@@ -195,14 +249,30 @@ sakai.citationmanager=function(tuid,showSettings){
 				parseCitations={all:data};
 				renderCitations();
 			}
+			alert("asd");
+			showHideCitationManagerBookmarkInfo();
+			$(".user-icon").live("click",function(){
+				var delete_citaiton=$(this).attr("id");
+				citationsArray.splice(delete_citaiton,1);
+				//alert("hello");
+				//alert(citationsArray[0].UR);
+				sakai.api.Server.removeJSON("/_user/"+sakai.data.me.profile.path+"/public/citationdata",alert("data removed"));
+				sakai.api.Server.saveJSON("/_user/"+sakai.data.me.profile.path+"/public/citationdata",citationsArray,alert("data loaded"));
+			});
+			
 		
 		});
 		
 		
 		
 	}
-	var doInit = function(){
+	function clickEvents(){
 		$("#add").hide();
+	}
+	
+	var doInit = function(){
+		clickEvents();
+		
 		//alert("hello");
 		fetchCitations();
 		$("#add_citations").live("click",function(){

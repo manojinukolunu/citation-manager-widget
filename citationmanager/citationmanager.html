@@ -1,74 +1,94 @@
+
+
 <!--CSS-->
 <link rel="stylesheet" type="text/css" href="/devwidgets/citationmanager/css/citationmanager.css"/>
 
 <!-- MAIN CONTENT -->
 <div id="citationmanager" class="fl-widget-content">
+	<div id="delicious_main_menu_link" class=citations_view>
 	<a href=javascript:; id="public_citations" class=main-view>Public</a>
 	<a href=javascript:; id="private_citations" class=main-view>Private</a>
+	</div>
 	<div id="citations_view">
-		
+
 		<div id="private_citations_view">
-		
+
 		</div>
 	</div>
 	<div id="add" >
-				
-		    <label for="URL">__MSG__URL__</label>
-			<center><input type="text" size="150" id="url"/></center><br>
-            <label for="Author">__MSG__AUTHOR__                 
-			</label>  <center><input type="text" id="author" size="150"/ ></center>
-			<br>
-			<label for="Publication year (YYYY/MM/DD)">__MSG__PUBLICATIONYEAR__</label>
-			<center><input type=text id="publication_year" /></center><br /><br/>
-			<label for="Title">__MSG__TITLE__</label>
-			<center><input type="text" size="150" id="title"/></center><br />
-			<a href=javascript:; id="addnote">__MSG__ADDNOTES__</a>
-			<center><textarea id="addnotetextarea" rows=10 columns=10 ></textarea></center><br />
-			<a href=javascript:; id="tags" >__MSG__ADDTAGS__</a><center><a href=javascript:; id="collapsetagdiv" >__MSG__SHOW__</a></center>
-			<div id="tagsdiv">
-			<div id="tag"></div></div><br />
-			
-			<label for="Typeofref">__MSG__TYPEOFREF__</label>
-			<select id="typeofref">
-				<option value="ABST">__MSG__ABSTRACT__</option>
-				<option value="ELEC">__MSG__ELECCITATION__</option>
-				<option value="BOOK">__MSG__WHOLEBOOK__</option>
-				<option value="CHAP">__MSG__BOOKCHAPTER__</option>
-				<option value="JFULL">__MSG__JOURNALF__</option>
-				<option value="JOUR">__MSG__JOURNAL__</option>
-				<option value="MGZN">__MSG__MAGART__</option>
-				<option value="SLIDE">__MSG__SLIDE__</option>
-				<option value="UNPB">__MSG__UNPB__</option>
-				<option value="RPRT">__MSG__REPORT__</option>
-				<option value="THES">__MSG__THES__</option>
-			</select><br/> <br/>
-			
-			<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
+
+		<label for="URL">__MSG__URL__</label>
+		<center><input type="text" size="150" id="url"/></center><br>
+           <label for="Author">__MSG__AUTHOR__</label> 
+		   <center><input type="text" id="author" size="150"/ ></center>
+		<br/>
+	<label for="Publication year (YYYY/MM/DD)">__MSG__PUBLICATIONYEAR__</label>
+	<center><input type=text id="publication_year" /></center><br /><br/>
+	<label for="Title">__MSG__TITLE__</label>
+	<center><input type="text" size="150" id="title"/></center><br />
+	<a href=javascript:; id="addnote">__MSG__ADDNOTES__</a>
+	<center><textarea id="addnotetextarea" rows=10 columns=10 ></textarea></center><br />
+	<a href=javascript:; id="tags" >__MSG__ADDTAGS__</a><center><a href=javascript:; id="collapsetagdiv" >__MSG__SHOW__</a></center>
+	<div id="tagsdiv">
+	<div id="tag"></div></div><br />
+
+	<label for="Typeofref">__MSG__TYPEOFREF__</label>
+	<select id="typeofref">
+		<option value="ABST">__MSG__ABSTRACT__</option>
+		<option value="ELEC">__MSG__ELECCITATION__</option>
+		<option value="BOOK">__MSG__WHOLEBOOK__</option>
+		<option value="CHAP">__MSG__BOOKCHAPTER__</option>
+		<option value="JFULL">__MSG__JOURNALF__</option>
+		<option value="JOUR">__MSG__JOURNAL__</option>
+		<option value="MGZN">__MSG__MAGART__</option>
+		<option value="SLIDE">__MSG__SLIDE__</option>
+		<option value="UNPB">__MSG__UNPB__</option>
+		<option value="RPRT">__MSG__REPORT__</option>
+		<option value="THES">__MSG__THES__</option>
+	</select><br/> <br/>
+
+	<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPUBLIC__</span>
-			</button>
-			<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
+	</button>
+	<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPRIVATE__</span>
-			</button><br /><br /></div>
-			<div id="public_citations_view">
-				<!-- -->
-			</div>
-	<div id="citationmanager_main_citations_template">
-	<!--{for bookmark in all}
-		<a href="${bookmark.TY}" target="_blank">${bookmark.UR}</a>
+	</button><br /><br /></div>
+	<div id="public_citations_view"  class=citations_view>
+		<!-- -->
+	</div>
+	<div id="citation_pager" class="jq_pager1" align=center>
+
+	</div>
+	<div id="citationmanager_main_citations_template"><!--
+		{for bookmark in all}
+		<a href="javascript:;" class="citationmanager_main_bookmark_info_link" id="bookmark_${bookmark_index}"></a>
+		<div class="citationmanager_main_bookmark" >
+		<label for="${bookmark.TL}">*  ${bookmark.TL}</label>
+		<div class="citationmanager_main_bookmark_info" id="bookmark_${bookmark_index}_info" style="display:none;">
+		<ul id="citationmanager_main_bookmark_ul_${bookmark_index}">
+		<li><a href="http://${bookmark.UR}">${bookmark.UR}</a><a href=javascript:; id=${bookmark_index} class=user-icon><img src="/devwidgets/citationmanager/images/user.png" alt="User icon"/></a></li>
+		<li><label>${bookmark.AU}</label></li>
+		<li><label>${bookmark.TY}</label></li>
+		<li><label>${bookmark.PY}</label></li>
+		<li><label>${bookmark.N1}</label></li>
+		<li><label>${bookmark.KW}</label></li>
+		</ul>
+		</div>
+		</div>
 		{/for}
-	-->
-	</div>
-	<div id="citation_pager" class="jq_pager1" >
-		
-	</div>
-	
+	--></div>
+
+
 </div>
 <div class="fl-widget-options fl-fix">
         <div class="widget-options-inner">
-            
+            <ul>
+            	<li><a href=javascript:; id="add_citations">Add</a></li>
+            </ul>
         </div>
-    </div>
+</div>
 
 
 <!-- JAVASCRIPT -->
 <script type=text/javascript src="/devwidgets/citationmanager/javascript/citationmanager.js"></script>
+
