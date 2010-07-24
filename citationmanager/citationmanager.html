@@ -16,7 +16,19 @@
 	<span class="citationmanager_pipe_divider">|</span>
 	<a href=javascript:; id="search" class=citationmanager_main_menu_link>Search</a>
 	</div>
-	
+	<div id="connotea_import" style="display:none" class=connotea >
+				<br><br>
+			<label for="username" class =label_class >Username</label>&#160;&#160;
+			<input type="text" size="150" id="uname" class=input_class /><br><br>
+			<label for="password" class= label_class >Password</label> 
+			<input type="password" id="pass" size="150" class =input_class /><br/><br/>
+			<button class="s3d-button s3d-button-primary" id="authenticate" type="submit">
+            <span class="s3d-button-inner">Authenticate</span>
+			</button>
+			<button class="s3d-button s3d-button-primary" id="fetch_data" type="submit">
+            <span class="s3d-button-inner">Fetch</span>
+			</button>
+	</div>
 	<div id="fetchfromuser" style="display:none;" class=citations_view>
 		<label for="fetch">Username</label>
 		<button class=comments_button id="fetch">Fetch</button>
@@ -28,25 +40,26 @@
 		</div>
 	</div>
 	
-	<div id="add" >
+	<div id="add" class=citations_add>
+ 
+    <label for="URL" class=label_class >__MSG__URL__</label>
+    *&#160;<input type="text" size="150" id="url" class=input_class /><br/><br/>
+ 
+    <label for="Author" class=label_class >__MSG__AUTHOR__</label> 
+    *&#160;<input type="text" id="author" size="150" class=input_class /><br/><br/>
 
-		<label for="URL">__MSG__URL__</label>
-		<center><input type="text" size="150" id="url"/></center><br>
-           <label for="Author">__MSG__AUTHOR__</label> 
-		   <center><input type="text" id="author" size="150"/ ></center>
-		<br/>
-	<label for="Publication year (YYYY/MM/DD)">__MSG__PUBLICATIONYEAR__</label>
-	<center><input type=text id="publication_year" /></center><br /><br/>
-	<label for="Title">__MSG__TITLE__</label>
-	<center><input type="text" size="150" id="title"/></center><br />
-	<a href=javascript:; id="addnote">__MSG__ADDNOTES__</a>
-	<center><textarea id="addnotetextarea" rows=10 columns=10 ></textarea></center><br />
-	<a href=javascript:; id="tags" >__MSG__ADDTAGS__</a><center><a href=javascript:; id="collapsetagdiv" >__MSG__SHOW__</a></center>
+    <label for="Publication year (YYYY/MM/DD)" class=label_class >__MSG__PUBLICATIONYEAR__</label>
+ 	*&#160;<input type=text id="publication_year" class=input_class /><br/><br/>
+	<label for="Title" class=label_class >__MSG__TITLE__</label>
+	*&#160;<input type="text" size="150" id="title" class=input_class /><br /><br/>
+	<a href=javascript:; id="addnote"class=label_class >__MSG__ADDNOTES__</a>
+	<textarea id="addnotetextarea" rows=10 columns=10 ></textarea><br /><br/>
+	<a href=javascript:; id="tags"  >__MSG__ADDTAGS__</a><a href=javascript:; id="collapsetagdiv" class=input_class>__MSG__SHOW__</a>
 	<div id="tagsdiv">
 	<div id="tag"></div></div><br />
 
-	<label for="Typeofref">__MSG__TYPEOFREF__</label>
-	<select id="typeofref">
+	<label for="Typeofref" class=label_class >__MSG__TYPEOFREF__</label>
+	<select id="typeofref" class=input_class >
 		<option value="ABST">__MSG__ABSTRACT__</option>
 		<option value="ELEC">__MSG__ELECCITATION__</option>
 		<option value="BOOK">__MSG__WHOLEBOOK__</option>
@@ -58,7 +71,8 @@
 		<option value="UNPB">__MSG__UNPB__</option>
 		<option value="RPRT">__MSG__REPORT__</option>
 		<option value="THES">__MSG__THES__</option>
-	</select><br/> <br/>
+	</select>
+	<br/> <br/>
 
 	<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPUBLIC__</span>
@@ -87,7 +101,7 @@
 		<li><label>${bookmark.PY}</label></li>
 		<li><label>${bookmark.N1}</label></li>
 		<li><label>${bookmark.KW}</label></li>
-		<li><div id=comment_${bookmark_index} class=textarea_comment style="display:none"><textarea class=comments></textarea><button  id=${bookmark_index} class=comments_button>Add Comment</button></div></li>
+		<li><div id=comment_${bookmark_index} class=textarea_comment style="display:none"><textarea class=comments></textarea><button  id=${bookmark_index} class=comments_button1>Add Comment</button></div></li>
 		</ul>
 		</div>
 		</div>
@@ -110,4 +124,5 @@
 
 <!-- JAVASCRIPT -->
 <script type=text/javascript src="/devwidgets/citationmanager/javascript/citationmanager.js"></script>
+
 

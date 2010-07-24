@@ -1,0 +1,13 @@
+{
+		"hasSettings":true,
+		"description":"Citation Manager",
+		"id":"citationmanager",
+		 "i18n": {
+                "default": "/devwidgets/citationmanager/bundles/default.json",
+                "en_US": "/devwidgets/delicious/bundles/en_US.json"
+                
+            },
+		"name":"Citation Manager",
+		"url":"/devwidgets/citationmanager/citationmanager.html",
+		"personalportal":true
+}

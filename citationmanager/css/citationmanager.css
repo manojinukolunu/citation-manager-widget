@@ -9,12 +9,36 @@
 	color:#999999;
     font-size:0.85em;
 }
+.citations_add{
+	margin:4%;
+	/*padding:10px;*/
+	 padding-bottom:5px;
+    
+	width:80%;
+}
+.label_class{
+	float:left;
+	
+}
+.input_class{
+	float:right;
+	margin:-1px;
+}
+
+
 
 .citations_view{
 	margin:4%;
 	/*padding:10px;*/
 	 padding-bottom:5px;
     border-bottom:3px solid #ddd;
+	
+}
+.connotea{
+	margin:4%;
+	/*padding:10px;*/
+	 padding-bottom:5px;
+   
 	
 }
 .user-icon{
@@ -27,6 +51,16 @@
 }
 .comments{
 	
+}
+.error{
+	color:red;
+	padding:10px;
+	
+}
+#citationmanager .comments_button1{
+	float:right;
+	border: 1px solid rgb(119, 136, 153); 
+	padding: 0em;
 }
 #citationmanager #fetchfromuser .comments_button{
 	float:right;

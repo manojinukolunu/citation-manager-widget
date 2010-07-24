@@ -34,6 +34,7 @@ sakai.citationmanager=function(tuid,showSettings){
 	var pageCurrent=0;
 	var pageSize=5;
 	var citationsArray=[];
+	var count=1;
 	var citaitons=[];//array that contains a users citaions this is basically a copy of paging array intended for deleting and adding comments
 	sakai.config.URL.CONNOTEA_AUTHENTICATE_PROXY = "/var/proxy/citationmanager/connotea.json";//connotea Authenticate proxy
 	sakai.config.URL.CONNOTEA_FETCH_PROXY="/var/proxy/citationmanager/connotea_import.json";//connotea fetch_bookmarks proxy
@@ -152,6 +153,20 @@ sakai.citationmanager=function(tuid,showSettings){
             }
         });
     };
+
+
+	/**
+	 * Validate The user inputs for adding citations
+	 */
+	function validate(){
+		if (($("#url").val()=="" || $("#author").val()=="" || $("#publication_year").val()=="" || $("#title").val()=="")&& count==1  ){
+			count++;
+			$("#addprivate").after("<label class=error > * values Required</label>");
+		}
+		
+		
+	}	
+	
 	/**
 	 * Add the users citations to either public or private paths
 	 */
@@ -159,6 +174,7 @@ sakai.citationmanager=function(tuid,showSettings){
 		$("#addnotetextarea").hide();
 		$("#add").toggle();
 		$("#addpublic").live("click",function(){
+			validate();
 			//sakai.api.Server.removeJSON("/_user" +sakai.data.me.profile.path+"/public/citationdata",alert('asdasd'));
 			sakai.api.Server.loadJSON("/_user" +sakai.data.me.profile.path+"/public/citationdata",function(success,data){
 				
@@ -199,10 +215,11 @@ sakai.citationmanager=function(tuid,showSettings){
 		
 			}
 		citation_info[count_public]=data1;//add to the end of the json array
-		sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", citation_info, alert("data uploaded"));
+		//sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", citation_info, alert("data uploaded"));
 		 });
 		});
 			$("#addprivate").live("click",function(){
+				validate();
 			sakai.api.Server.loadJSON("/_user" +sakai.data.me.profile.path+"/private/citationdata",function(success,data){
 				
 		 	if (success) 
@@ -251,10 +268,10 @@ sakai.citationmanager=function(tuid,showSettings){
 	 */
 	function addComments(){
 		$(".citationmanager_main_bookmark_info_link_comment").die();
-		$(".comments_button").die();
+		$(".comments_button1").die();
 		$(".citationmanager_main_bookmark_info_link_comment").live("click",function(){
 			$(".textarea_comment").toggle('slow');
-			$(".comments_button").live("click",function(){
+			$(".comments_button1").live("click",function(){
 				var comment=$(this).prev().val();
 				alert(comment);
 				var citation=$(this).attr("id");
@@ -350,6 +367,7 @@ sakai.citationmanager=function(tuid,showSettings){
 		$("#add").hide();
 		$("#public").die();
 		$("#private").die();
+		$("#importfromconnotea").die();
 		$("#public").live("click",function(){
 			refType = "public";
 			//alert("hello")
@@ -376,6 +394,9 @@ sakai.citationmanager=function(tuid,showSettings){
 				getCitations(refType);
 			});
 			
+		});
+		$("#importfromconnotea").live("click",function(){
+			$("#connotea_import").toggle();
 		});
 	}
 	/**
