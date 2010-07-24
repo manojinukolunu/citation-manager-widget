@@ -5,16 +5,29 @@
 
 <!-- MAIN CONTENT -->
 <div id="citationmanager" class="fl-widget-content">
-	<div id="delicious_main_menu_link" class=citations_view>
-	<a href=javascript:; id="public_citations" class=main-view>Public</a>
-	<a href=javascript:; id="private_citations" class=main-view>Private</a>
+	
+	
+	<div id="citationmanager_main_menu_links" class=citations_view>
+	<a href=javascript:; id="public" class=citationmanager_main_menu_link>Public</a>
+	<span class="citationmanager_pipe_divider">|</span>
+	<a href=javascript:; id="private" class=citationmanager_main_menu_link>Private</a>
+	<span class="citationmanager_pipe_divider">|</span>
+	<a href=javascript:; id="fetchfrom" class=citationmanager_main_menu_link>Fetch From</a>
+	<span class="citationmanager_pipe_divider">|</span>
+	<a href=javascript:; id="search" class=citationmanager_main_menu_link>Search</a>
+	</div>
+	
+	<div id="fetchfromuser" style="display:none;" class=citations_view>
+		<label for="fetch">Username</label>
+		<button class=comments_button id="fetch">Fetch</button>
+		<input type=text id="fetch_citations_username"/>
 	</div>
 	<div id="citations_view">
-
-		<div id="private_citations_view">
-
+		<div id="public_citations_view"  class=citations_view>
+		<!-- -->
 		</div>
 	</div>
+	
 	<div id="add" >
 
 		<label for="URL">__MSG__URL__</label>
@@ -53,25 +66,28 @@
 	<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPRIVATE__</span>
 	</button><br /><br /></div>
-	<div id="public_citations_view"  class=citations_view>
-		<!-- -->
-	</div>
+	
+	
 	<div id="citation_pager" class="jq_pager1" align=center>
 
 	</div>
+	
 	<div id="citationmanager_main_citations_template"><!--
 		{for bookmark in all}
 		<a href="javascript:;" class="citationmanager_main_bookmark_info_link" id="bookmark_${bookmark_index}"></a>
 		<div class="citationmanager_main_bookmark" >
 		<label for="${bookmark.TL}">*  ${bookmark.TL}</label>
 		<div class="citationmanager_main_bookmark_info" id="bookmark_${bookmark_index}_info" style="display:none;">
-		<ul id="citationmanager_main_bookmark_ul_${bookmark_index}">
+		<ul id="citationmanager_main_bookmark_ul_${bookmark_index}" class=ul_class>
 		<li><a href="http://${bookmark.UR}">${bookmark.UR}</a><a href=javascript:; id=${bookmark_index} class=user-icon><img src="/devwidgets/citationmanager/images/user.png" alt="User icon"/></a></li>
+		<li><a href="javascript:;" class="citationmanager_main_bookmark_info_link_comment" id="bookmark_${bookmark_index}"><img src="/devwidgets/citationmanager/images/comments2.jpg" alt="commetns icon"/></a>
+		</li>
 		<li><label>${bookmark.AU}</label></li>
 		<li><label>${bookmark.TY}</label></li>
 		<li><label>${bookmark.PY}</label></li>
 		<li><label>${bookmark.N1}</label></li>
 		<li><label>${bookmark.KW}</label></li>
+		<li><div id=comment_${bookmark_index} class=textarea_comment style="display:none"><textarea class=comments></textarea><button  id=${bookmark_index} class=comments_button>Add Comment</button></div></li>
 		</ul>
 		</div>
 		</div>
@@ -84,6 +100,9 @@
         <div class="widget-options-inner">
             <ul>
             	<li><a href=javascript:; id="add_citations">Add</a></li>
+				<li><a href=javascript:; id="importfromconnotea">Import From Connotea</a></li>
+				<li><a href=javascript:; id="export">ExportRIS</a></li>
+				<li><a href=javascript:; id="import">ImportRIS</a></li>
             </ul>
         </div>
 </div>

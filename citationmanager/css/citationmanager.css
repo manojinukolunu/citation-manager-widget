@@ -1,30 +1,65 @@
 
-
-#citationmanager .main-view{
-display : inline;
-padding:5px;
-margin-right: 20%;
+.citationmanager_main_menu_link {
+    margin-right:10px;
+	display : inline;
+	padding:15px;
 }
+
+#citationmanager .citationmanager_pipe_divider{
+	color:#999999;
+    font-size:0.85em;
+}
+
 .citations_view{
 	margin:4%;
+	/*padding:10px;*/
+	 padding-bottom:5px;
+    border-bottom:3px solid #ddd;
 	
 }
 .user-icon{
 	
 }
 
+.textarea_comment{
+	width:75%;
+	
+}
+.comments{
+	
+}
+#citationmanager #fetchfromuser .comments_button{
+	float:right;
+	border: 1px solid rgb(119, 136, 153); 
+	padding: 0em;
+}
+
 #citationmanager .citationmanager_activeMenuItem {
     font-weight:bold;
+}
+#citationmanager .citationmanager_main_bookmark_info{
+	padding:10px;
+}
+#citationmanager .ul_class{
+	padding:10px;
 }
 
 #citationmanager .citationmanager_main_bookmark_info_link {
     background:url('/devwidgets/citationmanager/images/arrow.jpg');
+	
     float:right;
     height:10px;
     margin-top:4px;
     width:13px;
 }
-
+#citationmanager .citationmanager_main_bookmark_info_link_comment{
+	background:url('/devwidgets/citationmanager/images/comments2.jpg');
+	display:inline;
+    float:right;
+    height:10px;
+    margin-top:4px;
+    width:13px;
+}
 
 
 #citationmanager .citationmanager_showArrowLeft {
