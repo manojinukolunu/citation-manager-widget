@@ -270,12 +270,20 @@ sakai.citationmanager=function(tuid,showSettings){
 		$(".citationmanager_main_bookmark_info_link_comment").die();
 		$(".comments_button1").die();
 		$(".citationmanager_main_bookmark_info_link_comment").live("click",function(){
-			$(".textarea_comment").toggle('slow');
+			var currentTextArea=$(this).attr("id").split("_",2);
+			//alert(currentTextArea[1]);
+			var element_textarea="#comment_"+currentTextArea[1];
+			//alert(element_textarea);
+			$(element_textarea).toggle('slow');
 			$(".comments_button1").live("click",function(){
 				var comment=$(this).prev().val();
-				alert(comment);
-				var citation=$(this).attr("id");
+				var parentId=$(this).parent().attr("id");
+				var citation_number=$(this).attr("id").split("_",1);
+				alert(citation_number);
+				var username_comment=sakai.data.me.user.userid;
+				//alert(username_comment);
 				var comment_Citation=citationsArray.slice(citation,1);
+				
 				
 			});
 		});
@@ -310,10 +318,15 @@ sakai.citationmanager=function(tuid,showSettings){
 				sakai.api.Server.loadJSON("/_user"+ref_type+"/public/citationdata",function(success,data){
 			if(success)
 			{
+				$("#errors").html("");
 				parseCitations={all:data};
 				$("#citation_pager").hide();
 				renderCitations();
 			}
+			else {
+				$("#errors").html("Sorry"+ref_type+"has no public Citations");
+			}
+			
 			});
 		}
 		
@@ -391,7 +404,14 @@ sakai.citationmanager=function(tuid,showSettings){
 				//alert("asd1");
 				//alert(username);
 				refType=username;
-				getCitations(refType);
+				if (userStr=="")
+				{
+					$("#errors").html("Please Specify a username");
+				}
+				else{
+					getCitations(refType);
+				}
+				
 			});
 			
 		});

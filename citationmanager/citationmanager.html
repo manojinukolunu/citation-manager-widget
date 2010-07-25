@@ -92,7 +92,7 @@
 		<div class="citationmanager_main_bookmark" >
 		<label for="${bookmark.TL}">*  ${bookmark.TL}</label>
 		<div class="citationmanager_main_bookmark_info" id="bookmark_${bookmark_index}_info" style="display:none;">
-		<ul id="citationmanager_main_bookmark_ul_${bookmark_index}" class=ul_class>
+		<ul id="citationmanagermainbookmarkul_${bookmark_index}" class=ul_class>
 		<li><a href="http://${bookmark.UR}">${bookmark.UR}</a><a href=javascript:; id=${bookmark_index} class=user-icon><img src="/devwidgets/citationmanager/images/user.png" alt="User icon"/></a></li>
 		<li><a href="javascript:;" class="citationmanager_main_bookmark_info_link_comment" id="bookmark_${bookmark_index}"><img src="/devwidgets/citationmanager/images/comments2.jpg" alt="commetns icon"/></a>
 		</li>
@@ -101,7 +101,7 @@
 		<li><label>${bookmark.PY}</label></li>
 		<li><label>${bookmark.N1}</label></li>
 		<li><label>${bookmark.KW}</label></li>
-		<li><div id=comment_${bookmark_index} class=textarea_comment style="display:none"><textarea class=comments></textarea><button  id=${bookmark_index} class=comments_button1>Add Comment</button></div></li>
+		<li><div id=comment_${bookmark_index} class=textarea_comment style="display:none"><textarea class=comments id=textarea_${bookmark_index}></textarea><button  id=${bookmark_index} class=comments_button1>Add Comment</button></div></li>
 		</ul>
 		</div>
 		</div>
@@ -110,6 +110,8 @@
 
 
 </div>
+
+<div id=errors></div>
 <div class="fl-widget-options fl-fix">
         <div class="widget-options-inner">
             <ul>
