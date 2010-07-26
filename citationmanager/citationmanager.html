@@ -73,6 +73,9 @@
 		<option value="THES">__MSG__THES__</option>
 	</select>
 	<br/> <br/>
+	<div id="add_error" class= error >
+		
+	</div>
 
 	<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPUBLIC__</span>
@@ -102,14 +105,12 @@
 		<li><label>${bookmark.N1}</label></li>
 		<li><label>${bookmark.KW}</label></li>
 		<li><div id=comment_${bookmark_index} class=textarea_comment style="display:none"><textarea class=comments va;ue ="" id=textarea_${bookmark_index}></textarea><button  id=${bookmark_index} class=comments_button1>Add Comment</button></div></li>
-		<li><div id=show_comment_${bookmark_index} class=show_comment><a href=javascript:; id=showcomment>ShowComment</a><div id=citation_comments ></div></div></li>
+		<li><div id=show_comment_${bookmark_index} class=show_comment><a href=javascript:; id=showcomment>ShowComment</a><a href=javascript:; id=hidecomment style="display:none" >HideComments</a></div><div id=citation_comments ></div></li>
 		</ul>
 		</div>
 		</div>
 		{/for}
 	--></div>
-
-
 </div>
 
 <div id=errors></div>

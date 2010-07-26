@@ -13,9 +13,16 @@
 	margin:4%;
 	/*padding:10px;*/
 	 padding-bottom:5px;
-    
-	width:80%;
+	 width:80%;
 }
+
+
+.citation_comments{
+	float:left;
+	padding:5px;
+}
+
+
 .label_class{
 	float:left;
 	
