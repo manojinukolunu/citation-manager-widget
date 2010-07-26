@@ -266,7 +266,7 @@ sakai.citationmanager=function(tuid,showSettings){
 	/**
 	 * Add comments to a citaiton.
 	 */
-	function addComments(){
+	function addAndShowComments(){
 		$(".citationmanager_main_bookmark_info_link_comment").die();
 		$(".comments_button1").die();
 		$(".citationmanager_main_bookmark_info_link_comment").live("click",function(){
@@ -276,17 +276,109 @@ sakai.citationmanager=function(tuid,showSettings){
 			//alert(element_textarea);
 			$(element_textarea).toggle('slow');
 			$(".comments_button1").live("click",function(){
+				//sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",alert("dataremoved"));
 				var comment=$(this).prev().val();
 				var parentId=$(this).parent().attr("id");
 				var citation_number=$(this).attr("id").split("_",1);
-				alert(citation_number);
+				//alert(citation_number);
 				var username_comment=sakai.data.me.user.userid;
 				//alert(username_comment);
-				var comment_Citation=citationsArray.slice(citation,1);
+				sakai.api.Server.loadJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(success,data){
+					if(success){
+						var comment_count=0;
+						citation_info = data;
+						for (var comment in citation_info){
+							if(citation_info.hasOwnProperty(comment)){
+								comment_count++;
+							}
+						}
+						alert(comment_count);
+					}
+					else{
+						var comment_data = [{
+							"user": username_comment,
+							"comment": comment,
+							"Comment_for": citation_number
+						}]
+						sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",comment_data,function(success){
+					if (success){
+						$(element_textarea).after("<label class=input_class_comment >Comment Added</label>");
+						$(element_textarea).hide();
+						$(element_textarea).parent().find(".input_class_comment").fadeOut('slow');
+						$(element_textarea).val()="";
+					}
+					else{
+						$(element_textarea).after("<label class=input_class_comment >Please Try Again</label>");
+						$(element_textarea).parent().find(".input_class_comment").fadeOut('slow');
+							}
+					
+						}
+						);
+				
+					}
+				
+				var comment_data = {
+					"user": username_comment,
+					"comment": comment,
+					"Comment_for": citation_number
+				}
+				
+				citation_info[comment_count]=comment_data;
+				
+				sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",citation_info,function(success){
+					if (success){
+						$(element_textarea).after("<label class=input_class_comment >Comment Added</label>");
+						$(element_textarea).hide();
+						$(element_textarea).parent().find(".input_class_comment").fadeOut('slow');
+						$(element_textarea).val()="";
+					}
+					else{
+						$(element_textarea).after("<label class=input_class_comment >Please Try Again</label>");
+						$(element_textarea).parent().find(".input_class_comment").fadeOut('slow');
+					}
+					
+				}
+				);
+				});
+				//var comment_Citation=citationsArray.slice(citation,1);
 				
 				
 			});
 		});
+		
+		
+		
+		$("#showcomment").live("click",function(){
+			var commentFor=$(this).parent().attr("id").split("_",3);//array used for getting the citation number
+			var commentForCitation=commentFor[2];//holds the citation number for which comments have to be shown
+			alert(commentForCitation);
+			sakai.api.Server.loadJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(success,data){
+				if(success){
+					//alert("hello");
+					parseComments={all:data};
+					var parseCommentsArray=[];
+					for (var b in parseComments.all){
+						if(parseComments.all.hasOwnProperty(b)){
+							parseCommentsArray.push(parseComments.all[b]);
+						}
+					}
+					//alert("asd");
+					commentsArray=parseCommentsArray;//commentsArray has all the comments
+					//alert(commentsArray.length);
+					for (var i=0;i<commentsArray.length;i++){
+						if(commentsArray[i].Comment_for==commentForCitation){
+							$("#citation_comments").append(commentsArray[i].user);
+							
+						}
+						
+					}
+					
+					
+		
+				}
+			});
+		});
+		
 	}
 	/**Fetch The public and private citations of the user.
 	 * This is the default view of the citaiton manager widget on loading
@@ -356,22 +448,23 @@ sakai.citationmanager=function(tuid,showSettings){
 	function getCitations(refType){
 		
 		pageCurrent=0;
-		if (refType=="public"){fetchCitations("public");
+		if (refType=="public"){
+			fetchCitations("public");
 			showHideCitationManagerBookmarkInfo();
 			deleteCitation();
-			addComments();
+			addAndShowComments();
 		}
 		else if(refType=="private"){
 			fetchCitations("private");
 			showHideCitationManagerBookmarkInfo();
 			deleteCitation();
-			addComments();
+			addAndShowComments();
 		}
 		else if(refType.charAt(0)=="/"){
 			fetchCitations(refType);
 			showHideCitationManagerBookmarkInfo();
 			deleteCitation();
-			addComments();
+			addAndShowComments();
 		}
 	}
 	
