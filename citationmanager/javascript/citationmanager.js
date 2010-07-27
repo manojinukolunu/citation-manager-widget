@@ -174,7 +174,7 @@ sakai.citationmanager=function(tuid,showSettings){
 		$("#add").toggle();
 		$("#addpublic").live("click",function(){
 			if ($("url").val() =="" || $("#author").val() =="" || $("#publication_year").val() =="" || $("#title").val() =="" ){
-				$("#add_error").html("Please enter * values");
+				$("#add_error").html("Please enter * marked values");
 				
 			}
 			else{
@@ -229,8 +229,12 @@ sakai.citationmanager=function(tuid,showSettings){
 		
 		});
 			$("#addprivate").live("click",function(){
-				validate();
-			sakai.api.Server.loadJSON("/_user" +sakai.data.me.profile.path+"/private/citationdata",function(success,data){
+				if ($("url").val() =="" || $("#author").val() =="" || $("#publication_year").val() =="" || $("#title").val() =="" ){
+				$("#add_error").html("Please enter * marked values");
+				
+			}
+			else{
+				sakai.api.Server.loadJSON("/_user" +sakai.data.me.profile.path+"/private/citationdata",function(success,data){
 				
 		 	if (success) 
 			{
@@ -271,6 +275,9 @@ sakai.citationmanager=function(tuid,showSettings){
 		citation_info[count_private]=data1;//add to the end of the json array
 		sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citation_info, alert("data uploaded"));
 		 });
+			}
+			
+			
 		});
 	}
 	/**
@@ -289,7 +296,8 @@ sakai.citationmanager=function(tuid,showSettings){
 			$(element_textarea).toggle('slow');
 			$(".comments_button1").live("click",function(){
 				//sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",alert("dataremoved"));
-				var comment=$(this).prev().val();
+				var comments=$(this).prev().val();
+				console.log(comments);
 				var parentId=$(this).parent().attr("id");
 				var citation_number=$(this).attr("id").split("_",1);
 				//alert(citation_number);
@@ -304,20 +312,21 @@ sakai.citationmanager=function(tuid,showSettings){
 								comment_count++;
 							}
 						}
-						alert(comment_count);
+						//alert(comment_count);
 					}
 					else{
+						console.log(comments);
 						var comment_data = [{
 							"user": username_comment,
-							"comment": comment,
+							"comment": comments,
 							"Comment_for": citation_number
 						}]
-						sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",comment_data,function(success){
+				sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",comment_data,function(success){
 					if (success){
 						$(element_textarea).after("<label class=input_class_comment >Comment Added</label>");
 						$(element_textarea).hide();
 						$(element_textarea).parent().find(".input_class_comment").fadeOut('slow');
-						$(element_textarea).val()="";
+					
 					}
 					else{
 						$(element_textarea).after("<label class=input_class_comment >Please Try Again</label>");
@@ -328,10 +337,10 @@ sakai.citationmanager=function(tuid,showSettings){
 						);
 				
 					}
-				
+				console.log(comments);
 				var comment_data = {
 					"user": username_comment,
-					"comment": comment,
+					"comment": comments,
 					"Comment_for": citation_number
 				}
 				
@@ -342,7 +351,7 @@ sakai.citationmanager=function(tuid,showSettings){
 						$(element_textarea).after("<label class=input_class_comment >Comment Added</label>");
 						$(element_textarea).hide();
 						$(element_textarea).parent().find(".input_class_comment").fadeOut('slow');
-						$(element_textarea).val()="";
+						
 					}
 					else{
 						$(element_textarea).after("<label class=input_class_comment >Please Try Again</label>");
@@ -361,11 +370,11 @@ sakai.citationmanager=function(tuid,showSettings){
 		
 		
 		$("#showcomment").live("click",function(){
-			$("#showcomment").hide();
-			$("#hidecomment").show();
+			$(this).hide();
+			//alert(this);
 			var commentFor=$(this).parent().attr("id").split("_",3);//array used for getting the citation number
 			var commentForCitation=commentFor[2];//holds the citation number for which comments have to be shown
-			alert(commentForCitation);
+			console.log(commentForCitation);
 			sakai.api.Server.loadJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(success,data){
 				if(success){
 					//alert("hello");
@@ -381,7 +390,7 @@ sakai.citationmanager=function(tuid,showSettings){
 					//alert(commentsArray.length);
 					for (var i=0;i<commentsArray.length;i++){
 						if(commentsArray[i].Comment_for==commentForCitation){
-							$("#citation_comments").html(commentsArray[i].user);
+							$("#citation_comments_"+commentForCitation).append("User: "+commentsArray[i].user+"<br/>Comment: "+commentsArray[i].comment+"<br/>");
 							
 							
 						}
@@ -445,18 +454,11 @@ sakai.citationmanager=function(tuid,showSettings){
 	function deleteCitation(){
 		$(".user-icon").die();
 		$(".user-icon").live("click",function(){
-			alert("hello user");
 				var delete_citaiton=$(this).attr("id");
-				//alert(delete_citaiton);
-				//alert(citationsArray.length);
 				citationsArray.splice(delete_citaiton ,1);
-				var citationsArrayAfterDelete={"all":citationsArray};
-				//alert(citationsArrayAfterDelete.length)
-				
-				sakai.api.Server.removeJSON("/_user/"+sakai.data.me.profile.path+"/public/citationdata",function(){
-					alert("data removed");
-				});
-				sakai.api.Server.saveJSON("/_user/"+sakai.data.me.profile.path+"/public/citationdata",citationsArrayAfterDelete,alert("data saved"));
+				var citationsArrayAfterDelete=citationsArray;
+				sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/citationdata",alert("data removed"));
+				sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/citationdata",citationsArrayAfterDelete,alert("data saved"));
 			});
 	}
 	/**
