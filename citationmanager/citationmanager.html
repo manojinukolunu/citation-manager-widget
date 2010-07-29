@@ -39,7 +39,20 @@
 		<!-- -->
 		</div>
 	</div>
-	
+	<div id=search_div style="display:none;" class=citations_view>
+		Search:  <input type=text />
+		<button class="s3d-button s3d-button-primary" id=Search >
+            <span class="s3d-button-inner">Search</span>
+	</button>
+	</div>
+	<div id=importForm class=citations_view style="display:none;">
+		<form action="/content/firststeps/uploads" method="POST" enctype="multipart/form-data">
+			<h2>Name</h2>
+			<p><input type="text" name="title" /></p>
+			<p><input type="file" name="myfile" /></p>
+			<p><input type="submit"></p>
+		</form>
+	</div>
 	<div id="add" class=citations_add>
  
     <label for="URL" class=label_class >__MSG__URL__</label>
@@ -53,10 +66,10 @@
 	<label for="Title" class=label_class >__MSG__TITLE__</label>
 	*&#160;<input type="text" size="150" id="title" class=input_class /><br /><br/>
 	<a href=javascript:; id="addnote"class=label_class >__MSG__ADDNOTES__</a>
-	<textarea id="addnotetextarea" rows=10 columns=10 ></textarea><br /><br/>
-	<a href=javascript:; id="tags"  >__MSG__ADDTAGS__</a><a href=javascript:; id="collapsetagdiv" class=input_class>__MSG__SHOW__</a>
-	<div id="tagsdiv">
-	<div id="tag"></div></div><br />
+	<textarea id="addnotetextarea" rows=10 columns=10 class= citation_notes ></textarea><br /><br/>
+	<label class=label_class >Tags</label>
+	<input type=text id=tags class=input_class />
+	<br /><br/>
 
 	<label for="Typeofref" class=label_class >__MSG__TYPEOFREF__</label>
 	<select id="typeofref" class=input_class >
@@ -76,13 +89,20 @@
 	<div id="add_error" class= error >
 		
 	</div>
+	
+	
 
 	<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPUBLIC__</span>
 	</button>
 	<button class="s3d-button s3d-button-primary" id="addprivate" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPRIVATE__</span>
-	</button><br /><br /></div>
+	</button><br /><br />
+	</div>
+	<div id=citations_after >
+		
+	</div>
+
 	
 	
 	<div id="citation_pager" class="jq_pager1" align=center>
@@ -96,7 +116,7 @@
 		<label for="${bookmark.TL}">*  ${bookmark.TL}</label>
 		<div class="citationmanager_main_bookmark_info" id="bookmark_${bookmark_index}_info" style="display:none;">
 		<ul id="citationmanagermainbookmarkul_${bookmark_index}" class=ul_class>
-		<li><a href="http://${bookmark.UR}">${bookmark.UR}</a><a href=javascript:; id=${bookmark_index} class=user-icon><img src="/devwidgets/citationmanager/images/user.png" alt="User icon"/></a></li>
+		<li><a href="http://${bookmark.UR}">${bookmark.UR}</a><a href=javascript:; id=${bookmark_index} class=user-icon><img src="/devwidgets/citationmanager/images/delete.jpg" alt="User icon"/></a></li>
 		<li><a href="javascript:;" class="citationmanager_main_bookmark_info_link_comment" id="bookmark_${bookmark_index}"><img src="/devwidgets/citationmanager/images/comments2.jpg" alt="commetns icon"/></a>
 		</li>
 		<li><label>${bookmark.AU}</label></li>
@@ -105,7 +125,7 @@
 		<li><label>${bookmark.N1}</label></li>
 		<li><label>${bookmark.KW}</label></li>
 		<li><div id=comment_${bookmark_index} class=textarea_comment style="display:none"><textarea class=comments value ="" id=textarea_${bookmark_index}></textarea><button  id=${bookmark_index} class=comments_button1>Add Comment</button></div></li>
-		<li><div id=show_comment_${bookmark_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment >ShowComment</a></div><div id=citation_comments_${bookmark_index} ></div></li>
+		<li><div id=show_comment_${bookmark_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment >Comments</a></div><div id=citation_comments_${bookmark_index}  ></div></li>
 		</ul>
 		</div>
 		</div>

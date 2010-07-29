@@ -16,6 +16,9 @@
 	 width:80%;
 }
 
+.citation_notes{
+	
+}
 
 .citation_comments{
 	float:left;
@@ -25,6 +28,7 @@
 
 .label_class{
 	float:left;
+	padding-right:25px;
 	
 }
 .input_class{
@@ -38,8 +42,9 @@
 }
 
 .show_comment{
+	position:absolute;
 	width:70%;
-	float:right;
+	float:none;
 	
 }
 
@@ -58,7 +63,7 @@
 	
 }
 .user-icon{
-	
+	padding-bottom:3px;
 }
 
 .textarea_comment{
@@ -91,7 +96,7 @@
 	padding:10px;
 }
 #citationmanager .ul_class{
-	padding:10px;
+	padding-bottom:21px;
 }
 
 #citationmanager .citationmanager_main_bookmark_info_link {
@@ -101,6 +106,11 @@
     height:10px;
     margin-top:4px;
     width:13px;
+}
+.comments_citaions{
+	padding:8px;
+	border-bottom:solid #ddd;
+	
 }
 #citationmanager .citationmanager_main_bookmark_info_link_comment{
 	background:url('/devwidgets/citationmanager/images/comments2.jpg');
