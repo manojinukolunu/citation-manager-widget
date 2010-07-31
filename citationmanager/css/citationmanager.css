@@ -20,6 +20,14 @@
 	
 }
 
+.textarea_edit{
+	border:none;
+}
+textarea:focus {
+  border: 2px solid #F5F5DC ;
+  background-color:#F5F5DC ;
+  
+}
 .citation_comments{
 	float:left;
 	padding:5px;
@@ -42,9 +50,9 @@
 }
 
 .show_comment{
-	position:absolute;
-	width:70%;
-	float:none;
+	padding-top:2px;
+	width:20%;
+	float:right;
 	
 }
 
@@ -53,6 +61,11 @@
 	/*padding:10px;*/
 	 padding-bottom:5px;
     border-bottom:3px solid #ddd;
+	
+}
+.comments{
+	background-color:#ffffff;
+	border:none;
 	
 }
 .connotea{
@@ -64,6 +77,7 @@
 }
 .user-icon{
 	padding-bottom:3px;
+	float:right;
 }
 
 .textarea_comment{
@@ -110,6 +124,7 @@
 .comments_citaions{
 	padding:8px;
 	border-bottom:solid #ddd;
+	width:75%;
 	
 }
 #citationmanager .citationmanager_main_bookmark_info_link_comment{

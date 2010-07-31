@@ -46,7 +46,7 @@
 	</button>
 	</div>
 	<div id=importForm class=citations_view style="display:none;">
-		<form action="/content/firststeps/uploads" method="POST" enctype="multipart/form-data">
+		<form action="/content/citations" method="POST" enctype="multipart/form-data">
 			<h2>Name</h2>
 			<p><input type="text" name="title" /></p>
 			<p><input type="file" name="myfile" /></p>
@@ -113,10 +113,10 @@
 		{for bookmark in all}
 		<a href="javascript:;" class="citationmanager_main_bookmark_info_link" id="bookmark_${bookmark_index}"></a>
 		<div class="citationmanager_main_bookmark" >
-		<label for="${bookmark.TL}">*  ${bookmark.TL}</label>
+		<label for="${bookmark.TL}"><img src=/devwidgets/citationmanager/images/star.png /> ${bookmark.TL}</label>
 		<div class="citationmanager_main_bookmark_info" id="bookmark_${bookmark_index}_info" style="display:none;">
 		<ul id="citationmanagermainbookmarkul_${bookmark_index}" class=ul_class>
-		<li><a href="http://${bookmark.UR}">${bookmark.UR}</a><a href=javascript:; id=${bookmark_index} class=user-icon><img src="/devwidgets/citationmanager/images/delete.jpg" alt="User icon"/></a></li>
+		<li><a href="http://${bookmark.UR}">${bookmark.UR}</a><a href=javascript:; id=${bookmark_index} class=user-icon ><img src="/devwidgets/citationmanager/images/delete.jpg" alt="User icon"/></a></li>
 		<li><a href="javascript:;" class="citationmanager_main_bookmark_info_link_comment" id="bookmark_${bookmark_index}"><img src="/devwidgets/citationmanager/images/comments2.jpg" alt="commetns icon"/></a>
 		</li>
 		<li><label>${bookmark.AU}</label></li>
@@ -125,7 +125,7 @@
 		<li><label>${bookmark.N1}</label></li>
 		<li><label>${bookmark.KW}</label></li>
 		<li><div id=comment_${bookmark_index} class=textarea_comment style="display:none"><textarea class=comments value ="" id=textarea_${bookmark_index}></textarea><button  id=${bookmark_index} class=comments_button1>Add Comment</button></div></li>
-		<li><div id=show_comment_${bookmark_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment >Comments</a></div><div id=citation_comments_${bookmark_index}  ></div></li>
+		<li><div id=show_comment_${bookmark_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment ><img src="/devwidgets/citationmanager/images/comments.jpg"  /></a></div><div id=citation_comments_${bookmark_index}  ></div></li>
 		</ul>
 		</div>
 		</div>

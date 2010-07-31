@@ -328,7 +328,7 @@ sakai.citationmanager=function(tuid,showSettings){
 					if (success){
 						$(element_textarea).after("<label class=input_class_comment >Comment Added</label>");
 						$(element_textarea).hide();
-						$(element_textarea).parent().find(".input_class_comment").fadeOut('slow');
+						$(element_textarea).parent().find(".input_class_comment").fadeOut(2000);
 					
 					}
 					else{
@@ -374,15 +374,15 @@ sakai.citationmanager=function(tuid,showSettings){
 		$("#showcomment").die();
 		var count=0;
 		$("#showcomment").live("click",function(){
-			$(this).hide();//hide the showcomments link
-			
+			//$(this).hide();//hide the showcomments link
+			//sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",alert("ad"));
 			//alert(this);
 			var commentFor=$(this).parent().attr("id").split("_",3);//array used for getting the citation number
 			var commentForCitation=commentFor[2];//holds the citation number for which comments have to be shown
 			//console.log(commentForCitation);
 			sakai.api.Server.loadJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(success,data){
 				if(success){
-					//alert("hello");
+					alert("hello");
 					parseComments={all:data};
 					var parseCommentsArray=[];
 					for (var b in parseComments.all){
@@ -391,23 +391,64 @@ sakai.citationmanager=function(tuid,showSettings){
 						}
 					}
 					//$("#citation_comments_"+commentForCitation).addClass('comments_citaions');
-					//alert("asd");
+					
 					commentsArray=parseCommentsArray;//commentsArray has all the comments
 					//alert(commentsArray.length);
 					var elementID="hide_"+commentForCitation;
-					//count is used to stop appending comments multiple times
+					var editID="edit_"+commentForCitation;
+					
+					$("#citation_comments_"+commentForCitation).html(" ");//to prevent mulitple appends after hiding comments
+					alert(commentsArray.length);
 						for (var i=0;i<commentsArray.length;i++){
 						if(commentsArray[i].Comment_for==commentForCitation){
-							$("#citation_comments_"+commentForCitation).append("<div class=comments_citaions >Comment By: "+commentsArray[i].user+"<br/>Comment: "+commentsArray[i].comment+"</div><br/><a href=javascript:; id="+elementID+">Hide Comments</a>");
+							
+							
+							$("#citation_comments_"+commentForCitation).append("<div class=comments_citaions id=comment_"+i+"><a href=javascript:; ><img src=\"/devwidgets/citationmanager/images/comments.jpg\" style=\"float:right;\" id="+editID+" /></a>Comment By: "+commentsArray[i].user+"<br/><label id =label_"+i+ " >Comment: "+commentsArray[i].comment+"</label></div><br/>");
 							
 							
 						}
 						
 					}
+					$("#citation_comments_"+commentForCitation).append("<a href=javascript:; id="+elementID+">Hide Comments</a>");
+					$("#citation_comments_"+commentForCitation).show();
 					
-					count++;
 					
-					
+					$("#"+elementID).click(function(){
+						$(this).parent().hide();
+						//$("#showcomment").show();
+					});
+					var count=1;
+					$("#"+editID).click(function(){
+						var labelID="label_"+$(this).attr("id").split("_",2)[1];
+						var currentComment=$("#"+labelID).text().split(":",2)[1];						
+						$(this).parent().parent().find("#"+labelID).remove();
+						
+						if(count==1){
+							$(this).after("<textarea id="+labelID +"_textarea class=textarea_edit style=\" background-color: #fffff;-moz-border-radius:5px;-webkit-border-radius: 5px;border: 1px solid #000;padding: 4px;\">"+ currentComment +"</textarea><br/> <br/><button id=comment_"+labelID +"_button class=comments >Add</button>");
+							count++;
+						}
+						
+						$("#comment_"+labelID +"_button").click(function(){
+							var currentCommentNumber=labelID.split("_",2)[1];
+							//alert(currentCommentNumber);
+							var editedComment=$(this).parent().find("#"+labelID +"_textarea").val();
+							var commentEditedForCitation=elementID.split("_",2)[1];
+							//alert(commentEditedForCitation);
+							var comment_data = [{
+									"user": sakai.data.me.user.userid,
+									"comment": editedComment,
+									"Comment_for": commentEditedForCitation
+									}]
+							commentsArray.splice(currentCommentNumber,1,comment_data);
+							sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(){
+								sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",comment_data,alert("data saved"));
+
+							});
+						});
+						 
+
+
+					});
 					
 					
 					
@@ -416,6 +457,8 @@ sakai.citationmanager=function(tuid,showSettings){
 				}
 			});
 		});
+		
+		
 		
 	}
 	/**Fetch The public and private citations of the user.
@@ -572,7 +615,7 @@ sakai.citationmanager=function(tuid,showSettings){
 			$("#connotea_import").toggle();
 		});
 		$("#export").click(function(){
-			window.open("http://localhost:8080/getcitations.ris");
+			window.open("http://localhost:8080/citations.ris");
 		});
 		$("#import").live("click",function(){
 			//alert("asd");
