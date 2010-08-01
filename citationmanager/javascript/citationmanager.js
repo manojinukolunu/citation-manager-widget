@@ -30,9 +30,9 @@ sakai.citationmanager=function(tuid,showSettings){
 	var count_private=0;//holds the private citations count 
 	var parseCitations=[];//parse the returned citaitons from loadJSON
 	var $citationManagerMainTemplate = "citationmanager_main_citations_template";
-	var pageCurrent=0;
-	var pageSize=5;
-	var citationsArray=[];
+	var pageCurrent=0;//the current page for paging
+	var pageSize=5;//number of items to be shown in a page
+	var citationsArray=[];//array that contation citations each element is a citaiton 
 	var count=1;
 	var citaitons=[];//array that contains a users citaions this is basically a copy of paging array intended for deleting and adding comments
 	sakai.config.URL.CONNOTEA_AUTHENTICATE_PROXY = "/var/proxy/citationmanager/connotea.json";//connotea Authenticate proxy
@@ -49,6 +49,7 @@ sakai.citationmanager=function(tuid,showSettings){
 
      $(xml).find("Response").each(function()
      {
+	 	//Response is an element in the XML returned by connotea
           //$("#cite").append($(this).find("code").text() + "<br />").val()
 	 
      });
@@ -109,16 +110,17 @@ sakai.citationmanager=function(tuid,showSettings){
 	 * Render the citations of a  user
 	 */
 	function renderCitations(){
-		var parseCitationsArray=[];
+		var parseCitationsArray=[];//holds the citations of a user each element is a citation 
 		for (var b in parseCitations.all){
 			if(parseCitations.all.hasOwnProperty(b)){
 				parseCitationsArray.push(parseCitations.all[b]);
 				}
 			}
-		citationsArray=parseCitationsArray;
+		citationsArray=parseCitationsArray;//this is used to duplicate the array for delete purposes
 		var pagingArray = {
             all: parseCitationsArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize)+ pageSize )
-        };
+        };//paging array will hold the elements based on the size of the page size currently 5
+        //Actually view the citations 
 		$("#public_citations_view").html($.TemplateRenderer("citationmanager_main_citations_template",pagingArray));
 		if (parseCitationsArray.length > pageSize) {
 		    $("#citation_pager").show();
@@ -127,10 +129,10 @@ sakai.citationmanager=function(tuid,showSettings){
 	}
 	
 	/**
-	 * Show or hide the other properties of a citions
+	 * Show or hide the other properties of a citations
 	 */
 	var showHideCitationManagerBookmarkInfo = function() {
-		$(".citationmanager_main_bookmark_info_link").die();
+		$(".citationmanager_main_bookmark_info_link").die();//to prevent multiple click events
 
         $(".citationmanager_main_bookmark_info_link").live("click", function() {
 
@@ -162,16 +164,19 @@ sakai.citationmanager=function(tuid,showSettings){
 		$("#addnotetextarea").hide();
 		$("#add").toggle();
 		$("#addnote").die();
+		//The notes text area
 		$("#addnote").live("click",function(){
 			$("#addnotetextarea").toggle('slow');
 		})
+		//cliclking on addpublic will trigger this
 		$("#addpublic").live("click",function(){
+			//Validating the input 
 			if ($("url").val() =="" || $("#author").val() =="" || $("#publication_year").val() =="" || $("#title").val() =="" ){
 				$("#add_error").html("Please enter * marked values");
 				
 			}
 			else{
-				$("#add_error").remove();
+				$("#add_error").remove();//remove the error div and 
 			var count_public=0;//holds the public citaitons count
 			//validate();
 			//sakai.api.Server.removeJSON("/_user" +sakai.data.me.profile.path+"/public/citationdata",alert('asdasd'));
@@ -179,7 +184,7 @@ sakai.citationmanager=function(tuid,showSettings){
 				if (success) 
 				{
 					
-				citation_info = data;
+				citation_info = data;//citation info holds the citaitons 
 				for (var key in citation_info) 
 				{
 					if (citation_info.hasOwnProperty(key)) 
@@ -192,6 +197,7 @@ sakai.citationmanager=function(tuid,showSettings){
 			}
 			else 
 			{
+				//If the data is not returned that means there are no ciations so add Citations for the first time
 				var data2 =  
 				[{
 					"UR" :$("#url").val(),
@@ -207,7 +213,10 @@ sakai.citationmanager=function(tuid,showSettings){
 				sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", data2, function(){
 					$("#citations_add").after("<label class=citations_view >Data Added</label>");
 				});
+				//The above will add the citations and show the message "Data Added"
 			}
+			
+			//if there are citations add new citations after the current number
 			var data1 =  
 				{
 					"UR" :$("#url").val(),
@@ -227,6 +236,7 @@ sakai.citationmanager=function(tuid,showSettings){
 			
 		
 		});
+		//This will trigger when citations are added to the private path
 			$("#addprivate").live("click",function(){
 				if ($("url").val() =="" || $("#author").val() =="" || $("#publication_year").val() =="" || $("#title").val() =="" ){
 				$("#add_error").html("Please enter * marked values");
@@ -248,6 +258,7 @@ sakai.citationmanager=function(tuid,showSettings){
 			}
 			else 
 			{
+				//If the data is not returned that means there are no ciations so add Citations for the first time
 				var data2 =  
 				[{
 					"UR" :$("#url").val(),
@@ -261,18 +272,19 @@ sakai.citationmanager=function(tuid,showSettings){
 				
 					sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", data2, function(){
 						$("#citations_after").html("<label class=citations_view >Data Added</label>").fadeOut(4000);
-					});
+					});//The above will add the citations and show the message "Data Added"
 					}
-			var data1 =  
-			{
-			"UR" :$("#url").val(),
-			"AU":$("#author").val(),
-			"TL":$("#title").val(),
-			"TY":$("#typeofref").val(),
-			"N1":$("#addnotetextarea").val(),
-			"KW":$("#tag").val()
+					//if there are citations add new citations after the current number
+					var data1 =  
+						{
+							"UR" :$("#url").val(),
+							"AU":$("#author").val(),
+							"TL":$("#title").val(),
+							"TY":$("#typeofref").val(),
+							"N1":$("#addnotetextarea").val(),
+							"KW":$("#tag").val()
 		
-			}
+						}
 		citation_info[count_private]=data1;//add to the end of the json array
 		sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citation_info, function(){
 						$("#citations_after").html("<label class=citations_view >Data Added</label>").fadeOut(4000);
@@ -287,29 +299,41 @@ sakai.citationmanager=function(tuid,showSettings){
 	 * Add comments to a citaiton.
 	 */
 	function addAndShowComments(){
+		
+		////////////////////////
+		//All die functions are used to prevent multiple clicks
 		$(".citationmanager_main_bookmark_info_link_comment").die();
 		$(".comments_button1").die();
 		$("#showcomment").die();
 		$("#hidecomment").die();
+		
+		///////////////////////
 		$(".citationmanager_main_bookmark_info_link_comment").live("click",function(){
 			var currentTextArea=$(this).attr("id").split("_",2);
+			//sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(){
+			//		return 0;
+			//	});
 			//alert(currentTextArea[1]);
-			var element_textarea="#comment_"+currentTextArea[1];
-			//alert(element_textarea);
-			$(element_textarea).toggle('slow');
+			var element_textarea="#comment_"+currentTextArea[1];//This has the id of the textarea to add comment
+			alert(element_textarea);
+			
+			//$(element_textarea).toggle('slow');
+			$(this).after("<div id=comment_"+currentTextArea[1]+" class=textarea_comment ><textarea  id=textarea_"+currentTextArea[1]+" ></textarea><button  id="+currentTextArea[1]+" class=comments_button1>Add Comment</button></div>");
+			
+			//THis will trigger when the user clicks on addcomment button 
 			$(".comments_button1").live("click",function(){
-				//sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",alert("dataremoved"));
-				var comments=$(this).prev().val();
+				
+				var comments=$(this).prev().val();//this will hold the comments
 				//console.log(comments);
 				var parentId=$(this).parent().attr("id");
-				var citation_number=$(this).attr("id").split("_",1);
+				var citation_number=$(this).attr("id").split("_",1);//this holds the citaiton number for which comments are being added
 				//alert(citation_number);
-				var username_comment=sakai.data.me.user.userid;
+				var username_comment=sakai.data.me.user.userid;//the user who is commenting
 				//alert(username_comment);
 				sakai.api.Server.loadJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(success,data){
 					if(success){
 						var comment_count=0;
-						citation_info = data;
+						citation_info = data;//citation_info holds all the comments
 						for (var comment in citation_info){
 							if(citation_info.hasOwnProperty(comment)){
 								comment_count++;
@@ -322,18 +346,20 @@ sakai.citationmanager=function(tuid,showSettings){
 						var comment_data = [{
 							"user": username_comment,
 							"comment": comments,
-							"Comment_for": citation_number
+							"Comment_for": currentTextArea[1]
 						}]
+						
+						//save the comments follows the same logic as add citations
 				sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",comment_data,function(success){
 					if (success){
 						$(element_textarea).after("<label class=input_class_comment >Comment Added</label>");
 						$(element_textarea).hide();
-						$(element_textarea).parent().find(".input_class_comment").fadeOut(2000);
+						$(element_textarea).parent().find(".input_class_comment").remove();
 					
 					}
 					else{
 						$(element_textarea).after("<label class=input_class_comment >Please Try Again</label>");
-						$(element_textarea).parent().find(".input_class_comment").fadeOut('slow');
+						$(element_textarea).parent().find(".input_class_comment").remove();
 							}
 					
 						}
@@ -344,7 +370,7 @@ sakai.citationmanager=function(tuid,showSettings){
 				var comment_data = {
 					"user": username_comment,
 					"comment": comments,
-					"Comment_for": citation_number
+					"Comment_for": currentTextArea[1]
 				}
 				
 				citation_info[comment_count]=comment_data;
@@ -373,7 +399,9 @@ sakai.citationmanager=function(tuid,showSettings){
 		
 		$("#showcomment").die();
 		var count=0;
+		
 		$("#showcomment").live("click",function(){
+			
 			//$(this).hide();//hide the showcomments link
 			//sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",alert("ad"));
 			//alert(this);
@@ -382,14 +410,24 @@ sakai.citationmanager=function(tuid,showSettings){
 			//console.log(commentForCitation);
 			sakai.api.Server.loadJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(success,data){
 				if(success){
-					alert("hello");
+					//alert("hello");
 					parseComments={all:data};
 					var parseCommentsArray=[];
+					var numberOfComments=0;
 					for (var b in parseComments.all){
 						if(parseComments.all.hasOwnProperty(b)){
-							parseCommentsArray.push(parseComments.all[b]);
+							parseCommentsArray.push(parseComments.all[b]);//holds the comments 
+							
+							
 						}
+						numberOfComments++;
 					}
+					//alert(numberOfComments);
+					//$(this).before(numberOfComments);
+					
+					
+					
+				
 					//$("#citation_comments_"+commentForCitation).addClass('comments_citaions');
 					
 					commentsArray=parseCommentsArray;//commentsArray has all the comments
@@ -398,57 +436,68 @@ sakai.citationmanager=function(tuid,showSettings){
 					var editID="edit_"+commentForCitation;
 					
 					$("#citation_comments_"+commentForCitation).html(" ");//to prevent mulitple appends after hiding comments
-					alert(commentsArray.length);
+					//alert(commentsArray.length);
 						for (var i=0;i<commentsArray.length;i++){
-						if(commentsArray[i].Comment_for==commentForCitation){
-							
-							
-							$("#citation_comments_"+commentForCitation).append("<div class=comments_citaions id=comment_"+i+"><a href=javascript:; ><img src=\"/devwidgets/citationmanager/images/comments.jpg\" style=\"float:right;\" id="+editID+" /></a>Comment By: "+commentsArray[i].user+"<br/><label id =label_"+i+ " >Comment: "+commentsArray[i].comment+"</label></div><br/>");
-							
-							
-						}
+						if(commentsArray[i].Comment_for==commentForCitation){//check if the comment I am showing is for the current citation This could use more CPU but its working
+							$("#citation_comments_"+commentForCitation).append("<div class=comments_citaions_div id=comment_"+i+"><a href=javascript:; ><img src=\"/devwidgets/citationmanager/images/comments.jpg\" style=\"float:right;\" id="+editID+" class=editComments /></a>Comment By: "+commentsArray[i].user+"<br/><label id =label_"+i+ " >Comment: "+commentsArray[i].comment+"</label></div><br/>");
+							}
 						
 					}
-					$("#citation_comments_"+commentForCitation).append("<a href=javascript:; id="+elementID+">Hide Comments</a>");
+					$("#citation_comments_"+commentForCitation).append("<a href=javascript:; id="+elementID+">Hide Comments</a>");//Show the 
 					$("#citation_comments_"+commentForCitation).show();
+					
+					$(".editComments").die();
+					$("#"+elementID).die();
+					$(".editComments").die();
 					
 					
 					$("#"+elementID).click(function(){
 						$(this).parent().hide();
 						//$("#showcomment").show();
 					});
-					var count=1;
-					$("#"+editID).click(function(){
-						var labelID="label_"+$(this).attr("id").split("_",2)[1];
+					
+					
+					
+					var count=1;//count to prevent multiple additions of textareas for editing comments
+					
+					//This is the image that is shown once the user sees the comments on the right hand side
+					$(".editComments").click(function(){
+						var labelID="label_"+$(this).parent().parent().attr("id").split("_",2)[1];
+						alert(labelID);
 						var currentComment=$("#"+labelID).text().split(":",2)[1];						
 						$(this).parent().parent().find("#"+labelID).remove();
-						
-						if(count==1){
+						alert(currentComment);
+						$(this).after("");
+						if(1){
 							$(this).after("<textarea id="+labelID +"_textarea class=textarea_edit style=\" background-color: #fffff;-moz-border-radius:5px;-webkit-border-radius: 5px;border: 1px solid #000;padding: 4px;\">"+ currentComment +"</textarea><br/> <br/><button id=comment_"+labelID +"_button class=comments >Add</button>");
 							count++;
 						}
-						
-						$("#comment_"+labelID +"_button").click(function(){
+						$(".comments").die();
+						$(".comments").click(function(){
+							alert("hello");
 							var currentCommentNumber=labelID.split("_",2)[1];
 							//alert(currentCommentNumber);
-							var editedComment=$(this).parent().find("#"+labelID +"_textarea").val();
-							var commentEditedForCitation=elementID.split("_",2)[1];
+							var editedComment=$(this).parent().find("#"+labelID +"_textarea").val();//The new comment is stored in this
+							alert(editedComment)
+							var commentEditedForCitation=elementID.split("_",2)[1];//comment for which citation 
 							//alert(commentEditedForCitation);
-							var comment_data = [{
+							var comment_data = {
 									"user": sakai.data.me.user.userid,
 									"comment": editedComment,
 									"Comment_for": commentEditedForCitation
-									}]
+									}
 							commentsArray.splice(currentCommentNumber,1,comment_data);
 							sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(){
-								sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",comment_data,alert("data saved"));
-
+								sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",commentsArray,alert("data saved"));
+								//alert("data removeed");
 							});
 						});
 						 
 
 
 					});
+					
+					//This is the inner add button after editing comments
 					
 					
 					
@@ -461,9 +510,9 @@ sakai.citationmanager=function(tuid,showSettings){
 		
 		
 	}
-	/**Fetch The public and private citations of the user.
-	 * This is the default view of the citaiton manager widget on loading
-	 * 
+	/**
+	 * Fetch the citaitons of  a user based on reference type
+	 * @param {Object} ref_type
 	 */
 	function fetchCitations(ref_type){
 		if (ref_type=="public"){
@@ -486,6 +535,7 @@ sakai.citationmanager=function(tuid,showSettings){
 			}
 			});
 		}
+		//this is called when the user is fetching from some other user
 		else if(ref_type.charAt(0)=="/"){
 			//alert("hello");
 				sakai.api.Server.loadJSON("/_user"+ref_type+"/public/citationdata",function(success,data){

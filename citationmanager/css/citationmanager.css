@@ -1,5 +1,5 @@
 
-.citationmanager_main_menu_link {
+#citationmanager .citationmanager_main_menu_link {
     margin-right:10px;
 	display : inline;
 	padding:15px;
@@ -9,84 +9,82 @@
 	color:#999999;
     font-size:0.85em;
 }
-.citations_add{
+#citationmanager .citations_add{
 	margin:4%;
 	/*padding:10px;*/
 	 padding-bottom:5px;
 	 width:80%;
 }
 
-.citation_notes{
+#citationmanager .citation_notes{
 	
 }
 
-.textarea_edit{
-	border:none;
+#citationmanager .textarea_edit{
+	
 }
-textarea:focus {
+#citationmanager textarea:focus {
   border: 2px solid #F5F5DC ;
   background-color:#F5F5DC ;
   
 }
-.citation_comments{
+#citationmanager .citation_comments{
 	float:left;
 	padding:5px;
 }
 
 
-.label_class{
+#citationmanager .label_class{
 	float:left;
 	padding-right:25px;
 	
 }
-.input_class{
+#citationmanager .input_class{
 	float:right;
 	margin:-1px;
 }
-.input_class_comment{
+#citationmanager .input_class_comment{
 	float:right;
 	margin:-1px;
 	color:blue;
 }
 
-.show_comment{
+#citationmanager .show_comment{
 	padding-top:2px;
 	width:20%;
 	float:right;
 	
 }
 
-.citations_view{
+#citationmanager .citations_view{
 	margin:4%;
 	/*padding:10px;*/
 	 padding-bottom:5px;
     border-bottom:3px solid #ddd;
 	
 }
-.comments{
+#citationmanager .comments{
 	background-color:#ffffff;
 	border:none;
 	
 }
-.connotea{
+#citationmanager .connotea{
 	margin:4%;
 	/*padding:10px;*/
 	 padding-bottom:5px;
    
 	
 }
-.user-icon{
+#citationmanager .user-icon{
 	padding-bottom:3px;
 	float:right;
 }
 
-.textarea_comment{
+#citationmanager .textarea_comment{
 	width:75%;
 	
 }
-.comments{
-	
-}
+
 .error{
 	color:red;
 	padding:10px;
@@ -121,7 +119,7 @@ textarea:focus {
     margin-top:4px;
     width:13px;
 }
-.comments_citaions{
+#citationmanager .comments_citaions_div{
 	padding:8px;
 	border-bottom:solid #ddd;
 	width:75%;
