@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package org.sakaiproject.nakamura.citationsmanager;
+package org.sakaiproject.nakamura.exportRIS;
 
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.jackrabbit.api.security.principal.PrincipalIterator;
@@ -62,9 +62,7 @@ import javax.jcr.Value;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
-
 @SlingServlet(methods = { "GET" }, paths = { "/citations" }, extensions = "ris")
-
 public class ExportRIS extends SlingSafeMethodsServlet {
   /**
    *
@@ -78,25 +76,40 @@ public class ExportRIS extends SlingSafeMethodsServlet {
      * Since Sling will give you the node that the user is requesting, you can work with
      * it directly.
      */
-	  try {
-	  resp.setContentType("application/json");
+    try {
+      resp.setContentType("application/octet-stream");
       resp.setCharacterEncoding("UTF-8");
+      
       Session session = req.getResourceResolver().adaptTo(Session.class);
       UserManager um = AccessControlUtil.getUserManager(session);
       Authorizable au = um.getAuthorizable(session.getUserID());
-	  String profilePath = PersonalUtils.getProfilePath(au);
-	 // PrintWriter w = response.getWriter();
-	   resp.getWriter().write("Hello World from Sling/Nakamura/Osgi");
-		String absPath="/_user"+profilePath+"/public/citationdata";
-      Node profileNode = (Node) session.getItem(profilePath);
-	//  Node citation = session.getNode(absPath);//absPath will be like /_user/a/admin/public/citataiondata not required same as above
-	  NodeIterator userCitations = citation.getNodes();//This will return all the child nodes of 
-	  }
-	  catch (Exception e)
-	  {
-		resp.getWriter().write("asd");
-	  }
-  
-	 
+      String citationDataPath = PersonalUtils.getPublicPath(au) + "/citationdata";
 
-}}
+      // PrintWriter w = response.getWriter();
+      Node citationData = (Node) session.getItem(citationDataPath);
+      // Node citation = session.getNode(absPath);//absPath will be like
+      // /_user/a/admin/public/citataiondata not required same as above
+		//resp.getWriter().write(citationData.getPath()+"\n");
+      //int i;
+	  
+      for (NodeIterator entries = citationData.getNodes(); entries.hasNext();) {
+        Node entry = entries.nextNode();
+        resp.getWriter().write(entry.getName()+"\n");
+        resp.getWriter().write("UR "+entry.getProperty("UR").getString());
+		resp.getWriter().write("\n");
+        resp.getWriter().write("TL "+entry.getProperty("TL").getString());
+		resp.getWriter().write("\n");
+		resp.getWriter().write("TY "+entry.getProperty("TY").getString());
+		resp.getWriter().write("\n");
+		resp.getWriter().write("ER \n");
+		//resp.getWriter().write(entry.getPath()+"\n");
+		resp.getWriter().flush();
+      }
+
+    } catch (Exception e) {
+      resp.getWriter().write("asd");
+    }
+
+  }
+}
+
