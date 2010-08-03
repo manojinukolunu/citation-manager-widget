@@ -16,17 +16,34 @@
  * specific language governing permissions and limitations under the License.
  */
 
+package org.sakaiproject.nakamura.citationsmanager;
 
+import org.apache.felix.scr.annotations.sling.SlingServlet;
+import org.apache.jackrabbit.api.security.principal.PrincipalIterator;
+import org.apache.jackrabbit.api.security.principal.PrincipalManager;
+import org.apache.jackrabbit.api.security.user.Authorizable;
+import org.apache.jackrabbit.api.security.user.Group;
+import org.apache.jackrabbit.api.security.user.UserManager;
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.apache.sling.api.wrappers.ValueMapDecorator;
+import org.apache.sling.commons.json.JSONException;
+import org.apache.sling.jcr.base.util.AccessControlUtil;
+import org.sakaiproject.nakamura.api.doc.BindingType;
+import org.sakaiproject.nakamura.api.doc.ServiceBinding;
+import org.sakaiproject.nakamura.api.doc.ServiceDocumentation;
+import org.sakaiproject.nakamura.api.doc.ServiceMethod;
+import org.sakaiproject.nakamura.api.doc.ServiceResponse;
+import org.sakaiproject.nakamura.api.personal.PersonalUtils;
+import org.sakaiproject.nakamura.api.user.UserConstants;
+import org.sakaiproject.nakamura.util.ExtendedJSONWriter;
+import org.sakaiproject.nakamura.util.PathUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.io.OutputStream;
 import java.io.IOException;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.HashMap;
@@ -36,66 +53,50 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-
-import javax.jcr.LoginException;
-import javax.jcr.Repository;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
-import javax.jcr.observation.Event;
-import javax.jcr.observation.EventIterator;
-import javax.jcr.observation.EventListener;
-import javax.jcr.observation.ObservationManager;
 
 import javax.jcr.Node;
-
+import javax.jcr.NodeIterator;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class ExportRIS  {
+@SlingServlet(methods = { "GET" }, paths = { "/citations" }, extensions = "ris")
+
+public class ExportRIS extends SlingSafeMethodsServlet {
   /**
    *
    */
- public static void main(String[] args) throws MalformedURLException,
-			ClassCastException, RemoteException, NotBoundException,
-			LoginException, RepositoryException, InterruptedException {
+  private static final long serialVersionUID = -2002186252317448037L;
 
-		ClientRepositoryFactory factory = new ClientRepositoryFactory();
-		Repository repository = factory.getRepository("//localhost:8080/");
-		Session session = repository.login(new SimpleCredentials("admin",
-				"admin".toCharArray()));
+  @Override
+  protected void doGet(SlingHttpServletRequest req, SlingHttpServletResponse resp)
+      throws ServletException, IOException {
+    /*
+     * Since Sling will give you the node that the user is requesting, you can work with
+     * it directly.
+     */
+	  try {
+	  resp.setContentType("application/json");
+      resp.setCharacterEncoding("UTF-8");
+      Session session = req.getResourceResolver().adaptTo(Session.class);
+      UserManager um = AccessControlUtil.getUserManager(session);
+      Authorizable au = um.getAuthorizable(session.getUserID());
+	  String profilePath = PersonalUtils.getProfilePath(au);
+	 // PrintWriter w = response.getWriter();
+	   resp.getWriter().write("Hello World from Sling/Nakamura/Osgi");
+		String absPath="/_user"+profilePath+"/public/citationdata";
+      Node profileNode = (Node) session.getItem(profilePath);
+	//  Node citation = session.getNode(absPath);//absPath will be like /_user/a/admin/public/citataiondata not required same as above
+	  NodeIterator userCitations = citation.getNodes();//This will return all the child nodes of 
+	  }
+	  catch (Exception e)
+	  {
+		resp.getWriter().write("asd");
+	  }
+  
+	 
 
-		if (repository.getDescriptor(Repository.OPTION_OBSERVATION_SUPPORTED)
-				.equals("true")) {
-			ObservationManager observationManager = session.getWorkspace()
-					.getObservationManager();
-			String[] types = { "nt:file" };
-			observationManager.addEventListener(new EventListener() {
-				public void onEvent(EventIterator eventIterator) {
-					while (eventIterator.hasNext()) {
-						Event event = eventIterator.nextEvent();
-						if (event.getType() == Event.NODE_ADDED) {
-							try {
-								System.out.println("new upload: "
-										+ event.getPath());
-							} catch (RepositoryException e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				}
-			}, Event.NODE_ADDED, "/content/firststeps/uploads", true, null, types, false);
-		}
-
-		while (true) {
-			System.out.println("I am still here");
-			Thread.sleep(5000);
-		}
-	}
-
-}
+}}
