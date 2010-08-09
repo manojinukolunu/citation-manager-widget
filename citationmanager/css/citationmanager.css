@@ -1,4 +1,40 @@
-
+#citationmanager .addToPrivate{
+	padding-bottom:5px;
+}
+#citationmanager .highlited{
+	font-weight:bold;
+}
+#citationmanager #li1 {
+	position: relative;
+	padding-bottom:5px;
+	}
+ #citationmanager #ul2 {
+	position: absolute;
+	left: 10px;
+	top: 0;
+	display: none;
+	padding-bottom:5px;
+	}
+#citationmanager #ul2 li a {
+	display: block;
+	text-decoration: none;
+	background: #fff;
+	font-weight:bold;
+	padding-bottom:5px;
+	}
+#citationmanager #ul1 {
+	float:right;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: 50px;
+	padding-bottom:5px;
+	}
+	
+#citationmanager #li1:hover #ul2 { 
+	display: block; 
+	padding-bottom:5px;
+	}
 #citationmanager .citationmanager_main_menu_link {
     margin-right:10px;
 	display : inline;
@@ -76,8 +112,7 @@
 	
 }
 #citationmanager .user-icon{
-	padding-bottom:3px;
-	float:right;
+	padding-bottom:5px;
 }
 
 #citationmanager .textarea_comment{
@@ -126,12 +161,7 @@
 	
 }
 #citationmanager .citationmanager_main_bookmark_info_link_comment{
-	background:url('/devwidgets/citationmanager/images/comments2.jpg');
-	display:inline;
-    float:right;
-    height:10px;
-    margin-top:4px;
-    width:13px;
+	padding-bottom:5px;
 }
 
 

@@ -40,13 +40,16 @@
 		</div>
 	</div>
 	<div id=search_div style="display:none;" class=citations_view>
-		Search:  <input type=text />
+		Search:  <input type=text name=search id=searchString />
 		<button class="s3d-button s3d-button-primary" id=Search >
             <span class="s3d-button-inner">Search</span>
 	</button>
 	</div>
+	<div id=searchView >
+		<!-- -->
+	</div>
 	<div id=importForm class=citations_view style="display:none;">
-		<form action="/content/citations" method="POST" enctype="multipart/form-data">
+		<form action="/citations" method="POST" enctype="multipart/form-data">
 			<h2>Name</h2>
 			<p><input type="text" name="title" /></p>
 			<p><input type="file" name="myfile" /></p>
@@ -108,26 +111,142 @@
 	<div id="citation_pager" class="jq_pager1" align=center>
 
 	</div>
-	
+	<!-- All The if statements are a temporary solution to display all the fileds in each citaiton-->
 	<div id="citationmanager_main_citations_template"><!--
 		{for bookmark in all}
-		<a href="javascript:;" class="citationmanager_main_bookmark_info_link" id="bookmark_${bookmark_index}"></a>
-		<div class="citationmanager_main_bookmark" >
-		<label for="${bookmark.TL}"><img src=/devwidgets/citationmanager/images/star.png /> ${bookmark.TL}</label>
-		<div class="citationmanager_main_bookmark_info" id="bookmark_${bookmark_index}_info" style="display:none;">
-		<ul id="citationmanagermainbookmarkul_${bookmark_index}" class=ul_class>
-		<li><a href="http://${bookmark.UR}">${bookmark.UR}</a><a href=javascript:; id=${bookmark_index} class=user-icon ><img src="/devwidgets/citationmanager/images/delete.jpg" alt="User icon"/></a></li>
-		<li><a href="javascript:;" class="citationmanager_main_bookmark_info_link_comment" id="bookmark_${bookmark_index}"><img src="/devwidgets/citationmanager/images/comments2.jpg" alt="commetns icon"/></a>
-		</li>
-		<li><label>${bookmark.AU}</label></li>
-		<li><label>${bookmark.TY}</label></li>
-		<li><label>${bookmark.PY}</label></li>
-		<li><label>${bookmark.N1}</label></li>
-		<li><label>${bookmark.KW}</label></li>
-		<li></li>
-		<li><div id=show_comment_${bookmark_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment ><img src="/devwidgets/citationmanager/images/comments.jpg"  /></a></div><div id=citation_comments_${bookmark_index}  ></div></li>
-		</ul>
+			<a href="javascript:;" class="citationmanager_main_bookmark_info_link" id="bookmark_${bookmark_index}"></a>
+			<div class="citationmanager_main_bookmark" >
+				{if bookmark.T1}
+				<label for="${bookmark.T1}"><img src=/devwidgets/citationmanager/images/star.png /> ${bookmark.T1}</label>
+				{/if}
+					<div class="citationmanager_main_bookmark_info" id="bookmark_${bookmark_index}_info" style="display:none;">
+						<ul id="citationmanagermainbookmarkul_${bookmark_index}" class=ul_class>
+						{if bookmark.UR}
+							<li><a href="http://${bookmark.UR}">${bookmark.UR}</a></li>
+						{/if}
+						<ul id="ul1"  > 
+   							<li id="li1"  ><a href=javascript:; ><img src="/devwidgets/citationmanager/images/options.png"  /></a> 
+   	   							<ul id="ul2"> 
+        							<li><a href=javascript:; id=addtoprivate_${bookmark_index} class = addToPrivate >ToPrivate</a></li> 
+        							<li><a href=javascript:; id=${bookmark_index} class=user-icon >Delete</a></li> 
+        							<li><a href=javascript:; class="citationmanager_main_bookmark_info_link_comment" id="bookmark_${bookmark_index}" >Comment</a></li> 
+      							</ul> 
+    						</li> 
+						</ul>
+						{if bookmark.AU}
+							<li><label>${bookmark.AU}</label></li>
+						{/if}
+						{if bookmark.TY}
+							<li><label>${bookmark.TY}</label></li>
+						{/if}
+						{if bookmark.PY}
+							<li><label>${bookmark.PY}</label></li>
+						{/if}
+						{if bookmark.N1}
+							<li><label>${bookmark.N1}</label></li>
+						{/if}
+						{if bookmark.N2}
+							<li><label>${bookmark.N2}</label></li>
+						{/if}
+						{if bookmark.KW}
+							<li><label>${bookmark.KW}</label></li>
+						{/if}
+						{if bookmark.L1}
+							<li><label>${bookmark.L1}</label></li>
+						{/if}
+						{if bookmark.SP}
+							<li><label>${bookmark.SP}</label></li>
+						{/if}
+						{if bookmark.SN}
+							<li><label>${bookmark.SN}</label></li>
+						{/if}
+						{if bookmark.Y1}
+							<li><label>${bookmark.Y1}</label></li>
+						{/if}
+						{if bookmark.PB}
+							<li><label>${bookmark.PB}</label></li>
+						{/if}
+						{if bookmark.JF}
+							<li><label>${bookmark.JF}</label></li>
+						{/if}
+						{if bookmark.VL}
+							<li><label>${bookmark.VL}</label></li>
+						{/if}
+						{if bookmark.IS}
+							<li><label>${bookmark.IS}</label></li>
+						{/if}
+						<li><div id=show_comment_${bookmark_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment ><img src="/devwidgets/citationmanager/images/comments.jpg"  /></a></div><div id=citation_comments_${bookmark_index}  ></div></li>
+					</ul>
+				</div>
 		</div>
+		{/for}
+	--></div>
+	<div id="citationmanager_main_Search_template"><!--
+		{for citations in all1}
+			<a href="javascript:;" class="citationmanager_main_search_info_link" id="citations_${citations_index}"></a>
+			<div class="citationmanager_main_citations" >
+				{if citations.T1}
+				<label for="${citations.T1}"><img src=/devwidgets/citationmanager/images/star.png /> ${citations.T1}</label>
+				{/if}
+					<div class="citationmanager_main_search_info" id="citations_${citations_index}_info" style="display:none;">
+						<ul id="citationmanagermaincitationsul_${citations_index}" class=ul_class>
+						{if citations.UR}
+							<li><a href="http://${citations.UR}">${citations.UR}</a></li>
+						{/if}
+						<ul id="ul1"  > 
+   							<li id="li1"  ><a href=javascript:; ><img src="/devwidgets/citationmanager/images/options.png"  /></a> 
+   	   							<ul id="ul2"> 
+        							<li><a href=javascript:; id=addtoprivate_${citations_index} class = addToPrivate >ToPrivate</a></li> 
+        							<li><a href=javascript:; id=${citations_index} class=user-icon >Delete</a></li> 
+        							<li><a href=javascript:; class="citationmanager_main_search_info_link_comment" id="citations_${citations_index}" >Comment</a></li> 
+      							</ul> 
+    						</li> 
+						</ul>
+						{if citations.AU}
+							<li><label>${citations.AU}</label></li>
+						{/if}
+						{if citations.TY}
+							<li><label>${citations.TY}</label></li>
+						{/if}
+						{if citations.PY}
+							<li><label>${citations.PY}</label></li>
+						{/if}
+						{if citations.N1}
+							<li><label>${citations.N1}</label></li>
+						{/if}
+						{if citations.N2}
+							<li><label>${citations.N2}</label></li>
+						{/if}
+						{if citations.KW}
+							<li><label>${citations.KW}</label></li>
+						{/if}
+						{if citations.L1}
+							<li><label>${citations.L1}</label></li>
+						{/if}
+						{if citations.SP}
+							<li><label>${citations.SP}</label></li>
+						{/if}
+						{if citations.SN}
+							<li><label>${citations.SN}</label></li>
+						{/if}
+						{if citations.Y1}
+							<li><label>${citations.Y1}</label></li>
+						{/if}
+						{if citations.PB}
+							<li><label>${citations.PB}</label></li>
+						{/if}
+						{if citations.JF}
+							<li><label>${citations.JF}</label></li>
+						{/if}
+						{if citations.VL}
+							<li><label>${citations.VL}</label></li>
+						{/if}
+						{if citations.IS}
+							<li><label>${citations.IS}</label></li>
+						{/if}
+						<li><div id=show_comment_${citations_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment ><img src="/devwidgets/citationmanager/images/comments.jpg"  /></a></div><div id=citation_comments_${citations_index}  ></div></li>
+					</ul>
+				</div>
 		</div>
 		{/for}
 	--></div>
@@ -141,6 +260,7 @@
 				<li><a href=javascript:; id="importfromconnotea">Import From Connotea</a></li>
 				<li><a href=javascript:; id="export">ExportRIS</a></li>
 				<li><a href=javascript:; id="import">ImportRIS</a></li>
+				<li><a href=javascript:; id="remove">remove</a></li>
             </ul>
         </div>
 </div>

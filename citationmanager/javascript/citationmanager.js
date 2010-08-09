@@ -107,10 +107,12 @@ sakai.citationmanager=function(tuid,showSettings){
         });
     };
 	/**
-	 * Render the citations of a  user
+	 * Render the Citations of a user
+	 * @param {Object} type The type of reference bsed on storage path like public or private
 	 */
-	function renderCitations(){
-		var parseCitationsArray=[];//holds the citations of a user each element is a citation 
+	function renderCitations(type){
+		if (type=="currentUser"){
+			var parseCitationsArray=[];//holds the citations of a user each element is a citation 
 		for (var b in parseCitations.all){
 			if(parseCitations.all.hasOwnProperty(b)){
 				parseCitationsArray.push(parseCitations.all[b]);
@@ -126,6 +128,28 @@ sakai.citationmanager=function(tuid,showSettings){
 		    $("#citation_pager").show();
             renderPaging(parseCitationsArray.length);
         }
+		}
+		else if(type=="Search"){
+		alert("asd");
+			var parseSearchArray=[];//holds the citations of a user each element is a citation 
+		for (var b in parseSearch.all){
+			if(parseSearch.all.hasOwnProperty(b)){
+				parseSearchArray.push(parseSearch.all[b]);
+				}
+			}
+			alert(parseSearchArray[0].UR);
+		var citationsArray1=parseSearchArray;//this is used to duplicate the array for delete purposes
+		var pagingArray1 = {
+            all1: parseSearchArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize)+ pageSize )
+        };//paging array will hold the elements based on the size of the page size currently 5
+        //Actually view the citations 
+		$("#searchView").html($.TemplateRenderer("citationmanager_main_Search_template",pagingArray1));
+		if (parseSearchArray.length > pageSize) {
+		    //$("#citation_pager").show();
+            //renderPaging(parseSearchArray.length);
+        }
+		}
+		
 	}
 	
 	/**
@@ -202,7 +226,7 @@ sakai.citationmanager=function(tuid,showSettings){
 				[{
 					"UR" :$("#url").val(),
 					"AU":$("#author").val(),
-					"TL":$("#title").val(),
+					"T1":$("#title").val(),
 					"TY":$("#typeofref").val(),
 					"N1":$("#addnotetextarea").val(),
 					"sling:resourceType":"sakai:citation",
@@ -221,7 +245,7 @@ sakai.citationmanager=function(tuid,showSettings){
 				{
 					"UR" :$("#url").val(),
 					"AU":$("#author").val(),
-					"TL":$("#title").val(),
+					"T1":$("#title").val(),
 					"TY":$("#typeofref").val(),
 					"N1":$("#addnotetextarea").val(),
 					"sling:resourceType":"sakai:citation",
@@ -263,7 +287,7 @@ sakai.citationmanager=function(tuid,showSettings){
 				[{
 					"UR" :$("#url").val(),
 					"AU":$("#author").val(),
-					"TL":$("#title").val(),
+					"T1":$("#title").val(),
 					"TY":$("#typeofref").val(),
 					"N1":$("#addnotetextarea").val(),
 					"KW":$("#tag").val()
@@ -279,7 +303,7 @@ sakai.citationmanager=function(tuid,showSettings){
 						{
 							"UR" :$("#url").val(),
 							"AU":$("#author").val(),
-							"TL":$("#title").val(),
+							"T1":$("#title").val(),
 							"TY":$("#typeofref").val(),
 							"N1":$("#addnotetextarea").val(),
 							"KW":$("#tag").val()
@@ -521,7 +545,7 @@ sakai.citationmanager=function(tuid,showSettings){
 			{
 				parseCitations={all:data};
 				$("#citation_pager").hide();
-				renderCitations();
+				renderCitations("currentUser");
 			}
 			});
 		}
@@ -531,7 +555,7 @@ sakai.citationmanager=function(tuid,showSettings){
 			{
 				parseCitations={all:data};
 				$("#citation_pager").hide();
-				renderCitations();
+				renderCitations("currentUser");
 			}
 			});
 		}
@@ -544,7 +568,7 @@ sakai.citationmanager=function(tuid,showSettings){
 				$("#errors").html("");
 				parseCitations={all:data};
 				$("#citation_pager").hide();
-				renderCitations();
+				renderCitations("currentUser");
 			}
 			else {
 				$("#errors").html("Sorry"+ref_type+"has no public Citations").fadeOut(3000);
@@ -579,6 +603,58 @@ sakai.citationmanager=function(tuid,showSettings){
 				
 			});
 	}
+	
+	
+	/**
+	 * Adds the a specific citation to the users list 
+	 */
+	function addToPrivate(){
+		$(".addToPrivate").die();
+		$(".addToPrivate").live("click",function(){
+			var citation=$(this).attr("id").split("_",2)[1];
+			//alert(citation);
+			sakai.api.Server.loadJSON("/_user"+sakai.data.me.profile.path+"/public/citationdata",function(success,data){
+				if(success){
+					var JSONArray={all:data};
+					var Array=[];//holds the citations of a user each element is a citation 
+					for (var a in data){
+						if(data.hasOwnProperty(a)){
+							Array.push(data[a]);
+							
+						}
+					}
+					var citationToAdd=Array[citation];
+					sakai.api.Server.loadJSON("/_user" +sakai.data.me.profile.path+"/private/citationdata",function(success,data){
+					if (success) 
+					{
+				citation_info = data;
+				for (var key in citation_info) 
+				{
+					if (citation_info.hasOwnProperty(key)) 
+					{
+						count_private++;//findout the current number of citations.
+					}
+				}
+			}
+			else 
+			{
+				//If the data is not returned that means there are no ciations so add Citations for the first time
+				sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citationToAdd, function(){
+						//$("#citations_after").html("<label class=citations_view >Data Added</label>").fadeOut(4000);
+					});//The above will add the citations and show the message "Data Added"
+					}
+					//if there are citations add new citations after the current number
+					citation_info[count_private]=citationToAdd;//add to the end of the json array
+					sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citation_info, function(){
+						//$("#citations_after").html("<label class=citations_view >Data Added</label>").fadeOut(4000);
+					});
+					 });
+					
+					
+				}
+			});
+		});
+	}
 	/**
 	 * Gets the user's citaitons based on reference type either public or private
 	 */
@@ -591,12 +667,13 @@ sakai.citationmanager=function(tuid,showSettings){
 			showHideCitationManagerBookmarkInfo();
 			deleteCitation();
 			addAndShowComments();
+			addToPrivate();
 		}
 		else if(refType=="private"){
 			fetchCitations("private");
 			showHideCitationManagerBookmarkInfo();
 			deleteCitation();
-			addAndShowComments();
+			//addAndShowComments();
 		}
 		else if(refType.charAt(0)=="/"){
 			fetchCitations(refType);
@@ -605,11 +682,18 @@ sakai.citationmanager=function(tuid,showSettings){
 			addAndShowComments();
 		}
 	}
-	
+	function parseSearchResponse(data){
+		alert(data.UR);
+		parseSearch={all:data};
+		$("#citation_pager").hide();
+		renderCitations("Search");
+	}
 	/**
 	 * binds all the events
 	 */
 	function clickEvents(){
+		
+		
 		$("#add").hide();
 		$("#public").die();
 		$("#private").die();
@@ -617,10 +701,23 @@ sakai.citationmanager=function(tuid,showSettings){
 		$("#importfromconnotea").die();
 		$("#search").die();
 		$("#public_citations_view").hide('slow');
+		
+		
+		var SearchString="http://localhost:8080/citationsSearch?search=JOUR";
 		$("#search").live("click",function(){
+			$("#private").removeClass('highlited');
+			$("#add_citations").removeClass('highlited');
+			$("#fetchfrom").removeClass('highlited');
+			$("#public").removeClass('highlited');
+			$(this).addClass('highlited');
 			$("#search_div").toggle('slow');
 		});
 		$("#public").live("click",function(){
+			$("#search").removeClass('highlited');
+			$("#private").removeClass('highlited');
+			$("#add_citations").removeClass('highlited');
+			$("#fetchfrom").removeClass('highlited');
+			$(this).addClass('highlited');
 			citation_public=0;
 			$("#public_citations_view").show('slow');
 			refType = "public";
@@ -630,6 +727,11 @@ sakai.citationmanager=function(tuid,showSettings){
 			
 		});
 		$("#private").live("click",function(){
+			$("#add_citations").removeClass('highlited');
+			$("#search").removeClass('highlited');
+			$("#public").removeClass('highlited');
+			$("#fetchfrom").removeClass('highlited');
+			$(this).addClass('highlited');
 			citation_private=0;
 			$("#public_citations_view").show('slow');
 			refType = "private";
@@ -637,11 +739,21 @@ sakai.citationmanager=function(tuid,showSettings){
 			citation_private=1;
 		});
 		$("#add_citations").live("click",function(){
+			$(this).addClass('highlited');
+			$("#search").removeClass('highlited');
+			$("#public").removeClass('highlited');
+			$("#fetchfrom").removeClass('highlited');
+			$("#private").removeClass('highlited');
 			$("#citations_view").toggle();
 			addCitations();
 		});
 		
 		$("#fetchfrom").live("click",function(){
+			$(this).addClass('highlited');
+			$("#search").removeClass('highlited');
+			$("#add_citations").removeClass('highlited');
+			$("#public").removeClass('highlited');
+			$("#private").removeClass('highlited');
 			$("#fetchfromuser").toggle('slow');
 			$("#fetch").live("click",function(){
 				//alert("asd");
@@ -670,6 +782,31 @@ sakai.citationmanager=function(tuid,showSettings){
 		$("#import").live("click",function(){
 			//alert("asd");
 			$("#importForm").toggle('slow');
+		});
+		$("#Search").live("click",function(){
+			
+			alert(SearchString);
+			$.ajax({
+            	cache: false,
+			
+           	 	url:SearchString ,
+            	success: function(data)
+				{
+					parseSearchResponse(data);//code this function
+				
+				
+            	},
+            	error: function(xhr, textStatus, thrownError) {
+               alert("Sorry could'nt make the required request "+sakai.data);
+            	},
+            	
+        });
+		});
+		
+		$("#remove").click(function(){
+			sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/citationdata",function(){
+				alert("data removed");
+			});
 		});
 	}
 	/**
