@@ -5,11 +5,13 @@
 "FETCHDATA":"Fetch Citations",
 "TYPEOFREF":"Type of Reference",
 "AUTHOR":"Author",
-"IMPORT":"Import from Connotea",
+"CONNOTEA":"Import from Connotea",
 "FETCHPRIVATE":"Private Citations",
 "FETCHPUBLIC":"Public citations",
 "ADDPUBLIC":"AddPublic",
 "AUTHENTICATE":"Authenticate",
+"ADD":"Add",
+"PUBLIC":"Public",
 "ADDNOTES":"Add Note",
 "ADDTAGS":"Add Tag",
 "PUBLIC":"Public",
@@ -33,5 +35,9 @@
 "SHOW":"Show Tags",
 "HIDE":"Hide Citations",
 "FETCHFROM":"Fetch from",
-"FETCH":"Fetch"
+"FETCH":"Fetch",
+"IMPORT":"ImportRIS",
+"EXPORT":"ExportRIS",
+"ADDCOMMENT":"Add Comment",
+"TOPRIVATE":"ToPrivate"
 }

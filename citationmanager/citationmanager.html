@@ -8,57 +8,66 @@
 	
 	
 	<div id="citationmanager_main_menu_links" class=citations_view>
-	<a href=javascript:; id="public" class=citationmanager_main_menu_link>Public</a>
+	<a href=javascript:; id="public" class=citationmanager_main_menu_link>__MSG__PUBLIC__</a>
 	<span class="citationmanager_pipe_divider">|</span>
-	<a href=javascript:; id="private" class=citationmanager_main_menu_link>Private</a>
+	<a href=javascript:; id="private" class=citationmanager_main_menu_link>__MSG__PRIVATE__</a>
 	<span class="citationmanager_pipe_divider">|</span>
-	<a href=javascript:; id="fetchfrom" class=citationmanager_main_menu_link>Fetch From</a>
+	<a href=javascript:; id="fetchfrom" class=citationmanager_main_menu_link>__MSG__FETCHFROM__</a>
 	<span class="citationmanager_pipe_divider">|</span>
-	<a href=javascript:; id="search" class=citationmanager_main_menu_link>Search</a>
+	<a href=javascript:; id="search" class=citationmanager_main_menu_link>__MSG__SEARCH__</a>
 	</div>
 	<div id="connotea_import" style="display:none" class=connotea >
 				<br><br>
-			<label for="username" class =label_class >Username</label>&#160;&#160;
+			<label for="username" class =label_class >__MSG__PASSWORD__</label>&#160;&#160;
 			<input type="text" size="150" id="uname" class=input_class /><br><br>
-			<label for="password" class= label_class >Password</label> 
+			<label for="password" class= label_class >__MSG__PASSWORD__</label> 
 			<input type="password" id="pass" size="150" class =input_class /><br/><br/>
 			<button class="s3d-button s3d-button-primary" id="authenticate" type="submit">
-            <span class="s3d-button-inner">Authenticate</span>
+            <span class="s3d-button-inner">__MSG__AUTHENTICATE__</span>
 			</button>
 			<button class="s3d-button s3d-button-primary" id="fetch_data" type="submit">
-            <span class="s3d-button-inner">Fetch</span>
+            <span class="s3d-button-inner">__MSG__FETCH__</span>
 			</button>
 	</div>
 	<div id="fetchfromuser" style="display:none;" class=citations_view>
-		<label for="fetch">Username</label>
-		<button class=comments_button id="fetch">Fetch</button>
+		<label for="fetch">__MSG__USERNAME__</label>
+		<button class=comments_button id="fetch">__MSG__FETCH__</button>
 		<input type=text id="fetch_citations_username"/>
 		<div id=error_fetch >
 			
 		</div>
 	</div>
-	<div id="citations_view">
-		<div id="public_citations_view"  class=citations_view>
-		<!-- -->
-		</div>
-	</div>
 	<div id=search_div style="display:none;" class=citations_view>
 		Search:  <input type=text name=search id=searchString />
 		<button class="s3d-button s3d-button-primary" id=Search >
-            <span class="s3d-button-inner">Search</span>
+            <span class="s3d-button-inner">__MSG__SEARCH__</span>
 	</button>
 	</div>
-	<div id=searchView >
+	
+	<!-- Views -->
+	<div id=fetchView class=citations_view >
 		<!-- -->
 	</div>
+	<div id="citations_view">
+		<div id="public_citations_view"  class=citations_view >
+		<!-- -->
+		</div>
+	</div>
+	
+	<div id=searchView class= >
+		<!-- -->
+	</div>
+	
+	<!-- -->
 	<div id=importForm class=citations_view style="display:none;">
 		<form action="/citations" method="POST" enctype="multipart/form-data">
-			<h2>Name</h2>
+			<h2>__MSG__NAME</h2>
 			<p><input type="text" name="title" /></p>
 			<p><input type="file" name="myfile" /></p>
 			<p><input type="submit"></p>
 		</form>
 	</div>
+	
 	<div id="add" class=citations_add>
  
     <label for="URL" class=label_class >__MSG__URL__</label>
@@ -73,7 +82,7 @@
 	*&#160;<input type="text" size="150" id="title" class=input_class /><br /><br/>
 	<a href=javascript:; id="addnote"class=label_class >__MSG__ADDNOTES__</a>
 	<textarea id="addnotetextarea" rows=10 columns=10 class= citation_notes ></textarea><br /><br/>
-	<label class=label_class >Tags</label>
+	<label class=label_class >__MSG__TAGS</label>
 	<input type=text id=tags class=input_class />
 	<br /><br/>
 
@@ -117,7 +126,7 @@
 	<div id="citation_pager_fetch" class="jq_pager1_fetch" align=center>
 
 	</div>
-	<div id="citation_pager" class="jq_pager1_search" align=center>
+	<div id="citation_pager_search" class="jq_pager1_search" align=center>
 
 	</div>
 	<!-- All The if statements are a temporary solution to display all the fileds in each citaiton-->
@@ -136,8 +145,8 @@
 						<ul id="ul1"  > 
    							<li id="li1"  ><a href=javascript:; ><img src="/devwidgets/citationmanager/images/options.png"  /></a> 
    	   							<ul id="ul2"> 
-        							<li><a href=javascript:; id=addtoprivate_${bookmark_index} class = addToPrivate >ToPrivate</a></li> 
-        							<li><a href=javascript:; id=${bookmark_index} class=user-icon >Delete</a></li> 
+        							<li><a href=javascript:; id=addtoprivate_${bookmark_index} class = addToPrivate >__MSG__TOPRIVATE__</a></li> 
+        							<li><a href=javascript:; id=${bookmark_index} class=user-icon >__MSG__DELETE__</a></li> 
         						</ul> 
     						</li> 
 						</ul>
@@ -184,20 +193,20 @@
 							<li><label>${bookmark.IS}</label></li>
 						{/if}
 						<li><div id=show_comment_${bookmark_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment ><img src="/devwidgets/citationmanager/images/comments.jpg"  /></a></div><div id=citation_comments_${bookmark_index}  ></div><br/></li>
-						<li><div id=comment_${bookmark_index} class=textarea_comment ><textarea  id=textarea_${bookmark_index} ></textarea><button  id=${bookmark_index} class=comments_button1 >Add Comment</button></div></li>
+						<li><div id=comment_${bookmark_index} class=textarea_comment ><textarea  id=textarea_${bookmark_index} ></textarea><button  id=${bookmark_index} class=comments_button1 >__MSG__ADDCOMMENT__</button></div></li>
 					</ul>
 				</div>
 		</div>
 		{/for}
 	--></div>
-	<div id="citationmanager_main_search_template"><!--
+	<div id="citationmanager_main_fetch_template"><!--
 		{for citations in all1}
 			<a href="javascript:;" class="citationmanager_main_bookmark_info_link" id="citations_${citations_index}"></a>
-			<div class="citationmanager_main_citations" >
+			<div class="citationmanager_main_bookmark" >
 				{if citations.T1}
 				<label for="${citations.T1}"><img src=/devwidgets/citationmanager/images/star.png /> ${citations.T1}</label>
 				{/if}
-					<div class="citationmanager_main_search_info" id="citations_${citations_index}_info" style="display:none;">
+					<div class="citationmanager_main_bookmark_info" id="citations_${citations_index}_info" style="display:none;">
 						<ul id="citationmanagermaincitationsul_${citations_index}" class=ul_class>
 						{if citations.UR}
 							<li><a href="http://${citations.UR}">${citations.UR}</a></li>
@@ -205,10 +214,9 @@
 						<ul id="ul1"  > 
    							<li id="li1"  ><a href=javascript:; ><img src="/devwidgets/citationmanager/images/options.png"  /></a> 
    	   							<ul id="ul2"> 
-        							<li><a href=javascript:; id=addtoprivate_${citations_index} class = addToPrivate >ToPrivate</a></li> 
-        							<li><a href=javascript:; id=${citations_index} class=user-icon >Delete</a></li> 
-        							<li><a href=javascript:; class="citationmanager_main_search_info_link_comment" id="citations_${citations_index}" >Comment</a></li> 
-      							</ul> 
+        							<li><a href=javascript:; id=addtoprivate_${citations_index} class = addToPrivate >__MSG__TOPRIVATE__</a></li> 
+        							<li><a href=javascript:; id=${citations_index} class=user-icon >__MSG__DELETE__</a></li> 
+        						</ul> 
     						</li> 
 						</ul>
 						{if citations.AU}
@@ -254,6 +262,76 @@
 							<li><label>${citations.IS}</label></li>
 						{/if}
 						<li><div id=show_comment_${citations_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment ><img src="/devwidgets/citationmanager/images/comments.jpg"  /></a></div><div id=citation_comments_${citations_index}  ></div></li>
+						<li></li>
+					</ul>
+				</div>
+		</div>
+		{/for}
+	--></div>
+	
+	<div id="citationmanager_main_search_template"><!--
+		{for searches in all2}
+			<a href="javascript:;" class="" id="searches_${searches_index}"></a>
+			<div class="citationmanager_main_bookmark" >
+				{if searches.T1}
+				<label for="${searches.T1}"><img src=/devwidgets/citationmanager/images/star.png /> ${searches.T1}</label>
+				{/if}
+					<div class="citationmanager_main_bookmark_info" id="searches_${searches_index}_info" style="display:none;">
+						<ul id="citationmanagermainsearchesul_${searches_index}" class=ul_class>
+						{if searches.UR}
+							<li><a href="http://${searches.UR}">${searches.UR}</a></li>
+						{/if}
+						<ul id="ul1"  > 
+   							<li id="li1"  ><a href=javascript:; ><img src="/devwidgets/citationmanager/images/options.png"  /></a> 
+   	   							<ul id="ul2"> 
+        							<li><a href=javascript:; id=addtoprivate_${searches_index} class = addToPrivate >ToPrivate</a></li> 
+        							<li><a href=javascript:; id=${searches_index} class=user-icon >Delete</a></li> 
+        						</ul> 
+    						</li> 
+						</ul>
+						{if searches.AU}
+							<li><label>${searches.AU}</label></li>
+						{/if}
+						{if searches.TY}
+							<li><label>${searches.TY}</label></li>
+						{/if}
+						{if searches.PY}
+							<li><label>${searches.PY}</label></li>
+						{/if}
+						{if searches.N1}
+							<li><label>${searches.N1}</label></li>
+						{/if}
+						{if searches.N2}
+							<li><label>${searches.N2}</label></li>
+						{/if}
+						{if searches.KW}
+							<li><label>${searches.KW}</label></li>
+						{/if}
+						{if searches.L1}
+							<li><label>${searches.L1}</label></li>
+						{/if}
+						{if searches.SP}
+							<li><label>${searches.SP}</label></li>
+						{/if}
+						{if searches.SN}
+							<li><label>${searches.SN}</label></li>
+						{/if}
+						{if searches.Y1}
+							<li><label>${searches.Y1}</label></li>
+						{/if}
+						{if searches.PB}
+							<li><label>${searches.PB}</label></li>
+						{/if}
+						{if searches.JF}
+							<li><label>${searches.JF}</label></li>
+						{/if}
+						{if searches.VL}
+							<li><label>${searches.VL}</label></li>
+						{/if}
+						{if searches.IS}
+							<li><label>${searches.IS}</label></li>
+						{/if}
+						<li><div id=show_comment_${searches_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment ><img src="/devwidgets/citationmanager/images/comments.jpg"  /></a></div><div id=citation_comments_${searches_index}  ></div></li>
 					</ul>
 				</div>
 		</div>
@@ -265,10 +343,10 @@
 <div class="fl-widget-options fl-fix">
         <div class="widget-options-inner">
             <ul>
-            	<li><a href=javascript:; id="add_citations">Add</a></li>
-				<li><a href=javascript:; id="importfromconnotea">Import From Connotea</a></li>
-				<li><a href=javascript:; id="export">ExportRIS</a></li>
-				<li><a href=javascript:; id="import">ImportRIS</a></li>
+            	<li><a href=javascript:; id="add_citations">__MSG__ADD__</a></li>
+				<li><a href=javascript:; id="importfromconnotea">__MSG__CONNOTEA__</a></li>
+				<li><a href=javascript:; id="export">__MSG__EXPORT__</a></li>
+				<li><a href=javascript:; id="import">__MSG__IMPORT__</a></li>
 				<li><a href=javascript:; id="remove">remove</a></li>
             </ul>
         </div>
