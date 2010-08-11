@@ -33,6 +33,9 @@
 		<label for="fetch">Username</label>
 		<button class=comments_button id="fetch">Fetch</button>
 		<input type=text id="fetch_citations_username"/>
+		<div id=error_fetch >
+			
+		</div>
 	</div>
 	<div id="citations_view">
 		<div id="public_citations_view"  class=citations_view>
@@ -111,6 +114,12 @@
 	<div id="citation_pager" class="jq_pager1" align=center>
 
 	</div>
+	<div id="citation_pager_fetch" class="jq_pager1_fetch" align=center>
+
+	</div>
+	<div id="citation_pager" class="jq_pager1_search" align=center>
+
+	</div>
 	<!-- All The if statements are a temporary solution to display all the fileds in each citaiton-->
 	<div id="citationmanager_main_citations_template"><!--
 		{for bookmark in all}
@@ -129,8 +138,7 @@
    	   							<ul id="ul2"> 
         							<li><a href=javascript:; id=addtoprivate_${bookmark_index} class = addToPrivate >ToPrivate</a></li> 
         							<li><a href=javascript:; id=${bookmark_index} class=user-icon >Delete</a></li> 
-        							<li><a href=javascript:; class="citationmanager_main_bookmark_info_link_comment" id="bookmark_${bookmark_index}" >Comment</a></li> 
-      							</ul> 
+        						</ul> 
     						</li> 
 						</ul>
 						{if bookmark.AU}
@@ -175,15 +183,16 @@
 						{if bookmark.IS}
 							<li><label>${bookmark.IS}</label></li>
 						{/if}
-						<li><div id=show_comment_${bookmark_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment ><img src="/devwidgets/citationmanager/images/comments.jpg"  /></a></div><div id=citation_comments_${bookmark_index}  ></div></li>
+						<li><div id=show_comment_${bookmark_index} class=show_comment ><a href=javascript:; id=showcomment class=show_comment ><img src="/devwidgets/citationmanager/images/comments.jpg"  /></a></div><div id=citation_comments_${bookmark_index}  ></div><br/></li>
+						<li><div id=comment_${bookmark_index} class=textarea_comment ><textarea  id=textarea_${bookmark_index} ></textarea><button  id=${bookmark_index} class=comments_button1 >Add Comment</button></div></li>
 					</ul>
 				</div>
 		</div>
 		{/for}
 	--></div>
-	<div id="citationmanager_main_Search_template"><!--
+	<div id="citationmanager_main_search_template"><!--
 		{for citations in all1}
-			<a href="javascript:;" class="citationmanager_main_search_info_link" id="citations_${citations_index}"></a>
+			<a href="javascript:;" class="citationmanager_main_bookmark_info_link" id="citations_${citations_index}"></a>
 			<div class="citationmanager_main_citations" >
 				{if citations.T1}
 				<label for="${citations.T1}"><img src=/devwidgets/citationmanager/images/star.png /> ${citations.T1}</label>

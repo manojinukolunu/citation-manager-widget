@@ -86,26 +86,56 @@ sakai.citationmanager=function(tuid,showSettings){
 	}
 	/**
 	 * Initializes the changed page
-	 * @param {Object} clickedPage
+	 * @param {Integer} clickedPage clickedPage the page which has been clicked and should be displayed
 	 */
-	var doPaging = function(clickedPage) {
+	var doPaging= function (clickedPage) {
 
         // Adjust pageCurrent (pageCurrent is zero-based)
         pageCurrent = clickedPage - 1;
 
-        renderCitations();
+        renderCitations("currentUser");
+    };
+	var doPagingFetch= function (clickedPage) {
+
+        // Adjust pageCurrent (pageCurrent is zero-based)
+        pageCurrent = clickedPage - 1;
+
+        renderCitations("fetch");
+    };
+	var doPagingFetch= function (clickedPage) {
+
+        // Adjust pageCurrent (pageCurrent is zero-based)
+        pageCurrent = clickedPage - 1;
+
+        renderCitations("search");
     };
 	/**
 	 * Paging function
 	 * @param {Object} arraylength the number of objects in tha array
 	 */
-	 var renderPaging = function(arraylength) {
-        $(".jq_pager1").pager({
-            pagenumber: pageCurrent + 1,
-            pagecount: Math.ceil(arraylength / pageSize),
-            buttonClickCallback: doPaging
-        });
-    };
+	 var renderPaging = function(arraylength,type) {
+	 	if (type == "currentUser") {
+			$(".jq_pager1").pager({
+				pagenumber: pageCurrent + 1,
+				pagecount: Math.ceil(arraylength / pageSize),
+				buttonClickCallback: doPaging
+			});
+		}
+		else if (type == "fetch") {
+				$(".jq_pager1_fetch").pager({
+					pagenumber: pageCurrent + 1,
+					pagecount: Math.ceil(arraylength / pageSize),
+					buttonClickCallback: doPagingFetch
+				});
+			}
+		else if (type=="search"){
+			$(".jq_pager1").pager({
+					pagenumber: pageCurrent + 1,
+					pagecount: Math.ceil(arraylength / pageSize),
+					buttonClickCallback: doPagingSearch
+				});
+		}
+		};
 	/**
 	 * Render the Citations of a user
 	 * @param {Object} type The type of reference bsed on storage path like public or private
@@ -126,7 +156,7 @@ sakai.citationmanager=function(tuid,showSettings){
 		$("#public_citations_view").html($.TemplateRenderer("citationmanager_main_citations_template",pagingArray));
 		if (parseCitationsArray.length > pageSize) {
 		    $("#citation_pager").show();
-            renderPaging(parseCitationsArray.length);
+            renderPaging(parseCitationsArray.length,"currentUser");
         }
 		}
 		else if(type=="Search"){
@@ -147,6 +177,27 @@ sakai.citationmanager=function(tuid,showSettings){
 		if (parseSearchArray.length > pageSize) {
 		    //$("#citation_pager").show();
             //renderPaging(parseSearchArray.length);
+        }
+		}
+		else if(type=="fetch"){
+		alert("asd");
+			var parseSearchArray=[];//holds the citations of a user each element is a citation 
+		for (var b in parsefetch.all){
+			if(parsefetch.all.hasOwnProperty(b)){
+				parseSearchArray.push(parsefetch.all[b]);
+				}
+			}
+			alert(parseSearchArray[0].UR);
+		var citationsArray1=parseSearchArray;//this is used to duplicate the array for delete purposes
+		var pagingArray1 = {
+            all1: parseSearchArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize)+ pageSize )
+        };//paging array will hold the elements based on the size of the page size currently 5
+        //Actually view the citations 
+		$("#searchView").html($.TemplateRenderer("citationmanager_main_search_template",pagingArray1));
+		if (parseSearchArray.length > pageSize) {
+		    $("#citation_pager_fetch").show();
+			$("#citation_pager").hide();
+            renderPaging(parseSearchArray.length,"fetch");
         }
 		}
 		
@@ -326,32 +377,22 @@ sakai.citationmanager=function(tuid,showSettings){
 		
 		////////////////////////
 		//All die functions are used to prevent multiple clicks
-		$(".citationmanager_main_bookmark_info_link_comment").die();
+		
 		$(".comments_button1").die();
 		$("#showcomment").die();
 		$("#hidecomment").die();
 		
 		///////////////////////
-		$(".citationmanager_main_bookmark_info_link_comment").live("click",function(){
-			var currentTextArea=$(this).attr("id").split("_",2);
-			//sakai.api.Server.removeJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(){
-			//		return 0;
-			//	});
-			//alert(currentTextArea[1]);
-			var element_textarea="#comment_"+currentTextArea[1];//This has the id of the textarea to add comment
-			alert(element_textarea);
+		
 			
-			//$(element_textarea).toggle('slow');
-			$(this).after("<div id=comment_"+currentTextArea[1]+" class=textarea_comment ><textarea  id=textarea_"+currentTextArea[1]+" ></textarea><button  id="+currentTextArea[1]+" class=comments_button1>Add Comment</button></div>");
 			
 			//THis will trigger when the user clicks on addcomment button 
 			$(".comments_button1").live("click",function(){
-				
 				var comments=$(this).prev().val();//this will hold the comments
 				//console.log(comments);
 				var parentId=$(this).parent().attr("id");
 				var citation_number=$(this).attr("id").split("_",1);//this holds the citaiton number for which comments are being added
-				//alert(citation_number);
+				alert(citation_number);
 				var username_comment=sakai.data.me.user.userid;//the user who is commenting
 				//alert(username_comment);
 				sakai.api.Server.loadJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",function(success,data){
@@ -370,20 +411,20 @@ sakai.citationmanager=function(tuid,showSettings){
 						var comment_data = [{
 							"user": username_comment,
 							"comment": comments,
-							"Comment_for": currentTextArea[1]
+							"Comment_for": citation_number
 						}]
 						
 						//save the comments follows the same logic as add citations
 				sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",comment_data,function(success){
 					if (success){
-						$(element_textarea).after("<label class=input_class_comment >Comment Added</label>");
-						$(element_textarea).hide();
-						$(element_textarea).parent().find(".input_class_comment").remove();
+						$("#citationmanager_main_bookmark").after("<label class=input_class_comment >Comment Added</label>");
+						//$("#citationmanager_main_bookmark").hide();
+						$("#citationmanager_main_bookmark").parent().find(".input_class_comment").remove();
 					
 					}
 					else{
-						$(element_textarea).after("<label class=input_class_comment >Please Try Again</label>");
-						$(element_textarea).parent().find(".input_class_comment").remove();
+						$("#citationmanager_main_bookmark").after("<label class=input_class_comment >Please Try Again</label>");
+						$("#citationmanager_main_bookmark").parent().find(".input_class_comment").remove();
 							}
 					
 						}
@@ -394,21 +435,21 @@ sakai.citationmanager=function(tuid,showSettings){
 				var comment_data = {
 					"user": username_comment,
 					"comment": comments,
-					"Comment_for": currentTextArea[1]
+					"Comment_for": citation_number
 				}
 				
 				citation_info[comment_count]=comment_data;
 				
 				sakai.api.Server.saveJSON("/_user"+sakai.data.me.profile.path+"/public/commentsForCitations",citation_info,function(success){
 					if (success){
-						$(element_textarea).after("<label class=input_class_comment >Comment Added</label>");
-						$(element_textarea).hide();
-						$(element_textarea).parent().find(".input_class_comment").fadeOut('slow');
+						$("#citationmanager_main_bookmark").after("<label class=input_class_comment >Comment Added</label>");
+						//$("#citationmanager_main_bookmark").hide();
+						$("#citationmanager_main_bookmark").parent().find(".input_class_comment").fadeOut('slow');
 						
 					}
 					else{
-						$(element_textarea).after("<label class=input_class_comment >Please Try Again</label>");
-						$(element_textarea).parent().find(".input_class_comment").fadeOut('slow');
+						$("#citationmanager_main_bookmark").after("<label class=input_class_comment >Please Try Again</label>");
+						$("#citationmanager_main_bookmark").parent().find(".input_class_comment").fadeOut('slow');
 					}
 					
 				}
@@ -418,8 +459,7 @@ sakai.citationmanager=function(tuid,showSettings){
 				
 				
 			});
-		});
-		
+			
 		
 		$("#showcomment").die();
 		var count=0;
@@ -566,12 +606,13 @@ sakai.citationmanager=function(tuid,showSettings){
 			if(success)
 			{
 				$("#errors").html("");
-				parseCitations={all:data};
+				parsefetch={all:data};
 				$("#citation_pager").hide();
-				renderCitations("currentUser");
+				renderCitations("fetch");
 			}
 			else {
-				$("#errors").html("Sorry"+ref_type+"has no public Citations").fadeOut(3000);
+				$("#error_fetch").html("<br/><label  >Sorry"+ref_type+"has no public Citations</label>").fadeOut(5000);
+				//$("#errors").html("");
 			}
 			
 			});
@@ -680,6 +721,7 @@ sakai.citationmanager=function(tuid,showSettings){
 			showHideCitationManagerBookmarkInfo();
 			deleteCitation();
 			addAndShowComments();
+			addToPrivate();
 		}
 	}
 	function parseSearchResponse(data){
