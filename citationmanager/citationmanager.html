@@ -16,6 +16,8 @@
 	<span class="citationmanager_pipe_divider">|</span>
 	<a href=javascript:; id="search" class=citationmanager_main_menu_link>__MSG__SEARCH__</a>
 	</div>
+	
+	<!-- CONNOTEA IMPORT -->
 	<div id="connotea_import" style="display:none" class=connotea >
 				<br><br>
 			<label for="username" class =label_class >__MSG__PASSWORD__</label>&#160;&#160;
@@ -29,6 +31,7 @@
             <span class="s3d-button-inner">__MSG__FETCH__</span>
 			</button>
 	</div>
+	<!-- FETCH -->
 	<div id="fetchfromuser" style="display:none;" class=citations_view>
 		<label for="fetch">__MSG__USERNAME__</label>
 		<button class=comments_button id="fetch">__MSG__FETCH__</button>
@@ -37,6 +40,7 @@
 			
 		</div>
 	</div>
+	<!-- SEARCH -->
 	<div id=search_div style="display:none;" class=citations_view>
 		Search:  <input type=text name=search id=searchString />
 		<button class="s3d-button s3d-button-primary" id=Search >
@@ -54,11 +58,11 @@
 		</div>
 	</div>
 	
-	<div id=searchView class= >
+	<div id=searchView class=citations_view >
 		<!-- -->
 	</div>
 	
-	<!-- -->
+	<!-- IMPORT CITATIONS -->
 	<div id=importForm class=citations_view style="display:none;">
 		<form action="/citations" method="POST" enctype="multipart/form-data">
 			<h2>__MSG__NAME</h2>
@@ -68,6 +72,7 @@
 		</form>
 	</div>
 	
+	<!-- ADD -->
 	<div id="add" class=citations_add>
  
     <label for="URL" class=label_class >__MSG__URL__</label>
@@ -104,9 +109,6 @@
 	<div id="add_error" class= error >
 		
 	</div>
-	
-	
-
 	<button class="s3d-button s3d-button-primary" id="addpublic" type="submit">
             <span class="s3d-button-inner">__MSG__ADDPUBLIC__</span>
 	</button>
@@ -119,7 +121,7 @@
 	</div>
 
 	
-	
+	<!-- PAGERS -->
 	<div id="citation_pager" class="jq_pager1" align=center>
 
 	</div>
@@ -129,6 +131,7 @@
 	<div id="citation_pager_search" class="jq_pager1_search" align=center>
 
 	</div>
+	
 	<!-- All The if statements are a temporary solution to display all the fileds in each citaiton-->
 	<div id="citationmanager_main_citations_template"><!--
 		{for bookmark in all}
@@ -271,7 +274,7 @@
 	
 	<div id="citationmanager_main_search_template"><!--
 		{for searches in all2}
-			<a href="javascript:;" class="" id="searches_${searches_index}"></a>
+			<a href="javascript:;" class="citationmanager_main_bookmark_info_link" id="searches_${searches_index}"></a>
 			<div class="citationmanager_main_bookmark" >
 				{if searches.T1}
 				<label for="${searches.T1}"><img src=/devwidgets/citationmanager/images/star.png /> ${searches.T1}</label>

@@ -35,6 +35,8 @@
 	display: block; 
 	padding-bottom:5px;
 	}
+	
+	/*Citation Manager Main View*/
 #citationmanager .citationmanager_main_menu_link {
     margin-right:10px;
 	display : inline;

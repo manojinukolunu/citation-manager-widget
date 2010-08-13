@@ -29,20 +29,34 @@ sakai.citationmanager = function(tuid, showSettings){
     //////////////////////////
     var citation_info;//Object That holds all the citatons of a user
     var count_private = 0;//holds the private citations count 
-    var parseCitations = [];//parse the returned citaitons from loadJSON
-    var parseSearch = [];//holds the citations returned after search
     var $citationManagerMainTemplate = "citationmanager_main_citations_template";
+   
+   		//Page Variables
     var pageCurrent = 0;//the current page for paging
     var pageSize = 5;//number of items to be shown in a page
-    var citationsArray = [];//array that contation citations each element is a citaiton 
-    var count = 1;
+   
+  		 //Arrays
+    var citationsArray = [];//array that contations citations.each element is a citaiton 
+    var parseCitations = [];//parse the returned citaitons from loadJSON
+    var parseSearch = [];//holds the citations returned after search
     var citaitons = [];//array that contains a users citaions this is basically a copy of paging array intended for deleting and adding comments
+   
+   		//Proxy Variables
     sakai.config.URL.CONNOTEA_AUTHENTICATE_PROXY = "/var/proxy/citationmanager/connotea.json";//connotea Authenticate proxy
     sakai.config.URL.CONNOTEA_FETCH_PROXY = "/var/proxy/citationmanager/connotea_import.json";//connotea fetch_bookmarks proxy
-    //var asd=0;
+   
+   
+   		//Counters
+	var count = 1;
     var citation_private;//used for deleting public citations
     var citation_public;//used for deleting private citations
-    /**
+    
+	
+	
+	////////////////////////
+	//CONNOTEA IMPORT /////
+	//////////////////////
+	/**
      * Parse the imported data from Connotea database to determine if the user's credentials are valid
      * @param {Object} xml
      */
@@ -82,6 +96,12 @@ sakai.citationmanager = function(tuid, showSettings){
             
         });
     }
+	
+	
+	
+    //////////////////
+    /// PAGING    ///
+    ////////////////
     /**
      * Initializes the changed page
      * @param {Integer} clickedPage clickedPage the page which has been clicked and should be displayed
@@ -145,6 +165,12 @@ sakai.citationmanager = function(tuid, showSettings){
                     });
                 }
     };
+	
+	
+	////////////////////////
+	////RENDER CITATIONS///
+	///////////////////////
+	
     /**
      * Render the Citations of a user
      * @param {Object} type The type of reference bsed on storage path like public or private
@@ -172,8 +198,7 @@ sakai.citationmanager = function(tuid, showSettings){
                 renderPaging(parseCitationsArray.length, "currentUser");
             }
         }
-        else 
-            if (type == "search") {
+        else if (type == "search") {
                 //alert("asd");
                 
                 var parseSearchArray = [];//holds the citations of a user each element is a citation 
@@ -184,11 +209,11 @@ sakai.citationmanager = function(tuid, showSettings){
                         count_search++;
                     }
                 }
-                //alert(parseSearch.all.length());
+				
                 //alert(parseSearchArray[0].UR);
                 //var citationsArray1=parseSearchArray;//this is used to duplicate the array for delete purposes
                 var pagingArray2 = {
-                    all2: parseSearch.all //paging array will hold the elements based on the size of the page size currently 5
+                     all2: parseSearchArray.slice(pageCurrent * pageSize, (pageCurrent * pageSize) + pageSize) //paging array will hold the elements based on the size of the page size currently 5
                 };
                 //Actually view the citations 
                 $("#searchView").html($.TemplateRenderer("citationmanager_main_search_template", pagingArray2));//render the tempate
@@ -230,6 +255,11 @@ sakai.citationmanager = function(tuid, showSettings){
                 }
         
     }
+	
+	
+	/////////////////////////////////////
+	///CITATION INFO AND SETTINGS///////
+	///////////////////////////////////
     
     /**
      * Show or hide the other properties of a citations This function is from delicious widget
@@ -254,10 +284,88 @@ sakai.citationmanager = function(tuid, showSettings){
             }
         });
     };
+	
+	 /**
+     * Deletes a user's citaiton  
+     */
+    function deleteCitation(){
+        $(".user-icon").die();
+        $(".user-icon").live("click", function(){
+            var delete_citaiton = $(this).attr("id");
+            citationsArray.splice(delete_citaiton, 1);
+            var citationsArrayAfterDelete = citationsArray;
+            if (citation_private == 1) {
+                sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", function(){
+                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citationsArrayAfterDelete, alert("data saved"));
+                    citation_private = 0;
+                });
+            }
+            else 
+                if (citation_public == 1) {
+                    sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", function(){
+                        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", citationsArrayAfterDelete, alert("data saved"));
+                        citation_public = 0;
+                    });
+                }
+            
+            
+        });
+    }
+	
+	  /**
+     * Adds the a specific citation from public list or from the fetched citaitons or from the search list to the users list
+     */
+    function addToPrivate(){
+        $(".addToPrivate").die();
+        $(".addToPrivate").live("click", function(){
+            var citation = $(this).attr("id").split("_", 2)[1];
+            //alert(citation);
+            sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", function(success, data){
+                if (success) {
+                    var JSONArray = {
+                        all: data
+                    };
+                    var Array = [];//holds the citations of a user each element is a citation 
+                    for (var a in data) {
+                        if (data.hasOwnProperty(a)) {
+                            Array.push(data[a]);
+                            
+                        }
+                    }
+                    var citationToAdd = Array[citation];
+                    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", function(success, data){
+                        if (success) {
+                            citation_info = data;
+                            for (var key in citation_info) {
+                                if (citation_info.hasOwnProperty(key)) {
+                                    count_private++;//findout the current number of citations.
+                                }
+                            }
+                        }
+                        else {
+                            //If the data is not returned that means there are no ciations so add Citations for the first time
+                            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citationToAdd, function(){
+                                //$("#citations_after").html("<label class=citations_view >Data Added</label>").fadeOut(4000);
+                            });//The above will add the citations and show the message "Data Added"
+                        }
+                        //if there are citations add new citations after the current number
+                        citation_info[count_private] = citationToAdd;//add to the end of the json array
+                        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citation_info, function(){
+                            //$("#citations_after").html("<label class=citations_view >Data Added</label>").fadeOut(4000);
+                        });
+                    });
+                    
+                    
+                }
+            });
+        });
+    }
     
+    /////////////////////////////////
+	///ADD CITATIONS AND COMMENTS///
+    ///////////////////////////////
     
-    
-    /**
+	/**
      * Add the users citations to either public or private paths
      */
     function addCitations(){
@@ -582,6 +690,12 @@ sakai.citationmanager = function(tuid, showSettings){
         
         
     }
+  
+  
+  
+  ////////////////////
+  /////FETCHING//////
+  //////////////////
     /**
      * Fetch the citaitons of  a user based on reference type
      * @param {Object} ref_type
@@ -638,82 +752,7 @@ sakai.citationmanager = function(tuid, showSettings){
                 }
         
     }
-    /**
-     * Deletes a user's citaiton  
-     */
-    function deleteCitation(){
-        $(".user-icon").die();
-        $(".user-icon").live("click", function(){
-            var delete_citaiton = $(this).attr("id");
-            citationsArray.splice(delete_citaiton, 1);
-            var citationsArrayAfterDelete = citationsArray;
-            if (citation_private == 1) {
-                sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", function(){
-                    sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citationsArrayAfterDelete, alert("data saved"));
-                    citation_private = 0;
-                });
-            }
-            else 
-                if (citation_public == 1) {
-                    sakai.api.Server.removeJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", function(){
-                        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", citationsArrayAfterDelete, alert("data saved"));
-                        citation_public = 0;
-                    });
-                }
-            
-            
-        });
-    }
-    
-    
-    /**
-     * Adds the a specific citation from public list or from the fetched citaitons or from the search list to the users list
-     */
-    function addToPrivate(){
-        $(".addToPrivate").die();
-        $(".addToPrivate").live("click", function(){
-            var citation = $(this).attr("id").split("_", 2)[1];
-            //alert(citation);
-            sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/public/citationdata", function(success, data){
-                if (success) {
-                    var JSONArray = {
-                        all: data
-                    };
-                    var Array = [];//holds the citations of a user each element is a citation 
-                    for (var a in data) {
-                        if (data.hasOwnProperty(a)) {
-                            Array.push(data[a]);
-                            
-                        }
-                    }
-                    var citationToAdd = Array[citation];
-                    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", function(success, data){
-                        if (success) {
-                            citation_info = data;
-                            for (var key in citation_info) {
-                                if (citation_info.hasOwnProperty(key)) {
-                                    count_private++;//findout the current number of citations.
-                                }
-                            }
-                        }
-                        else {
-                            //If the data is not returned that means there are no ciations so add Citations for the first time
-                            sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citationToAdd, function(){
-                                //$("#citations_after").html("<label class=citations_view >Data Added</label>").fadeOut(4000);
-                            });//The above will add the citations and show the message "Data Added"
-                        }
-                        //if there are citations add new citations after the current number
-                        citation_info[count_private] = citationToAdd;//add to the end of the json array
-                        sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/citationdata", citation_info, function(){
-                            //$("#citations_after").html("<label class=citations_view >Data Added</label>").fadeOut(4000);
-                        });
-                    });
-                    
-                    
-                }
-            });
-        });
-    }
+   
     /**
      * 
      * @param {Object} refType refType is the tpye of reference as in private or public or its a fetch request
@@ -744,18 +783,23 @@ sakai.citationmanager = function(tuid, showSettings){
                     addToPrivate();
                 }
     }
+	
 	/**
 	 * Parses the Response from the search 
 	 * @param {Object} data The data returned from the search query
 	 */
     function parseSearchResponse(data){
-        //alert(data.UR);
         parseSearch = {
             all: data
         };
         //$("#citation_pager").hide();
         renderCitations("search");
+		showHideCitationManagerBookmarkInfo();
+		addToPrivate();
+		addAndShowComments();
+        
     }
+	
     /**
      * binds all the events
      */
